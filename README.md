@@ -36,15 +36,11 @@ public class YourProgram
 
 Copy/Paste the gists into nudge4j's web console
 
-<a href='https://gist.github.com/lorenzoongithub/127278b6478e9b35e3fca13b566f88b5'>local date</a> 
-
-<a href='https://gist.github.com/lorenzoongithub/01fdf87f9f1a4c60a41ba529d9cd534e'>threads</a> 
-
-<a href='https://gist.github.com/lorenzoongithub/5aa2f94967d261a447457500a7536f90'>lambda in Java 8</a> 
-
-<a href='https://gist.github.com/lorenzoongithub/d9964b85069fef1fd3794aa366d95a79'>memory</a>  
-
-<a href='https://gist.github.com/lorenzoongithub/dace58ea8dde941a21209c0fbba4561e'>PNG Encoder</a> requires okio.jar in your classpath
+* <a href='https://gist.github.com/lorenzoongithub/127278b6478e9b35e3fca13b566f88b5'>local date</a> 
+* <a href='https://gist.github.com/lorenzoongithub/01fdf87f9f1a4c60a41ba529d9cd534e'>threads</a> 
+* <a href='https://gist.github.com/lorenzoongithub/5aa2f94967d261a447457500a7536f90'>lambda in Java 8</a> 
+* <a href='https://gist.github.com/lorenzoongithub/d9964b85069fef1fd3794aa366d95a79'>memory</a>  
+* <a href='https://gist.github.com/lorenzoongithub/dace58ea8dde941a21209c0fbba4561e'>PNG Encoder</a> requires okio.jar in your classpath
 
 Please contact me if you have a gist you would like to add here.
 
