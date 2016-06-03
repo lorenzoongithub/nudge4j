@@ -31,3 +31,22 @@ public class YourProgram
    }
 }
 ```
+
+<a name="Examples"></a>
+# Examples
+
+Copy/Paste the gists into nudge4j's web console
+
+<a href='#'>local date</a> 
+
+<a href='#'>threads</a> 
+
+<a href='#'>lambda in Java 8</a> 
+
+<a href='#'>memory</a>  
+
+<a href='#'>PNG Encoder</a> 
+
+<a href='#'>Rx</a>  
+
+# About
