@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>nudge4j console</title>
+<script src='xhrSendSnippet.js'></script>
+<script src="ace/ace.js"></script>
+</head>
+<body style='font-family:monospace'>
+<div id='editor' style='position:absolute;top:2%;left:1%;right:1%;bottom:50%;border:1px solid #888;'>//
+// Write your serverside code here.
+//
+//
+java.lang.Thread.activeCount();</div>
+<input id='btnEval' type='button' value='Execute serverside script' style='position:absolute;font-family:monospace;left:1%; top:50%;margin-top:5px;height:26px;cursor:pointer;' />
+<div id='divResponse' style='position:absolute;top:50%;left:1%;right:1%;margin-top:40px;xborder-top:1px solid #888;'>
+<i style='opacity:0.5'>server side output to be printed here</i>
+</div>
+<a href='show.me.some.examples.html' style='position:absolute;right:3%;top:1%;border:1px solid #888;border-radius:8px;padding:2px 4px;background-color:#f8f8f8;font-size:11px;z-index:999'>Show me some examples...</a>
+<script>
+var editor = ace.edit("editor");
+editor.setTheme("ace/theme/eclipse");
+editor.getSession().setMode("ace/mode/javascript");
+
+var btnEval = document.getElementById('btnEval');
+var divResponse = document.getElementById('divResponse'); 
+
+btnEval.onclick= function() {
+	btnEval.disabled = true; 
+	divResponse.innerHTML = '<img src="running.gif" />';
+	xhrSendSnippet(editor.getValue(), function(err,response) {
+		btnEval.disabled = false;
+		if (err) {
+			divResponse.innerHTML = '<pre style="color:#A44">'+err+'</pre>';
+			return;
+		}	
+		divResponse.innerHTML = response;
+	});
+}
+</script>
+</body>
+</html>
