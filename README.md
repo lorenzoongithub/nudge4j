@@ -32,7 +32,6 @@ public class YourProgram
 }
 ```
 
-<a name="Examples"></a>
 # Examples
 
 Copy/Paste the gists into nudge4j's web console
