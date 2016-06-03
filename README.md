@@ -11,16 +11,19 @@ It executes code written in javascript (<a href='http://www.oracle.com/technetwo
 
 Add nudge4j.jar to your classpath and call nudge4j from your code.
 
-{code}
+```java
+
+import nudge4j.HttpServer;
+
 public class YourProgram
 {
    public static void main(String[] args) throws Exception
    {
-       // This runs the nudge HTTP server on port 8080</span>
-       nudge4j.HttpServer.start(8080);
+       // This runs the nudge4j HTTP server on port 8080</span>
+       HttpServer.start(8080);
        
        // rest of the code
+       // ...
    }
 }
-
-{code}
+```
