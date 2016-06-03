@@ -23,7 +23,7 @@ public class YourProgram
 {
    public static void main(String[] args) throws Exception
    {
-       // This runs the nudge4j HTTP server on port 8080</span>
+       // This runs the nudge4j HTTP server on port 8080
        HttpServer.start(8080);
        
        // rest of the code
@@ -31,6 +31,37 @@ public class YourProgram
    }
 }
 ```
+
+
+You can also pass objects to the javascript engine
+
+```java
+
+import java.util.HashMap; 
+import java.io.File;  
+
+import nudge4j.HttpServer;
+
+public class YourProgram
+{
+   public static void main(String[] args) throws Exception
+   {
+       ...
+       HashMap map = new HashMap();
+       File file = new File("test");        
+       ...
+       // This runs the nudge4j HTTP server on port 8080
+       // map   will be accessible as args[0]
+       // file  will be accessible as args[1]
+       HttpServer.start(8080,map,file);
+       
+       // rest of the code
+       // ...
+   }
+}
+```
+
+
 
 # Examples
 
@@ -42,7 +73,7 @@ Copy/Paste the gists into nudge4j's web console
 * <a href='https://gist.github.com/lorenzoongithub/d9964b85069fef1fd3794aa366d95a79'>memory</a>  
 * <a href='https://gist.github.com/lorenzoongithub/dace58ea8dde941a21209c0fbba4561e'>PNG Encoder</a> requires okio.jar in your classpath
 
-Please contact me if you have a gist you would like to add here.
+Please contact me if you have a gist you would like to add to the list above.
 
 
 
