@@ -51,10 +51,10 @@ import com.sun.net.httpserver.HttpHandler;
  * </pre></blockquote><p>  
 **/
 public final class HttpServer {
-	
-	private HttpServer() {}
-	
-	private static final Charset UTF8 = Charset.forName("UTF-8");
+    
+    private HttpServer() {}
+    
+    private static final Charset UTF8 = Charset.forName("UTF-8");
 
     /**
      * Starts the nudge4j's HttpServer to let an HttpClient (browser) run code on the JVM.
@@ -63,58 +63,58 @@ public final class HttpServer {
      * @param args java objects you might want your script to access  
     **/
     public static void start(int port,Object... args) {
-    	try {
-			start0(port,args);
-		} catch (IOException e) {
-			throw new RuntimeException("I/O Failure",e);
-		}
+        try {
+            start0(port,args);
+        } catch (IOException e) {
+            throw new RuntimeException("I/O Failure",e);
+        }
     }
     
     private static void start0(int port,Object... args) throws IOException {
-    	System.out.println("nudge4j - version 1.0");
-    	System.out.println("          serving on port "+port);
-    	System.out.println();
-	    final ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript"); 
-    	engine.put("args", args);
-    	com.sun.net.httpserver.HttpServer server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(port), 0);
+        System.out.println("nudge4j - version 1.0");
+        System.out.println("          serving on port "+port);
+        System.out.println();
+        final ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript"); 
+        engine.put("args", args);
+        com.sun.net.httpserver.HttpServer server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new HttpHandler() {
-			@Override
-			public void handle(HttpExchange  httpExchange) throws IOException {
-				String uri = httpExchange.getRequestURI().toString();
-		    	if (uri.equals("/runJS")) {
-		    		String code = new String(read(httpExchange.getRequestBody()), UTF8);
-		    		Object output; 
-		    		try {
-						output = engine.eval(code);
-					} catch (Exception e) {
-			            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			            baos.write("$error:".getBytes(UTF8));
-			            e.printStackTrace(new PrintStream(baos));
-			            write(httpExchange, baos.toByteArray(),"text/plain");
-			            return; 
-					}
-		    		write(httpExchange,(output+"").getBytes(UTF8),"text/plain");
-		    		return; 
-		    	}
-		    	URL url;
-		    	if ( uri.equals("/") || uri.equals("/web") || (url = HttpServer.class.getResource("web"+uri)) == null) {
-	    			byte[] data = read(HttpServer.class.getResource("web/console.html").openStream());
-	    			write(httpExchange,data,"text/html");
-	    			return;
-	    		} 
-	        	byte[] data = read(url.openStream());
-	        	if      (uri.endsWith(".html"))      write(httpExchange,data,"text/html");
-		    	else if (uri.equals("/favicon.ico")) write(httpExchange,data,"image/x-icon");
-		    	else if (uri.endsWith(".gif"))       write(httpExchange,data,"image/gif");
-		    	else if (uri.endsWith(".js"))        write(httpExchange,data,"application/x-javascript");
-		    }
+            @Override
+            public void handle(HttpExchange  httpExchange) throws IOException {
+                String uri = httpExchange.getRequestURI().toString();
+                if (uri.equals("/runJS")) {
+                    String code = new String(read(httpExchange.getRequestBody()), UTF8);
+                    Object output; 
+                    try {
+                        output = engine.eval(code);
+                    } catch (Exception e) {
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        baos.write("$error:".getBytes(UTF8));
+                        e.printStackTrace(new PrintStream(baos));
+                        write(httpExchange, baos.toByteArray(),"text/plain");
+                        return; 
+                    }
+                    write(httpExchange,(output+"").getBytes(UTF8),"text/plain");
+                    return; 
+                }
+                URL url;
+                if ( uri.equals("/") || uri.equals("/web") || (url = HttpServer.class.getResource("web"+uri)) == null) {
+                    byte[] data = read(HttpServer.class.getResource("web/console.html").openStream());
+                    write(httpExchange,data,"text/html");
+                    return;
+                } 
+                byte[] data = read(url.openStream());
+                if      (uri.endsWith(".html"))      write(httpExchange,data,"text/html");
+                else if (uri.equals("/favicon.ico")) write(httpExchange,data,"image/x-icon");
+                else if (uri.endsWith(".gif"))       write(httpExchange,data,"image/gif");
+                else if (uri.endsWith(".js"))        write(httpExchange,data,"application/x-javascript");
+            }
         });
-        server.setExecutor(null); // creates a default executor. (should give more options :-) 
+        server.setExecutor(null);  
         server.start();
     }
     
     private static final void write(HttpExchange httpExchange, byte[] array, String contentType) throws IOException {
-    	httpExchange.getResponseHeaders().set("Content-Type", contentType);
+        httpExchange.getResponseHeaders().set("Content-Type", contentType);
         httpExchange.sendResponseHeaders(200, array.length);
         OutputStream os = httpExchange.getResponseBody();
         os.write(array);
@@ -122,14 +122,14 @@ public final class HttpServer {
     }
     
     private static final byte[] read(InputStream inputStream) throws IOException {
-    	byte[] array = new byte[1024];
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		while (true) {
-			int len = inputStream.read(array);
-			if (len == -1) break;
-			baos.write(array, 0, len);
-		}
-		inputStream.close();
-		return baos.toByteArray();
+        byte[] array = new byte[1024];
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        while (true) {
+            int len = inputStream.read(array);
+            if (len == -1) break;
+            baos.write(array, 0, len);
+        }
+        inputStream.close();
+        return baos.toByteArray();
     }
 }
