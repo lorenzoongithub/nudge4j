@@ -5,6 +5,7 @@ nudge4j provides an environment for experimenting with code. You can write, run,
 
 It executes code written in javascript (<a href='http://www.oracle.com/technetwork/articles/java/jf14-nashorn-2126515.html'>nashorn</a>) and comes with an <a href='http://docs.oracle.com/javase/8/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/package-summary.html'>Http Server</a> and an <a href='https://ace.c9.io'>Ace Editor</a> to let code fly from the browser to any java application.
 
+![alt text](nudge4j.console.png "Logo Title Text 1")
 
 
 # get started
