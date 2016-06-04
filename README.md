@@ -1,5 +1,5 @@
 # nudge4j
-a web console for Java 8 applications
+A web console for Java 8 applications
 
 nudge4j provides an environment for experimenting with code. You can write, run, and examine the results of code from a browser.
 
@@ -9,7 +9,7 @@ It executes code written in javascript (<a href='http://www.oracle.com/technetwo
 
 # download
 
-get the <a href='https://github.com/lorenzoongithub/nudge4j/blob/master/nudge4j/dist/nudge4j.jar?raw=true'>latest jar</a>
+Get the <a href='https://github.com/lorenzoongithub/nudge4j/blob/master/nudge4j/dist/nudge4j.jar?raw=true'>latest jar</a>
 
 # get started
 
@@ -31,7 +31,6 @@ public class YourProgram
    }
 }
 ```
-
 
 You can also pass objects to the javascript engine
 
@@ -61,7 +60,7 @@ public class YourProgram
 }
 ```
 
-If you don't fancy downloading the jar and changing your classpath, but still wish to try nudge4j, I might have a solution <a  href='http://nudge4j.appspot.com/onthecloud/index.html'>here</a>
+If you don't fancy downloading the jar and changing your classpath - but still wish to try nudge4j - I might have a solution <a  href='http://nudge4j.appspot.com/onthecloud/index.html'>here</a>
 
 
 # Examples
