@@ -61,6 +61,7 @@ public class YourProgram
 }
 ```
 
+If you don't fancy downloading the jar and changing your classpath, but still wish to try nudge4j, I might have a solution <a  href='http://nudge4j.appspot.com/onthecloud/index.html'>here</a>
 
 
 # Examples
