@@ -74,7 +74,3 @@ Copy/Paste the gists into nudge4j's web console
 * <a href='https://gist.github.com/lorenzoongithub/dace58ea8dde941a21209c0fbba4561e'>PNG Encoder</a> requires okio.jar in your classpath
 
 Please contact me if you have a gist you would like to add to the list above.
-
-
-
-# About
