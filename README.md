@@ -11,6 +11,10 @@ It executes code written in javascript (<a href='http://www.oracle.com/technetwo
 
 Get the <a href='https://github.com/lorenzoongithub/nudge4j/blob/master/nudge4j/dist/nudge4j.jar?raw=true'>latest jar</a>
 
+No other dependencies. 
+
+(Sorry, no maven yet. I will work on it)
+
 # get started
 
 Add <a href='https://github.com/lorenzoongithub/nudge4j/blob/master/nudge4j/dist/nudge4j.jar?raw=true'>nudge4j.jar</a> to your classpath and call nudge4j from your code.
