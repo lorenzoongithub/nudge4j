@@ -13,7 +13,7 @@ Get the <a href='https://github.com/lorenzoongithub/nudge4j/blob/master/nudge4j/
 
 No other dependencies. 
 
-(Sorry, no maven yet. I will work on it)
+*(Sorry, no maven yet. I will work on it)*
 
 # get started
 
