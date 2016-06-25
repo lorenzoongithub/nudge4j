@@ -2,9 +2,10 @@
 Add a REPL to your java 8 application 
 
 ## Features:
-- One line integration. ```java nudge4j.HttpServer.start(8080);```
+- One line integration. ```nudge4j.HttpServer.start(8080);```
 - No dependencies
-- Driven by the browser <a href='https://ace.c9.io'>Ace Editor</a> 
+- Code Editor on the browser <a href='https://ace.c9.io'>Ace Editor</a> 
+
  
 ## Motivation:
 
