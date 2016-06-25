@@ -1,11 +1,23 @@
 # nudge4j
-A web console for Java 8 applications
+Add a REPL to your java 8 application 
 
-nudge4j provides an environment for experimenting with code. You can write, run, and examine the results of code from a browser.
+## Features:
+- One line integration. E.G.: nudge4j.HttpServer.start(8080);
+- No dependencies
+- Driven by the browser <a href='https://ace.c9.io'>Ace Editor</a> 
+- 
+## Motivation:
 
-It executes code written in javascript (<a href='http://www.oracle.com/technetwork/articles/java/jf14-nashorn-2126515.html'>nashorn</a>) and comes with an <a href='http://docs.oracle.com/javase/8/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/package-summary.html'>Http Server</a> and an <a href='https://ace.c9.io'>Ace Editor</a> to let code fly from the browser to any java application.
+To provides an environment for experimenting with code against a running application. You can write, run, and examine the results of code from a browser. A powerful alternative to debugging.
+
+## In Action
 
 ![nudge4j web console](nudge4j.console.png "nudge4j web console in action")
+
+## What does it do ?
+
+nudge4j executes code written in javascript (<a href='http://www.oracle.com/technetwork/articles/java/jf14-nashorn-2126515.html'>nashorn</a>) and comes with an <a href='http://docs.oracle.com/javase/8/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/package-summary.html'>Http Server</a> and an <a href='https://ace.c9.io'>Ace Editor</a> to let code fly from the browser to any java application.
+
 
 # download
 
