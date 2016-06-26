@@ -1,15 +1,15 @@
 # nudge4j
 Add a REPL to your java 8 application 
 
-## Features:
-- One line integration. ```nudge4j.HttpServer.start(8080);```
-- No dependencies
-- Code Editor on the browser <a href='https://ace.c9.io'>Ace Editor</a> 
-
- 
 ## Motivation:
 
 To provide an environment for experimenting with code against a running application. You can write, run, and examine the results of code from a browser. A powerful alternative to debugging.
+
+## Features:
+- One line integration. ```nudge4j.HttpServer.start(8080);```
+- No other dependencies
+- Code Editor on the browser <a href='https://ace.c9.io'>Ace Editor</a> 
+- Eval powered by nashorn
 
 <a href='https://medium.com/@yolpogists/how-i-built-my-java-repl-61f66ed2ecee'>how-i-built-my-java-repl</a>
 
