@@ -182,11 +182,7 @@ var usd = Math.round( mem.getUsed() / 1048576 )
 var cmt = Math.round( mem.getCommitted()  / 1048576 )
 var max = Math.round( mem.getMax() / 1048576 )
 
-'!H:'+
-'&lt;div style="font-family:monospace;margin:2%;border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333"&gt;'+
-'&lt;div style="border-top:1px solid #333"&gt;&lt;div style="width:'+(usd*100/max)+'%;background-color:#dcd;"&gt;used:'+usd+'MB&lt;/div&gt;&lt;/div&gt;'+
-'&lt;div style="border-top:1px solid #333"&gt;&lt;div style="width:'+(cmt*100/max)+'%;background-color:#ddd;"&gt;committed:'+cmt+'MB&lt;/div&gt;&lt;/div&gt;'+
-'&lt;div style="border-top:1px solid #333"&gt;&lt;div style="width:100%;              background-color:#ddd;"&gt;max:'+max+'MB&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;';
+'Used:'+usd+'MB, Committed:'+cmt+'MB, Max:'+max+'MB';
 
 </pre>
 </li>
