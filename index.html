@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>nudge4j - home</title>
+<style>
+body{font-family:sans-serif;font-size:18px;line-height:1.5;overflow-y:scroll;margin:0;padding:0;border:0}
+a {color:#428bca;text-decoration:none}
+a:hover,
+a:focus{color:#2a6496;text-decoration:underline}
+h2 { margin:60px 0 10px 0; font-weight:normal;}
+sup { font-size:75%; }
+
+
+h2 { font-weight:normal; }
+pre { margin:0 0 32px 0;padding:4px; overflow:hidden; font-size:13px; border:1px solid #aaa; }
+
+input[type=button] {
+   cursor:pointer;
+}
+
+b { font-size:120%; color:green; margin:3px 0; display:inline-block;}
+
+
+</style>
+</head>
+<body>
+<div style='padding:12%;background-color:#000;color:white;'>
+<div style='font-weight:bold;color:purple;'>nudge4j: GET INSIDE YOUR JVM</div>
+<div>
+nudge4j is a tiny piece of java code to make your java application accessible to the browser.
+It's meant for use during development to provide an environment for experimenting with code against a running application.
+</div>
+
+</div>
+
+<div style='padding:2%;'>
+
+
+
+<h2>Requirements</h2>
+<ul>
+<li>java 8</li>
+<li>internet access <sup><a href='#note-1'>[1]</a></sup></li>
+<li>a modern browser (Chrome, Firefox, IE12)</li>
+</ul>
+
+
+ 
+<h2>Integration</h2>
+<ul>
+<li>
+<div>copy/paste this code anywhere <sup><a href='#note-2'>[2]</a></sup> in your java 8 program</div>
+
+<div style='background-color:purple;color:white;white-space:pre;
+font-size:12px;font-family:monospace;padding:12px;margin:2% 0;
+xborder-bottom:2px solid #333;
+xborder-top:2px solid #333;'>/* nudge4j - integration */ 
+{
+   try {
+      java.net.URL             n4j_jar = new java.net.URL("https://lorenzoongithub.github.io/nudge4j/n4j.jar");
+      java.net.URL[]           n4j_jars = new java.net.URL[] { n4j_jar };
+      java.net.URLClassLoader  n4j_loader = new java.net.URLClassLoader(n4j_jars);
+      java.lang.Class&lt;?&gt;       n4j_class = n4j_loader.loadClass("N4J");
+      java.lang.reflect.Method n4j_start = n4j_class.getMethod("start", int.class, Object[].class);
+      n4j_start.invoke(null, 5050, null); // you can customize these parameters: port and arguments.
+      n4j_loader.close();
+   } catch (Exception e) {
+      throw new RuntimeException(e);
+   }
+}
+</div>
+<br>
+</li>
+<li>
+<div>Recompile your code, restart your JVM and connect from the browser<sup><a href='#note-3'>[3]</a></sup></div>
+
+<!--  this is the monitor -->
+<div style='width:90%;padding:5%;background:#ddf;overflow:hidden;'>
+
+<!-- THIS IS THE BROWSER -->
+<div style='border:1px solid #888;width:600px;height:400px;border-radius:4px;background-color:#eee;'>
+    <!-- the header -->
+    <div style='background-color:#ddd;padding:4px;border-top-left-radius:4px;border-top-right-radius:4px;xborder-bottom:1px solid #888;height:22px;'>
+		<div style='padding:0 4px;'>
+			<div style="width:100%; display:table;">
+			    <label for="MyInput" style="display:table-cell;width:1px;white-space:pre;">&larr; &rarr; &#x21bb; </label>
+			    <input type="text" value='http://localhost:5050/' style="display:table-cell; width:100%;" readonly >
+			</div>
+		</div>	
+	</div>
+	<!--  the iframe -->
+	<iframe src='iframe.html' style='margin:0 2%; width:96%;height:365px;border:none;background-color:white;'></iframe>
+</div>
+
+</div>
+
+
+
+</li>
+</ul>
+<h2>The way it works</h2>
+<ul>
+<li>The snippet of java code downloads a jar (less than 5kb) from the internet.</li>
+<li>The jar has a package-less class with a static method <code>N4J.start(int ports,Object args...)</code><sup><a href='#note-4'>[4]</a></sup> which starts a web-server.</li>
+<li>The web-server serves just one html page<sup><a href='#note-5'>[5]</a></sup> known as the console page. The console page uses ajax to <i>post</i> code to execute against the targetted JVM.</li>
+</ul>
+
+
+
+<!--                        -->
+<!--                        -->
+<!--                        -->
+
+
+<h2>Examples</h2>
+<div>
+The following examples are ready to be sent (copy/paste) into your N4J console. 
+
+<input id='txtURL' title='Ensure the URL is correct' type='text' value='http://localhost:5050/' />
+
+<ol>
+<li><a href='#Ex1'>System.out</a></li>
+<li><a href='#Ex2'>JVM uptime</a></li>
+<li><a href='#Ex3'>java 8 new Date/Time API</a></li>
+<li><a href='#Ex4'>Thread Dump</a></li>
+<li><a href='#Ex5'>Memory</a></li>
+<li><a href='#Ex6'>Binary Numbers</a></li>
+<li><a href='#Ex7'>slf4j</a></li>
+
+</ol>
+</div>
+ 
+
+<ol>
+<li>
+<pre id='Ex1'>
+// System.out/System.err.println
+java.lang.System.out.println("a message in System.out");
+java.lang.System.err.println("a message in System.err");
+'check your JVM log'
+</pre>
+</li>
+<li>
+<pre id='Ex2'>
+// JVM Uptime
+var String =            java.lang.String; 
+var Integer =           java.lang.Integer;
+var ManagementFactory = java.lang.management.ManagementFactory; 
+
+var rt = ManagementFactory.getRuntimeMXBean();
+var seconds = Math.floor(rt.getUptime() / 1000);
+var s = seconds % 60;
+var m = Math.floor(seconds / 60) % 60;
+var h = Math.floor(seconds / (60 * 60)) % 24;
+var hhmmss = String.format("%02d:%02d:%02d", new Integer(h), new Integer(m), new Integer(s));
+
+'JVM uptime ['+hhmmss+']';
+</pre>
+</li>
+<li>
+<pre id='Ex3'>
+// An example of java 8 new Date/Time API.
+var LocalDate =  Java.type('java.time.LocalDate');
+var Month =      Java.type('java.time.Month'); 
+var ChronoUnit = Java.type('java.time.temporal.ChronoUnit'); 
+
+var today = LocalDate.now();
+var firstDayThisYear = LocalDate.of(today.getYear(), Month.JANUARY, 1);
+
+var days = ChronoUnit.DAYS.between(firstDayThisYear, today);
+days + " days have passed since the beginning of the year."
+</pre>
+</li>
+<li>
+<pre id='Ex4'>
+// Thread Dump
+var threads = java.lang.Thread.getAllStackTraces().keySet().toArray();
+var str ='';
+for (var i=0;i&lt;threads.length;i++) {
+  str+=threads[i]+' - '+threads[i].getState()+'\n';
+}
+str;
+</pre>
+</li>
+<li>
+<pre id='Ex5'>
+// Memory
+var mem = java.lang.management.ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+var usd = Math.round( mem.getUsed() / 1048576 )
+var cmt = Math.round( mem.getCommitted()  / 1048576 )
+var max = Math.round( mem.getMax() / 1048576 )
+
+'!H:'+
+'&lt;div style="font-family:monospace;margin:2%;border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333"&gt;'+
+'&lt;div style="border-top:1px solid #333"&gt;&lt;div style="width:'+(usd*100/max)+'%;background-color:#dcd;"&gt;used:'+usd+'MB&lt;/div&gt;&lt;/div&gt;'+
+'&lt;div style="border-top:1px solid #333"&gt;&lt;div style="width:'+(cmt*100/max)+'%;background-color:#ddd;"&gt;committed:'+cmt+'MB&lt;/div&gt;&lt;/div&gt;'+
+'&lt;div style="border-top:1px solid #333"&gt;&lt;div style="width:100%;              background-color:#ddd;"&gt;max:'+max+'MB&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;';
+
+</pre>
+</li>
+<li>
+<pre id='Ex6'>
+// Binary Numbers
+var str ='';
+for (var i=0;i<1000;i++) {
+  str+=i+'='+java.lang.Integer.toBinaryString(i)+'\n'; 
+}
+str;
+</pre>
+</li>
+<li>
+<pre id='Ex7'>
+// SLF4J - requires http://www.slf4j.org/
+var LoggerFactory = Packages.org.slf4j.LoggerFactory;
+var logger = LoggerFactory.getLogger('n4j');
+logger.info("Hello n4j (info)");
+logger.warn("Hello n4j (warn)");
+logger.error("Hello n4j (error)");
+
+
+</pre>
+</li>
+</ol>
+
+
+
+<!-- 
+<h2>Credits</h2>
+Nudge4j was written by me, Lorenzo Puccetti. 
+I like javascript and I like seeing javascript running inside JVM.
+It's incredibly powerful. So much so that many times I had integrated it I had to worry more about how to constrain it than anything else.
+Nudge4j is an attempt to polish my past works so to create a REPL environment by combining javascript and a web server. 
+ -->
+
+</div>
+<div style='padding:2%;'>
+<h2>Notes</h2>
+<div style='font-size:75%;'>
+<div id='note-1'>[1] internet access:</div>
+<div>
+Some resources are accessed on demand. In particular, you need to be able to access: 
+<ul>
+<li>
+<a href='https://lorenzoongithub.github.io/nudge4j/n4j.jar'>https://lorenzoongithub.github.io/nudge4j/n4j.jar</a> required by the JVM
+</li>
+<li>
+<a href='https://lorenzoongithub.github.io/nudge4j/n4j.js'>https://lorenzoongithub.github.io/nudge4j/n4j.js</a> required by the browser
+</li>
+<li>
+<a href='https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js'>https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js</a> required by the browser
+</li>
+<li>
+<i>http://[JVM-hostname]:5050/</i> required by the browser to connect to the JVM
+</li>
+</ul>
+</div>
+<div id='note-2'>[2] copy/paste this code anywhere:</div>
+Strictly speaking, you need to paste the snippet some place where a thread will be executing it. Below is an example of how 
+a standard hello world program is transformed: 
+<div style='white-space:pre;
+font-size:75%;font-family:monospace;padding:12px;'>package helloworld;
+
+public class HelloWorld {
+   public static void main(String args[]) {
+      java.lang.System.out.println("hello world"); 
+<div style='font-weight:bold'> 
+      /* nudge4j - integration */ 
+      {
+         try {
+            java.net.URL             n4j_jar = new java.net.URL("https://lorenzoongithub.github.io/nudge4j/n4j.jar");
+            java.net.URL[]           n4j_jars = new java.net.URL[] { n4j_jar };
+            java.net.URLClassLoader  n4j_loader = new java.net.URLClassLoader(n4j_jars);
+            java.lang.Class&lt;?&gt;       n4j_class = n4j_loader.loadClass("N4J");
+            java.lang.reflect.Method n4j_start = n4j_class.getMethod("start", int.class, Object[].class);
+            n4j_start.invoke(null, 5050, null); // you can customize these parameters: port and arguments.      
+            n4j_loader.close();
+         } catch (Exception e) {
+            throw new RuntimeException(e);
+         }
+      }</div>      
+   }
+}
+
+</div>
+<div id='note-3'>[3] ... and connect:</div>
+<div>if you have already embedded the code in your java application, you can try it now.</div>
+
+<input id='txtURL' type='text' value='http://localhost:5050/' /><input type='button' value='Try' onclick='tryConnection();'/>
+<div id='divIFramePlaceHolder'></div>
+<script>
+function tryConnection() {
+	var d =   document.getElementById('divIFramePlaceHolder');
+	var url = document.getElementById('txtURL').value;
+	d.innerHTML = '<iframe src="'+url+'" ></iframe>';
+	
+	// 'you should see the developer console otherwise a <i>connection refused</i> error<a href='#'></a></div>
+}
+</script>
+
+<div id='note-4'>[4] <code>N4J.start(int port,Object args...)</code></div>
+<ul>
+<li>int port: the port bound to the http server</li>
+<li>Object args...: any array of java objects which you want to make accessible to the console</li>
+</ul>
+
+<div id='note-5'>[5] one html page</div>
+<div>The html page (console) is really a place holder for an external javascript which generates the full page.
+This allows to keep the jar size to a minimum</div>
+</div>
+
+</div>
+<!--  footer -->
+<div style='margin:800px 0 10px 0;text-align:center;font-size:11px;'>
+Nudge4J<br>Copyright © 2016 
+</div>
+<script>
+var pres = document.getElementsByTagName('pre');
+for (var i=0;i<pres.length;i++) {
+	var div = document.createElement('div');
+	div.style.backgroundColor ='#fff';
+	div.style.textAlign='right';
+	div.style.height = 0;
+	var btn = document.createElement('input');
+	var code = pres[i].innerHTML; 
+	btn.onclick = (function(code) { 
+		return function() {
+			var url = document.getElementById('txtURL').value; 
+			if (url.charAt(url.length-1)!='/') {
+				url+='/';
+			}
+			location.href = url + 'runjs?code='+encodeURIComponent(code);
+		}
+	})(code);
+	var ix = code.indexOf('\n');
+	pres[i].innerHTML = '<b>'+code.substring(0,ix)+'</b>'+code.substring(ix);
+	btn.style.margin = '3px';
+	btn.type = 'button';
+	btn.value = 'try';
+	btn.style.fontSize='11px'
+	div.appendChild(btn);
+	pres[i].parentNode.insertBefore(div, pres[i]);
+}
+</script>
+<a href="https://github.com/lorenzoongithub/nudge4j"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+</body>
+</html>
