@@ -1,8 +1,29 @@
-##nudge4j in action
-![nudge4j web console](nudge4j.console.png "nudge4j web console in action")
+   
+nudge4j lets you talk to a java application from the browser.
+It lets you send code from the browser and gets it executed on the JVM.
 
-nudge4j executes code written in javascript (<a href='http://www.oracle.com/technetwork/articles/java/jf14-nashorn-2126515.html'>nashorn</a>) into your JVM. It comes with an <a href='http://docs.oracle.com/javase/8/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/package-summary.html'>Http Server</a> and an <a href='https://ace.c9.io'>Ace Editor</a> to let code fly from the browser to any java application.
+There is nothing to download.
+All you have to do is add this bit of java code somewhere in your program where it's going to be executed.
 
-There is nothing to download, just a few lines of java to copy/paste into your program.
+ 
+
+
+files and folders in nudge4j.
+
+
+ \src
+   N4J.java                     (the webserver)
+   console.html                 (the console to talk to the webserver)
+
+ \build
+   BuilderN4Jjar.java           (a stand-alone java program to build N4J.jar from N4J.java
+   transpilerHTML2JS.html       (a stand-alone web page to use to manually compile console.html into n4j.js)
+  
+ \docs 
+   ...                          manually crafted documentation and resources
+
+ \docs\dist\ 
+   console.html.js              the build artifacts
+   n4j.jar
 
 Twitter: <a href='https://twitter.com/nudge4jofficial'>nudge4j</a>
