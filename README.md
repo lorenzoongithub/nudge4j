@@ -5,7 +5,7 @@ nudge4j lets you talk to a java application from the browser.
 It lets you send code from the browser and gets it executed on the JVM.
 
 There is nothing to download.
-All you have to do is add this bit of java code somewhere in your program where it's going to be executed.
+All you have to do is add this bit of java code in your program and get it executed.
 
 ```java
 /* nudge4j - integration */ 
@@ -24,6 +24,8 @@ All you have to do is add this bit of java code somewhere in your program where 
 }
 ```
 
+
+![nudge4j's console](nudge4j.console.png "nudge4j's console ")
 
 
 
