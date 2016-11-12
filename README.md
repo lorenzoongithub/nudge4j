@@ -24,16 +24,4 @@ All you have to do is add this bit of java code in your program and get it execu
 }
 ```
 
-
-![nudge4j's console](nudge4j.console.png "nudge4j's console ")
-
-
-
-
-
-
-
-
-
-
 Twitter: <a href='https://twitter.com/nudge4jofficial'>nudge4j</a>
