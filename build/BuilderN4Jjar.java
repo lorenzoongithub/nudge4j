@@ -70,6 +70,7 @@ public class BuilderN4Jjar {
 
         System.out.println("N4J.class (size) " + baosN4Jclazz.toByteArray().length);
         System.out.println("N4J.jar   (size) " + baosJAR.toByteArray().length);
+        System.out.println("File Written "+fileOut);
         System.out.println("done");
     }
 
