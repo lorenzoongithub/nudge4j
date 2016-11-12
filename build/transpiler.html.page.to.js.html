@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>compile html page to javascript</title>
+<link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" type = "text/css" media = "screen"/>
+</head>
+<body style='margin:2%;font-size:13px;font-family:monospace;'>
+<div>
+This web page lets you transpile HTML into a javascript like: document.write(<I>[the html page]</I>)
+</div>
+<h1>Input</h1>
+<div style='font-weight:bold;'>Paste the HTML page in the text-area below</div>
+<textarea id='taInput' style='resize:none;width:100%;height:100px;'></textarea>
+<input type='button' value='Generate javascript' style='cursor:pointer;' onclick='generate();'/>
+<div style='font-size:48px;font-weight:bold'>&darr;</div>
+<h1>Output</h1>
+<textarea id='taOutput' style='color:#933;resize:none;width:100%;height:50px;font-size:11px;font-family:monospace;'></textarea>
+
+<div id='info'></div>
+<script src='html.minifier.3.1.0.js'></script>
+<script>
+var minify = require('html-minifier').minify;
+
+function generate() {
+	var s = minify(taInput.value,{ 
+		collapseWhitespace: true,
+		removeAttributeQuotes: true,
+		minifyCSS: true,
+		minifyJS : true
+	});
+	
+	console.log(s);
+	s = JSON.stringify(s);
+	
+	taOutput.value = 'document.write('+s+')';
+	
+	document.getElementById('info').innerHTML = 'Original HTML:'+taInput.value.length+'<br>'+
+	                                            'Derived js:'+taOutput.value.length; 
+	
+}
+</script>
+</body>
+</html>
