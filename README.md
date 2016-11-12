@@ -7,7 +7,7 @@ It lets you send code from the browser and gets it executed on the JVM.
 There is nothing to download.
 All you have to do is add this bit of java code somewhere in your program where it's going to be executed.
 
-{code}
+```java
 /* nudge4j - integration */ 
 {
    try {
@@ -22,7 +22,7 @@ All you have to do is add this bit of java code somewhere in your program where 
       throw new RuntimeException(e);
    }
 }
-{code}
+```
 
 
 ##files and folders in nudge4j.
