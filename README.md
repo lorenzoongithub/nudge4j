@@ -11,10 +11,10 @@ All you have to do is add this bit of java code in your program and get it execu
 /* nudge4j - integration */ 
 {
    try {
-      java.net.URL             n4j_jar = new java.net.URL("https://lorenzoongithub.github.io/nudge4j/dist/n4j.jar");
-      java.net.URL[]           n4j_jars = new java.net.URL[] { n4j_jar };
-      java.net.URLClassLoader  n4j_loader = new java.net.URLClassLoader(n4j_jars);
-      java.lang.Class<?>       n4j_class = n4j_loader.loadClass("N4J");
+      java.net.URL n4j_jar = new java.net.URL("https://lorenzoongithub.github.io/nudge4j/dist/n4j.jar");
+      java.net.URL[] n4j_jars = new java.net.URL[] { n4j_jar };
+      java.net.URLClassLoader n4j_loader = new java.net.URLClassLoader(n4j_jars);
+      java.lang.Class<?> n4j_class = n4j_loader.loadClass("N4J");
       java.lang.reflect.Method n4j_start = n4j_class.getMethod("start", int.class, Object[].class);
       n4j_start.invoke(null, 5050, null); // you can customize these parameters: port and arguments.
       n4j_loader.close();
