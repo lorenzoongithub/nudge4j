@@ -49,7 +49,7 @@ It's meant for use during development to provide an environment for experimentin
 font-size:12px;font-family:monospace;padding:12px;margin:2% 0;'>/* nudge4j - integration */ 
 {
    try {
-      java.net.URL             n4j_jar = new java.net.URL("https://lorenzoongithub.github.io/nudge4j/n4j.jar");
+      java.net.URL             n4j_jar = new java.net.URL("https://lorenzoongithub.github.io/nudge4j/dist/n4j.jar");
       java.net.URL[]           n4j_jars = new java.net.URL[] { n4j_jar };
       java.net.URLClassLoader  n4j_loader = new java.net.URLClassLoader(n4j_jars);
       java.lang.Class&lt;?&gt;       n4j_class = n4j_loader.loadClass("N4J");
