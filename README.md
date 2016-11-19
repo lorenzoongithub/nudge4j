@@ -1,6 +1,8 @@
 Nudge4J
 =======
 
+[![Build Status](https://travis-ci.org/lorenzoongithub/nudge4j.svg?branch=master)](https://travis-ci.org/lorenzoongithub/nudge4j)
+
 nudge4j lets you talk to a java application from the browser.
 It lets you send code from the browser and gets it executed on the JVM.
 
