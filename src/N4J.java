@@ -12,17 +12,22 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 /**
- * N4J: the only java class in n4j.jar 
- * It has a static method 'start' to launch a minimal HttpServer capable of 
+ * N4J's bytecode is distributed as a hexadecimal string in the integration snippet.
+ * 
+ * The class N4J is accessible only via the static method 'start'.
+ * The method 'start' launches a minimal HttpServer capable of 
  * 1. returning the landing page (an HTML page which just wraps the script n4j.js to create the web console)
- * 2. handling http posts /runJS to execute nashorn snippets and return the .toString()   
+ * 2. handling http posts /runJS to execute nashorn snippets and return the .toString()
+ * 
+ * The output produced by the execution of javascript is returned as String (output+"").
+ * If the execution of javascript causes an Exception, the stacktrace is stringified and returned prefixed by the string "$error:"     
  *  
 **/
 public final class N4J implements HttpHandler {
 	
 	private ScriptEngine engine;
 	
-	public N4J(ScriptEngine engine) {
+	private N4J(ScriptEngine engine) {
 		this.engine = engine;
 	}
 	
