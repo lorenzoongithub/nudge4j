@@ -14,10 +14,13 @@ h2 {margin:60px 0 10px 0; font-weight:normal}
 sup {font-size:75%}
 pre {margin:0 0 32px 0;padding:4px;overflow:hidden;font-size:13px;border:1px solid #aaa; }
 input[type=button] {cursor:pointer;}
-b { font-size:120%; color:green; margin:3px 0; display:inline-block;}
+b { font-size:120%; color:purple; margin:3px 0; display:inline-block;}
+
+textarea { white-space:pre; padding:2px;width:100%;xoutline:0;resize:none;background-color:#000;color:white;font-size:12px; }
 </style>
 </head>
 <body>
+
 <div style='padding:12%;background-color:#000;color:white;'>
 <div style='font-size:200%;font-weight:bold;color:purple;'>nudge4j: GET INSIDE YOUR JVM</div>
 <div>
@@ -43,25 +46,122 @@ It's meant for use during development to provide an environment for experimentin
 <h2>Integration</h2>
 <ul>
 <li>
-<div>copy/paste this code anywhere <sup><a href='#note-2'>[2]</a></sup> in your java 8 program</div>
+<div>
 
-<div style='background-color:purple;color:white;white-space:pre;
-font-size:12px;font-family:monospace;padding:12px;margin:2% 0;'>/* nudge4j - integration */ 
-{
-   try {
-      java.net.URL             n4j_jar = new java.net.URL("https://lorenzoongithub.github.io/nudge4j/dist/n4j.jar");
-      java.net.URL[]           n4j_jars = new java.net.URL[] { n4j_jar };
-      java.net.URLClassLoader  n4j_loader = new java.net.URLClassLoader(n4j_jars);
-      java.lang.Class&lt;?&gt;       n4j_class = n4j_loader.loadClass("N4J");
-      java.lang.reflect.Method n4j_start = n4j_class.getMethod("start", int.class, Object[].class);
-      n4j_start.invoke(null, 5050, null); // you can customize these parameters: port and arguments.
-      n4j_loader.close();
-   } catch (Exception e) {
-      throw new RuntimeException(e);
-   }
-}
+copy/paste this code anywhere <sup><a href='#note-2'>[2]</a></sup> in your java 8 program -
+
+
 </div>
-<br>
+
+
+<div style='margin:5px 5%; width:90%;'>
+<div style='text-align:right'>
+<button style='font-size:9px; font-weight:bold; cursor:pointer; 'class="xbtn" data-clipboard-action="copy" data-clipboard-target="#taCode">BUTTON: COPY TO CLIPBOARD</button>
+</div>
+<textarea id='taCode' readonly cols='100' rows='20' >// Nudge4J - integration script 1.0.0 - START
+//
+try {
+    new ClassLoader() {
+        public Class&lt;?&gt; findClass(String c) {
+            String code = "CAFEBABE"
+            + "0000003400D60A003D005909002A005A0A005B005C0A005D005E08005F0A006000610700620A005B"
+            + "006309002A00640A000700650B006600670700680700690A000D005908006A0A0060006B0A000D00"
+            + "6C07006D0A0012006E0A000C006F0A000D00700800710A002A00720700730A001800590A00180074"
+            + "0800750A001800760A0018005E09002A00770800780700790A0020007A0A007B007C07007D0A0023"
+            + "005908007E0A0023007F0800800B006600810800820700830A002A00840A007B00850A007B00860A"
+            + "007B0087090088008908008A0A0018008B0A0012008C0A005B008D08008E0A008F00900A005B0091"
+            + "0A005B00920A0093006C0A009300940800950A0096009708009807009907009A010006656E67696E"
+            + "6501001B4C6A617661782F7363726970742F536372697074456E67696E653B010004555446380100"
+            + "1A4C6A6176612F6E696F2F636861727365742F436861727365743B01000B6C616E64696E67506167"
+            + "650100025B420100063C696E69743E01001E284C6A617661782F7363726970742F53637269707445"
+            + "6E67696E653B2956010004436F646501000668616E646C65010028284C636F6D2F73756E2F6E6574"
+            + "2F687474707365727665722F4874747045786368616E67653B295601000D537461636B4D61705461"
+            + "626C6507008307009B07009C07006207006807009901000A457863657074696F6E7307009D010005"
+            + "737461727401001728495B4C6A6176612F6C616E672F4F626A6563743B2956010005777269746501"
+            + "003C284C636F6D2F73756E2F6E65742F687474707365727665722F4874747045786368616E67653B"
+            + "5B424C6A6176612F6C616E672F537472696E673B29560100083C636C696E69743E0100032829560C"
+            + "004500580C003F004007009B0C009E009F0700A00C00A100A20100062F72756E4A5307009C0C00A3"
+            + "00A40100196A6176612F696F2F496E70757453747265616D5265616465720C00A500A60C00410042"
+            + "0C004500A70700A80C00A900AA0100136A6176612F6C616E672F457863657074696F6E01001D6A61"
+            + "76612F696F2F4279746541727261794F757470757453747265616D010007246572726F723A0C00AB"
+            + "00AC0C005500AD0100136A6176612F696F2F5072696E7453747265616D0C004500AE0C00AF00B00C"
+            + "00B100B201000A746578742F706C61696E0C005500560100176A6176612F6C616E672F537472696E"
+            + "674275696C6465720C00B300B40100000C00B300B50C00430044010009746578742F68746D6C0100"
+            + "1A6A6176612F6E65742F496E6574536F636B6574416464726573730C004500B60700B70C00B800B9"
+            + "0100206A617661782F7363726970742F536372697074456E67696E654D616E6167657201000A4A61"
+            + "76615363726970740C00BA00BB010004617267730C00BC00BD0100012F0100034E344A0C00450046"
+            + "0C00BE00BF0C00C000C10C005300580700C20C00C300C40100186E75646765346A2073657276696E"
+            + "67206F6E20706F72743A0C00B300C50C00C600C70C00C800C901000C436F6E74656E742D54797065"
+            + "0700CA0C00CB00CC0C00CD00CE0C00CF00D00700D10C00D200580100055554462D380700D30C00D4"
+            + "00D50100633C21646F63747970652068746D6C3E3C736372697074207372633D68747470733A2F2F"
+            + "6C6F72656E7A6F6F6E6769746875622E6769746875622E696F2F6E75646765346A2F646973742F63"
+            + "6F6E736F6C652E68746D6C2E6A733E3C2F7363726970743E0100106A6176612F6C616E672F4F626A"
+            + "656374010022636F6D2F73756E2F6E65742F687474707365727665722F4874747048616E646C6572"
+            + "010023636F6D2F73756E2F6E65742F687474707365727665722F4874747045786368616E67650100"
+            + "106A6176612F6C616E672F537472696E670100136A6176612F696F2F494F457863657074696F6E01"
+            + "000D6765745265717565737455524901001028294C6A6176612F6E65742F5552493B01000C6A6176"
+            + "612F6E65742F555249010008746F537472696E6701001428294C6A6176612F6C616E672F53747269"
+            + "6E673B010006657175616C73010015284C6A6176612F6C616E672F4F626A6563743B295A01000E67"
+            + "657452657175657374426F647901001728294C6A6176612F696F2F496E70757453747265616D3B01"
+            + "0032284C6A6176612F696F2F496E70757453747265616D3B4C6A6176612F6E696F2F636861727365"
+            + "742F436861727365743B29560100196A617661782F7363726970742F536372697074456E67696E65"
+            + "0100046576616C010024284C6A6176612F696F2F5265616465723B294C6A6176612F6C616E672F4F"
+            + "626A6563743B010008676574427974657301001E284C6A6176612F6E696F2F636861727365742F43"
+            + "6861727365743B295B42010005285B422956010019284C6A6176612F696F2F4F7574707574537472"
+            + "65616D3B295601000F7072696E74537461636B5472616365010018284C6A6176612F696F2F507269"
+            + "6E7453747265616D3B295601000B746F42797465417272617901000428295B42010006617070656E"
+            + "6401002D284C6A6176612F6C616E672F4F626A6563743B294C6A6176612F6C616E672F537472696E"
+            + "674275696C6465723B01002D284C6A6176612F6C616E672F537472696E673B294C6A6176612F6C61"
+            + "6E672F537472696E674275696C6465723B01000428492956010021636F6D2F73756E2F6E65742F68"
+            + "7474707365727665722F48747470536572766572010006637265617465010042284C6A6176612F6E"
+            + "65742F496E6574536F636B6574416464726573733B49294C636F6D2F73756E2F6E65742F68747470"
+            + "7365727665722F487474705365727665723B01000F676574456E67696E6542794E616D6501002F28"
+            + "4C6A6176612F6C616E672F537472696E673B294C6A617661782F7363726970742F53637269707445"
+            + "6E67696E653B010003707574010027284C6A6176612F6C616E672F537472696E673B4C6A6176612F"
+            + "6C616E672F4F626A6563743B295601000D637265617465436F6E7465787401005C284C6A6176612F"
+            + "6C616E672F537472696E673B4C636F6D2F73756E2F6E65742F687474707365727665722F48747470"
+            + "48616E646C65723B294C636F6D2F73756E2F6E65742F687474707365727665722F48747470436F6E"
+            + "746578743B01000B7365744578656375746F72010022284C6A6176612F7574696C2F636F6E637572"
+            + "72656E742F4578656375746F723B29560100106A6176612F6C616E672F53797374656D0100036F75"
+            + "740100154C6A6176612F696F2F5072696E7453747265616D3B01001C2849294C6A6176612F6C616E"
+            + "672F537472696E674275696C6465723B0100077072696E746C6E010015284C6A6176612F6C616E67"
+            + "2F537472696E673B2956010012676574526573706F6E73654865616465727301002228294C636F6D"
+            + "2F73756E2F6E65742F687474707365727665722F486561646572733B01001E636F6D2F73756E2F6E"
+            + "65742F687474707365727665722F48656164657273010003736574010027284C6A6176612F6C616E"
+            + "672F537472696E673B4C6A6176612F6C616E672F537472696E673B295601001373656E6452657370"
+            + "6F6E73654865616465727301000528494A295601000F676574526573706F6E7365426F6479010018"
+            + "28294C6A6176612F696F2F4F757470757453747265616D3B0100146A6176612F696F2F4F75747075"
+            + "7453747265616D010005636C6F73650100186A6176612F6E696F2F636861727365742F4368617273"
+            + "6574010007666F724E616D6501002E284C6A6176612F6C616E672F537472696E673B294C6A617661"
+            + "2F6E696F2F636861727365742F436861727365743B0031002A003D0001003E00030002003F004000"
+            + "00001A004100420000001A0043004400000005000100450046000100470000001600020002000000"
+            + "0A2AB700012A2BB50002B10000000000010048004900020047000000C7000400070000008C2BB600"
+            + "03B600044D2C1205B60006990074BB0007592BB60008B20009B7000A4E2AB400022DB9000B02003A"
+            + "04A700353A05BB000D59B7000E3A061906120FB20009B60010B600111905BB0012591906B70013B6"
+            + "00142B1906B600151216B80017B12BBB001859B700191904B6001A121BB6001CB6001DB20009B600"
+            + "101216B80017B12BB2001E121FB80017B100010020002C002F000C0001004A000000210003FF002F"
+            + "000407004B07004C07004D07004E000107004FFC0031070050F90020005100000004000100520099"
+            + "0053005400020047000000610005000400000055BB0020591AB7002103B800224DBB002359B70024"
+            + "1225B600264E2D12272BB9002803002C1229BB002A592DB7002BB6002C572C01B6002D2CB6002EB2"
+            + "002FBB001859B700191230B6001C1AB60031B6001DB60032B1000000000051000000040001005200"
+            + "1A00550056000200470000002F00040004000000232AB6003312342CB600352A1100C82BBE85B600"
+            + "362AB600374E2D2BB600382DB60039B1000000000051000000040001005200080057005800010047"
+            + "000000200002000000000014123AB8003BB30009123CB20009B60010B3001EB1000000000000";
+            byte array[] = new byte[3322];
+            for (int i = 0; i &lt; array.length; i++) {
+                array[i] = (byte) ("0123456789ABCDEF".indexOf(code.charAt(i * 2)) * 16
+                                 + "0123456789ABCDEF".indexOf(code.charAt(i * 2 + 1)));
+            }
+            return defineClass("N4J", array, 0, array.length);
+        }
+    }.loadClass("N4J").getMethods()[0].invoke(null, 5050, null);
+    System.out.println("N4J started successfully");
+} catch (Exception e) {
+    throw new RuntimeException(e);
+}
+//END.
+</textarea>
+</div>
 </li>
 <li>
 <div>Recompile your code, restart your JVM and connect from the browser<sup><a href='#note-3'>[3]</a></sup></div>
@@ -229,10 +329,7 @@ Nudge4j is an attempt to polish my past works so to create a REPL environment by
 Some resources are accessed on demand. In particular, you need to be able to access: 
 <ul>
 <li>
-<a href='https://lorenzoongithub.github.io/nudge4j/n4j.jar'>https://lorenzoongithub.github.io/nudge4j/n4j.jar</a> required by the JVM
-</li>
-<li>
-<a href='https://lorenzoongithub.github.io/nudge4j/n4j.js'>https://lorenzoongithub.github.io/nudge4j/n4j.js</a> required by the browser
+<a href='https://lorenzoongithub.github.io/nudge4j/dist/console.html.js'>https://lorenzoongithub.github.io/nudge4j/dist/console.html.js</a> required by the browser
 </li>
 <li>
 <a href='https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js'>https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js</a> required by the browser
@@ -243,32 +340,8 @@ Some resources are accessed on demand. In particular, you need to be able to acc
 </ul>
 </div>
 <div id='note-2'>[2] copy/paste this code anywhere:</div>
-Strictly speaking, you need to paste the snippet some place where a thread will be executing it. Below is an example of how 
-a standard hello world program is transformed: 
-<div style='white-space:pre;
-font-size:75%;font-family:monospace;padding:12px;'>package helloworld;
-
-public class HelloWorld {
-   public static void main(String args[]) {
-      java.lang.System.out.println("hello world"); 
-<div style='font-weight:bold'> 
-      /* nudge4j - integration */ 
-      {
-         try {
-            java.net.URL             n4j_jar = new java.net.URL("https://lorenzoongithub.github.io/nudge4j/n4j.jar");
-            java.net.URL[]           n4j_jars = new java.net.URL[] { n4j_jar };
-            java.net.URLClassLoader  n4j_loader = new java.net.URLClassLoader(n4j_jars);
-            java.lang.Class&lt;?&gt;       n4j_class = n4j_loader.loadClass("N4J");
-            java.lang.reflect.Method n4j_start = n4j_class.getMethod("start", int.class, Object[].class);
-            n4j_start.invoke(null, 5050, null); // you can customize these parameters: port and arguments.      
-            n4j_loader.close();
-         } catch (Exception e) {
-            throw new RuntimeException(e);
-         }
-      }</div>      
-   }
-}
-
+<div>
+Strictly speaking, you need to paste the snippet some place where a thread will be executing it.
 </div>
 <div id='note-3'>[3] ... and connect:</div>
 <div>if you have already embedded the code in your java application, you can try it now.</div>
@@ -316,6 +389,7 @@ for (var i=0;i<pres.length;i++) {
 			if (url.charAt(url.length-1)!='/') {
 				url+='/';
 			}
+			if (confirm('You are about to be redirected to '+url+'\nMake sure a JVM with nudge4j is running there.\nbefore proceeding') == false) return;
 			location.href = url + 'runjs?code='+encodeURIComponent(code);
 		}
 	})(code);
@@ -329,6 +403,20 @@ for (var i=0;i<pres.length;i++) {
 	pres[i].parentNode.insertBefore(div, pres[i]);
 }
 </script>
+<script>
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-87683649-1', 'auto');
+  ga('send', 'pageview');
+ 
+</script>
 <a href="https://github.com/lorenzoongithub/nudge4j"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
+<script>
+var clipboard = new Clipboard('.xbtn');
+</script>
 </body>
 </html>
