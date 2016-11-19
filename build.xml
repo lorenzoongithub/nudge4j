@@ -1,0 +1,10 @@
+<!-- smoke-test for travis-ci --> 
+<project name="nudge4j" basedir=".">
+  <target name="test" description="Compilation and Clean up" >
+  	<echo>smoke test: java compilation</echo>
+    <mkdir dir="tmp"/>
+    <javac srcdir="src"   destdir="tmp" includeantruntime="false" />
+  	<javac srcdir="build" destdir="tmp" includeantruntime="false" />
+    <delete dir="tmp"/> 
+  </target>
+</project>
