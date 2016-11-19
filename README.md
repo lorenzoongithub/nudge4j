@@ -3,11 +3,12 @@ Nudge4J
 
 [![Build Status](https://travis-ci.org/lorenzoongithub/nudge4j.svg?branch=master)](https://travis-ci.org/lorenzoongithub/nudge4j)
 
-nudge4j lets you talk to a java application from the browser.
-It lets you send code from the browser and gets it executed on the JVM.
+nudge4j lets you control your java application from the browser, as if the browser was a smarter remote control.
+It lets you send code from the browser to run on the JVM, hence providing you with an environment for experimenting with code. 
+You can write, run, and examine the results of code from a browser.
 
-There is nothing to download.
-All you have to do is add this bit of java code in your program and get it executed.
+To use nudge4j, There is nothing to download.
+All you have to do is to add a tiny bit of java code in your program (e.g.: at the end of your main method) and get it executed.
 
 
 
