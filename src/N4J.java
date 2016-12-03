@@ -12,7 +12,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 /**
- * N4J's bytecode is distributed as a hexadecimal string in the integration snippet.
+ * N4J's bytecode is distributed as a base 64 string in the integration snippet.
  * 
  * The class N4J is accessible only via the static method 'start'.
  * The method 'start' launches a minimal HttpServer capable of 

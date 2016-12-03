@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.zip.DeflaterOutputStream;
 
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
@@ -17,7 +19,9 @@ import javax.tools.SimpleJavaFileObject;
 import javax.tools.ToolProvider;
 
 /**
- * Compiles N4J.java and generates the n4j.snippet
+ * Compiles N4J.java and generates the file 'n4j.snippet.java'
+ * n4j.snippet.java represents the piece of java code that needs to be added to any java application to
+ * enable nudge4j.
 **/
 public class BuilderN4J {
     public static void main(String args[]) throws Exception {
@@ -26,7 +30,6 @@ public class BuilderN4J {
         System.out.println();
         Path fileIn =  Paths.get("src/N4J.java");
         Path fileOut = Paths.get("docs/dist/n4j.snippet.java");
-        
         System.out.println("Compiling " + fileIn.toAbsolutePath());
         
         String code = new String(Files.readAllBytes(fileIn),"UTF-8");
@@ -52,50 +55,74 @@ public class BuilderN4J {
                         return code;
                     }
                 })).call();
-
         byte bytecode[] = baosN4Jclazz.toByteArray();
+        System.out.println("Compiled - bytecode (size):" + bytecode.length);
         
-        System.out.println("compiled - bytecode:" + bytecode.length);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        OutputStream out = new DeflaterOutputStream(baos);
+        out.write(bytecode);
+        out.close();
+        byte zipBytecode[] = baos.toByteArray();
+        System.out.println("Zipped - compressed bytecode (size):" + zipBytecode.length);
         
-        String hexCode = toHEX(bytecode);
+        String base64 = Base64.getEncoder().encodeToString(zipBytecode);
+        System.out.println("Base64 - string (size):" + base64.length());
         
-        String snippet =( 
-                        "// Nudge4J - integration script 1.0.0 - START\n"+
-                        "//\n"+
-                        "try {\n"+
-                        "    new ClassLoader() {\n"+
-                        "        public Class<?> findClass(String c) {\n"+
-                        "            String code = $$0;\n"+
-                        "            byte array[] = new byte[$$1];\n"+
-                        "            for (int i = 0; i < array.length; i++) {\n"+
-                        "                array[i] = (byte) (\"0123456789ABCDEF\".indexOf(code.charAt(i * 2)) * 16\n"+
-                        "                                 + \"0123456789ABCDEF\".indexOf(code.charAt(i * 2 + 1)));\n"+
-                        "            }\n"+
-                        "            return defineClass(\"N4J\", array, 0, array.length);\n"+
-                        "        }\n"+
-                        "    }.loadClass(\"N4J\").getMethods()[0].invoke(null, 5050, null);\n"+
-                        "    System.out.println(\"N4J started successfully\");\n"+
-                        "} catch (Exception e) {\n"+
-                        "    throw new RuntimeException(e);\n"+
-                        "}\n//END."+
-                        "")       
-                        .replace("$$0", hexCode)
+        final String INDENT = "            ";
+        final String DQUOTE = "\"";
+        String code64 = "";
+        for (int i=0;i<base64.length();i+=80) {
+            if (i+80<=base64.length()) {
+                code64+=INDENT+DQUOTE+base64.substring(i,i+80)+DQUOTE+" +\n";
+            } else {
+                code64+=INDENT+DQUOTE+base64.substring(i)+DQUOTE;
+            }
+        }
+        
+        String snippet =(
+                "// nudge4j:begin\n"+
+                "try {\n"+
+                "    new ClassLoader() {\n"+
+                "        public Class<?> findClass(String c) {\n"+
+                "            String code = \n"+
+                "$$0;\n"+
+                "            java.io.InputStream iis = new java.util.zip.InflaterInputStream(\n"+
+                "                new java.io.ByteArrayInputStream(java.util.Base64.getDecoder().decode(code)));\n"+
+                "            try {\n"+
+                "                byte array[] = new byte[$$1];\n"+
+                "                for (int i=0;i<array.length;i++) array[i] = (byte) iis.read();\n"+
+                "                return defineClass(\"N4J\", array, 0, array.length);\n"+
+                "            } catch (Exception e) {\n"+
+                "                throw new RuntimeException(e);\n"+
+                "            }\n"+
+                "        }\n"+
+                "   }.loadClass(\"N4J\").getMethods()[0].invoke(null, 5050, null);\n"+
+                "} catch (Exception e) {\n"+
+                "    throw new RuntimeException(e);\n"+
+                "}\n"+
+                "// nudge4j:end")
+                        .replace("$$0", code64)
                         .replace("$$1", "" + bytecode.length);
         
         System.out.println("Writing "+fileOut.toAbsolutePath());
         Files.write(fileOut ,snippet.getBytes(Charset.forName("UTF-8")));
         
-        // To Do 
-        // I need to write the html snippet as well.
         
+        // optional tasks (uncomment the ones you require)
+        //runGeneratedSnippet(snippet); // wraps the generated script into a class and runs it.
+        //printTextareaHTML(snippet);   // prints the HTML snippet to copy paste into index.html
         
-        // testSnippet(snippet);
-        
-        System.out.println("All done...");
+        //System.out.println("All done...");
+    }
+    
+    public static void printTextareaHTML(String snippet) {
+        String html="<textarea id='taCode' readonly cols='100' rows='20' >";
+        html+=(snippet.replace("<","&lt;").replace(">", "&gt;"));
+        html+="</textarea>";
+        System.out.println(html);;
     }
         
-        
-    public static void testSnippet(String snippet) throws Exception {    
+    public static void runGeneratedSnippet(String snippet) throws Exception {    
         System.out.println("Testing the script");
         System.out.println("Creating and Running a new class Test which embeds the script");
         HashMap<String,ByteArrayOutputStream> map = new HashMap<String,ByteArrayOutputStream>();
@@ -120,7 +147,7 @@ public class BuilderN4J {
                         URI.create("string:///Test.java"),
                         JavaFileObject.Kind.SOURCE) {
                     public CharSequence getCharContent(boolean b) {
-                        return "public class Test { public static void test() { "+snippet+ "}}";
+                        return "public class Test { public static void test() { \n"+snippet+ "\n}}";
                     }
                 })).call();
 
@@ -138,18 +165,6 @@ public class BuilderN4J {
 
 
     
-    public static String toHEX(byte array[]) {
-        String code = javax.xml.bind.DatatypeConverter.printHexBinary(array);
-        String INDENT = "\"\n            + \"";
-        StringBuilder sb = new StringBuilder("\"" + code.substring(0, 8) + INDENT); // CAFEBABE
-        code = code.substring(8);
-        for (int i = 0; i < code.length(); i++) {
-            sb.append(code.charAt(i));
-            if ((i + 1) % 80 == 0) { 
-                sb.append(INDENT);// http://stackoverflow.com/questions/578059/studies-on-optimal-code-width
-            }
-        }
-        return sb.toString() + "\"";
-    }
+ 
 
 }    
