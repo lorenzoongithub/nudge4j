@@ -1,74 +1,137 @@
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
-
 /**
- * N4J's bytecode is distributed as a base 64 string in the integration snippet.
+ * N4J is a package-less class which wraps a snippet of code to start a minimal HttpServer.
  * 
- * The class N4J is accessible only via the static method 'start'.
- * The method 'start' launches a minimal HttpServer capable of 
- * 1. returning the landing page (an HTML page which just wraps the script n4j.js to create the web console)
- * 2. handling http posts /runJS to execute nashorn snippets and return the .toString()
+ * The import keyword is never used. 
+ * Classes from the package 'com.sun.net.httpserver' are accessed via introspection.
  * 
- * The output produced by the execution of javascript is returned as String (output+"").
- * If the execution of javascript causes an Exception, the stacktrace is stringified and returned prefixed by the string "$error:"     
+ * The HttpServer is capable of returning client-side javascript 
+ * when queried like this: /js?[id]:[code]
+ * 
+ * Examples:
+ * 
+ * /js?1001300552:5-2          ==> n4j.on('1001300552',null,'3');
+ * /js?1001300554:Math.sqrt(4) ==> n4j.on('1001300554',null,'2');
+ * 
+ * The [id] is a 10 character long string to uniquely identify the call.
+ * The [code] is nashorn/javascript which is executed inside the JVM.
+ * 
+ * The output produced by the execution of nashorn/javascript is returned 
+ * as content-type text/javascript.
+ *   
+ * n4j.on('[id]',null, ''+output);
  *  
+ * If the execution of javascript causes an Exception, the stacktrace is 
+ * stringified and returned as a second parameter of the on call
+ * n4j.on('[id]',''+exception,null);
+ *    
+ * Any other call is handled by acting as a proxy for 
+ * https://lorenzoongithub.github.com/nudge4j/proxy/
+ * 
+ * For example:
+ * http://localhost:5050/index.html is equivalent (in content) of
+ * https://lorenzoongithub.github.com/nudge4j/proxy/index.html
+ * 
 **/
-public final class N4J implements HttpHandler {
-	
-	private ScriptEngine engine;
-	
-	private N4J(ScriptEngine engine) {
-		this.engine = engine;
-	}
-	
-	public void handle(final HttpExchange  httpExchange) throws IOException {
-        final String uri = httpExchange.getRequestURI().toString();
-        if (uri.equals("/runJS")) {
-            final InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), UTF8);
-            final Object output; 
-            try {
-            	output = engine.eval(isr);
-            } catch (final Exception e) {
-                final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                baos.write("$error:".getBytes(UTF8));
-                e.printStackTrace(new PrintStream(baos));
-                write(httpExchange, baos.toByteArray(),"text/plain");
-                return; 
-            }
-            write(httpExchange,(output+"").getBytes(UTF8),"text/plain");
-            return; 
-        }
-        write(httpExchange,landingPage,"text/html");
-    }
-	
-	private static final Charset UTF8 = Charset.forName("UTF-8");
-    private static final byte[] landingPage = "<!doctype html><script src=https://lorenzoongithub.github.io/nudge4j/dist/console.html.js></script>".getBytes(UTF8);
+public class N4J { static {
     
-    public static final void start(final int port, final Object... args) throws IOException {
-    	final HttpServer server = HttpServer.create(new InetSocketAddress(port), 0); // fail fast.
-        final ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript"); 
+// nudge4j:begin
+(new java.util.function.Consumer<Object[]>() { public void accept(Object args[]) {
+    try {
+        javax.script.ScriptEngine engine = new javax.script.ScriptEngineManager().getEngineByName("JavaScript");
         engine.put("args", args);
-        server.createContext("/", new N4J(engine));
-        server.setExecutor(null);  
-        server.start();
-        System.out.println("nudge4j serving on port:"+port);
+        Class<?> HttpHandler= Class.forName("com.sun.net.httpserver.HttpHandler");
+        java.lang.reflect.Method 
+        getRequestURI =       Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("getRequestURI"),
+        getResponseHeaders =  Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("getResponseHeaders"),
+        set =                 Class.forName("com.sun.net.httpserver.Headers").     getMethod("set", String.class,String.class),
+        sendResponseHeaders = Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("sendResponseHeaders",int.class,long.class),
+        getResponseBody =     Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("getResponseBody"),
+        getQuery =            Class.forName("java.net.URI").                       getMethod("getQuery"),
+        create =              Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("create", java.net.InetSocketAddress.class, int.class),
+        createContext =       Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("createContext", String.class, HttpHandler),
+        setExecutor =         Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("setExecutor", java.util.concurrent.Executor.class),
+        start =               Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("start");
+        Object server = create.invoke(null, new java.net.InetSocketAddress((int)args[0]), 0);
+        createContext.invoke(server, "/", java.lang.reflect.Proxy.newProxyInstance(
+            HttpHandler.getClassLoader(), 
+            new Class[] { HttpHandler }, 
+            new java.lang.reflect.InvocationHandler() {
+                private java.nio.charset.Charset UTF8 = java.nio.charset.Charset.forName("UTF-8");
+                private byte data[] = new byte[200000];
+                private java.util.function.Function<Object,String> stringify = (oj) -> {
+                    return "\""+(""+oj).replace("\\", "\\\\").replace("\n", "\\n").replace("\b", "\\b").
+                                        replace("\t", "\\t").replace("\r", "\\r").replace("\f", "\\f").
+                                        replace("\"", "\\\"") +"\"";
+                };
+                
+                private void send(Object httpExchange,byte array[],int max, String contentType) throws Exception {
+                    set.invoke(getResponseHeaders.invoke(httpExchange), "Content-Type",contentType);
+                    sendResponseHeaders.invoke(httpExchange, 200, max);
+                    java.io.OutputStream os = (java.io.OutputStream) getResponseBody.invoke(httpExchange); 
+                    os.write(array,0, array.length);
+                    os.close();
+                }
+                
+                public synchronized Object invoke(Object pxy, java.lang.reflect.Method mthd, Object[] args) throws Throwable {
+                    Object httpExchange = args[0]; 
+                    String uri = getRequestURI.invoke(httpExchange).toString();
+                    if (uri.startsWith("/js")) {
+                        String query = (String) getQuery.invoke(getRequestURI.invoke(httpExchange));
+                        String id = '"'+query.substring(0, 10)+'"'; 
+                        String code = query.substring(11);
+                        Object result = null;
+                        try {
+                            result = engine.eval(code);
+                        } catch (Exception e) {
+                            final java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+                            e.printStackTrace(new java.io.PrintStream(baos));
+                            byte array[] = ("n4j.on("+id+","+stringify.apply(baos)+",null)").getBytes(UTF8);
+                            send(httpExchange,array,array.length,"application/javascript");
+                            return null; 
+                        }
+                        byte[] array = ("n4j.on("+id+",null,"+stringify.apply(result)+")").getBytes(UTF8);
+                        send(httpExchange,array,array.length,"application/javascript");
+                        return null; 
+                    }
+                    String url = "https://lorenzoongithub.github.com/nudge4j/proxy"+uri;
+                    java.net.HttpURLConnection con = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
+                    con.setRequestMethod("GET");
+                    int responseCode = con.getResponseCode();
+                    if (responseCode != 200) {
+                        sendResponseHeaders.invoke(httpExchange,responseCode,-1);
+                        return null; 
+                    }
+                    java.io.InputStream is = con.getInputStream();
+                    int count = 0; 
+                    while (true) {
+                        int b = is.read();
+                        if (b == -1) break; 
+                        data[count++] = (byte) b;
+                    }
+                    is.close();
+                    System.out.println(count); // <-- number of bytes (remove this line) (the data array needs to be sized accordingly) 
+                    send(httpExchange,data, data.length,  (
+                         (uri.endsWith(".ico")) ? "image/x-icon" :
+                         (uri.endsWith(".css")) ? "text/css" :
+                         (uri.endsWith(".png")) ? "image/png" :  
+                         (uri.endsWith(".js"))  ? "application/javascript" : 
+                                                  "text/html"));
+                    return null; 
+                }
+            }
+        ));
+        setExecutor.invoke(server, new Object[] { null });
+        start.invoke(server);
+        System.out.println("nudge4j serving on port:"+args[0]);
+    } catch (Exception e) {
+        throw new InternalError(e);
     }
-	
-    private static final void write(final HttpExchange httpExchange, final byte[] array, final String contentType) throws IOException {
-        httpExchange.getResponseHeaders().set("Content-Type", contentType);
-        httpExchange.sendResponseHeaders(200, array.length);
-        final OutputStream os = httpExchange.getResponseBody();
-        os.write(array);
-        os.close();
-    }
+}}).accept( new Object[] { 5050  }); 
+// nudge4j:end
+
+
+}
+
+public static void main(String args[]) {}
+
 }
