@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang='en'>
+<head>
+	<meta charset='utf-8'><meta http-equiv='x-ua-compatible' content='ie=edge'>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<link rel='shortcut icon' href='https://lorenzoongithub.github.io/nudge4j/favicon.ico' />
+	<style>
+	    h2 { font-style:normal;padding:0 1%;}  
+		a               {color:#428bca;text-decoration:none}
+		a:hover,a:focus {color:#2a6496;text-decoration:underline}
+		body { font-family:monospace;}
+		#editor {  position:absolute;margin-top:100px;top:0;left:1%;right:1%;bottom:50%;border:1px solid #888; }
+		#btnEval { position:absolute;font-family:monospace;left:1%; top:50%;margin-top:5px;height:26px;cursor:pointer; }
+		#divResponse { position:absolute;top:50%;left:1%;right:1%;margin-top:40px; font-size:13px; }  
+	</style>
+	<title>n4j - console</title>
+</head>
+<body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js'></script>
+<script src='nudge4j.js'></script>
+
+<div id='header' style='height:40px;background-color:purple;text-align:right;'></div>
+<a href='index.html' style='position:absolute;top:0;'><img src='nudge4j.100x40.png'/></a>
+<h2>Remote Console</h2>
+
+
+<pre id='editor'>//
+// Write your code here.
+//
+//
+java.lang.Thread.activeCount();</pre>
+<input id='btnEval' type='button' value='Execute on JVM'  />
+<pre id='divResponse'><i style='opacity:0.5'>JVM output will be printed here</i></pre>
+<script>
+if (location.search.substring(0,6) == '?code=') {
+	document.getElementById('editor').innerHTML = decodeURIComponent(location.search.substring(6));    
+}
+
+var url = 'http://'+location.hostname+':'+location.port;
+
+if (location.protocol=='file:') { url = 'http://localhost:5050'; } // <-- temporary hack to make it work on file url.
+
+var editor = ace.edit('editor');
+editor.setTheme('ace/theme/eclipse');
+editor.getSession().setMode('ace/mode/javascript');
+var btnEval =     document.getElementById('btnEval');
+var divResponse = document.getElementById('divResponse'); 
+btnEval.onclick= function() {
+	btnEval.disabled = true; 
+	divResponse.innerHTML = '<img src="http://i.imgur.com/C6y2Fmf.gif"/>';
+	n4j.execCode(url, editor.getValue(), function(err,response) {
+		btnEval.disabled = false;
+		if (err) {
+			divResponse.innerHTML = '<pre style="color:#A44">'+err+'</pre>';
+			return;
+		}	
+		divResponse.innerHTML = response.replace(/&/g, '&amp;')
+								        .replace(/</g, '&lt;')
+								        .replace(/>/g, '&gt;')
+								        .replace(/"/g, '&quot;')
+								        .replace(/'/g, '&#039;');
+	});
+}
+</script>
+</body>
+</html>
