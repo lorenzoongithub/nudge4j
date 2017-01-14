@@ -25,7 +25,7 @@
  * n4j.on('[id]',''+exception,null);
  *    
  * Any other call is handled by acting as a proxy for 
- * https://lorenzoongithub.github.com/nudge4j/proxy/
+ * https://lorenzoongithub.github.io/nudge4j/proxy/
  * 
  * For example:
  * http://localhost:5050/index.html is equivalent (in content) of
@@ -68,7 +68,7 @@ public class N4J { static {
                     set.invoke(getResponseHeaders.invoke(httpExchange), "Content-Type",contentType);
                     sendResponseHeaders.invoke(httpExchange, 200, max);
                     java.io.OutputStream os = (java.io.OutputStream) getResponseBody.invoke(httpExchange); 
-                    os.write(array,0, array.length);
+                    os.write(array,0, max);
                     os.close();
                 }
                 
@@ -93,7 +93,7 @@ public class N4J { static {
                         send(httpExchange,array,array.length,"application/javascript");
                         return null; 
                     }
-                    String url = "https://lorenzoongithub.github.com/nudge4j/proxy"+uri;
+                    String url = "https://lorenzoongithub.github.io/nudge4j/proxy"+uri;
                     java.net.HttpURLConnection con = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
                     con.setRequestMethod("GET");
                     int responseCode = con.getResponseCode();
@@ -109,8 +109,7 @@ public class N4J { static {
                         data[count++] = (byte) b;
                     }
                     is.close();
-                    System.out.println(count); // <-- number of bytes (remove this line) (the data array needs to be sized accordingly) 
-                    send(httpExchange,data, data.length,  (
+                    send(httpExchange,data, count,  (
                          (uri.endsWith(".ico")) ? "image/x-icon" :
                          (uri.endsWith(".css")) ? "text/css" :
                          (uri.endsWith(".png")) ? "image/png" :  
@@ -132,6 +131,6 @@ public class N4J { static {
 
 }
 
-public static void main(String args[]) {}
-
+public static void main(String args[]) { System.out.println("test nudge4j"); }
+    
 }
