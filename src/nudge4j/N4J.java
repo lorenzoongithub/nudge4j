@@ -1,8 +1,16 @@
+package nudge4j;
+
 /**
- * N4J is a package-less class which wraps a snippet of code to start a minimal HttpServer.
+ * N4J is a class which wraps a snippet of code ready to be added into any java 8 program.
+ * In order to allow a truly seamless copy/paste-ability:
+ *  
+ * - Classes are fully qualified, so that no import operation is required.
+ * - Classes from the package 'com.sun.net.httpserver' are accessed via introspection to prevent  
+ *   access restrictions from some IDEs (e.g.: Eclipse)
+ * - The snippet is wrapped inside a Consumer function to avoid variable scope conflicts.    
  * 
- * The import keyword is never used. 
- * Classes from the package 'com.sun.net.httpserver' are accessed via introspection.
+ * 
+ * N4J is a class which starts a minimal HttpServer.
  * 
  * The HttpServer is capable of returning client-side javascript 
  * when queried like this: /js?[id]:[code]
@@ -127,10 +135,8 @@ public class N4J { static {
     }
 }}).accept( new Object[] { 5050  }); 
 // nudge4j:end
-
-
 }
 
-public static void main(String args[]) { System.out.println("test nudge4j"); }
+public static void main(String args[]) { System.out.println("kicking off nudge4j."); }
     
 }
