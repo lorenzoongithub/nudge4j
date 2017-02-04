@@ -15,13 +15,13 @@ sup {font-size:75%}
 pre {margin:0 0 32px 0;padding:4px;overflow:hidden;font-size:13px;border:1px solid #aaa; }
 input[type=button] {cursor:pointer;}
 b { font-size:120%; color:purple; margin:3px 0; display:inline-block;}
-textarea { white-space:pre; padding:2px;width:100%;overflow:hidden;resize:none;background-color:#000;color:white;font-size:12px; }
+textarea { white-space:pre;width:100%;overflow:hidden;resize:none;background-color:#000;color:white;font-size:10px;}
 </style>
 </head>
 <body>
 
 <div style='padding:12%;background-color:#000;color:white;'>
-<div style='font-size:200%;font-weight:bold;color:purple;'>nudge4j: GET INSIDE YOUR JVM</div>
+<div style='font-size:200%;font-weight:bold;color:purple'>nudge4j: GET INSIDE YOUR JVM</div>
 <div>
 nudge4j is a tiny piece of java code to make your java application accessible to the browser.
 It's meant for use during development to provide an environment for experimenting with code against a running application.
@@ -36,224 +36,122 @@ It's meant for use during development to provide an environment for experimentin
 <h2>Requirements</h2>
 <ul>
 <li>java 8</li>
-<li>internet access <sup><a href='#note-1'>[1]</a></sup></li>
+<li>internet access</li>
 <li>a modern browser (Chrome, Firefox, IE12)</li>
 </ul>
 
 
  
 <h2>Integration</h2>
-<ul>
-<li>
 <div>
-
-copy/paste this code anywhere <sup><a href='#note-2'>[2]</a></sup> in your java 8 program -
-
-
+copy/paste this code anywhere where it is going to be executed and restart your JVM <a href='#'>(gist)</a>
 </div>
 
 
-<div style='margin:5px 5%; width:90%;'>
-<div style='text-align:right'>
+<div>
 <button style='font-size:9px; font-weight:bold; cursor:pointer;' class="xbtn" data-clipboard-action="copy" data-clipboard-target="#taCode">BUTTON: COPY TO CLIPBOARD</button>
-</div>
-<textarea id='taCode' readonly cols='100' rows='48' >// nudge4j:begin
-try {
-    new ClassLoader() {
-        public Class&lt;?&gt; findClass(String c) {
-            String code = 
-            "eJyNVvd701YUPUqcyBFKAbOSMGpGizMcFQotTQItTqE4zaAkjBBKK2ThODiSkZ4hoXvQSfdM96a7ZSlA" +
-            "WroLpXv+L/2+fm3vk5zEBDvgH96zpHvPPXe+d/rf4ycALMFfEpajswRV2CyhC1skXI+tftwg4UaoIrbx" +
-            "lxr/HJMgQp+A7YiL6BaRkFCKTj96uOQO/pAU0SshAEOCDJO/SfmxUyJdS4QtoQydfGF+pPm+iy9bOfRu" +
-            "P/pE9EsIYo+Em3CziFskzOfot/L9Nj9u54bv8ONOEXdxxLu53F6+3MOXe0twH+734wGO+SAnsY8Tf8iP" +
-            "hyU8gkf5w2N8eVzCE0jy5Uk/npLwNJ7x41kRAyKeE1CsG/GEoQuY2dyj7lL7FFuzEimmtLvbKvdjvQDf" +
-            "+o7VywRUuEKKkTAVrVu1bJ0pjd5OMhOSqhFLGPG1apzwCroihN6QMBJshYA5oXHgKzeQgUYzRlrF3YSR" +
-            "pD+hULNm9ip22lAMstLNWMrWrV26payhv6v6yLwR91RL25mq7WhRUx3qtqRO0RLxvIgXKJNu1gYESCSv" +
-            "p1jCNGwRLwoosplqMQEzQtEuzyOiHlfatvXoGnMxi3ZbCUY0Gs6PRlckC6adWRQFF8bfoCUzESgMVW6Q" +
-            "sQqbZFyJq4iijJfwsohXZLyK18hzxUobTe1EXMbreENAuYtIkY4aqTQjUF3tXaerMd2S8SbekrESEQ64" +
-            "X8TbMt7BuwKmjJIY8VjA7GGgSD/TV1qW2t+WZiOQAsQFumWZVp2M9/C+jPX4YBiJdNaSLxlJbuxDGR/h" +
-            "YxkHcJDCyvQ+pqSSasLgauTvjLFRiKQTSZfxIRwWAL4fkdGIqwWUuNrdrDdJdeWVFUU4Sku7qe3Q2cpY" +
-            "zNJtm1t1RAzKOIpjAoJ5y6hFNajwLKLVRCLeFxnHMUTFpVpxAvoEnwoQFMpF65Imjrtaxgl8JuNzfCGj" +
-            "HZtEfCnjK3wtoMxIx+L6kp4gzzb5ETSNYMq0WB334BsZ3+KkjFP4ToDcaBpMN1i4oz9FxXdaxvf4QcaP" +
-            "+EnGz/hFxK8yfsMmKilqofAyEb/L+AN/CtAa5sZMjZFWkAdhRYPnU9C2tOVundUpStK0dGOPaZKDrDu9" +
-            "rTazUV4y/JRYwmaKRoVtJvVajlPbY69oyMSHym7S2PIWMG+cil7jth8Fcf55lP0Z6F6+syon2pZVg6Vx" +
-            "na3Td6Z1m61fFyXFUGXzSM7pDY0POfuZWoeZw5BTh4Wz24uPrp1pNWkLmBbK0cSbBVwwajRixvp5v2eA" +
-            "zuwqwlocyvkh/7jj3V2etxap5PRdKhX2glFcr3frK8/mSs4SU96d9sikzG2Uz9SiUFfEtT4Knd3PLrOJ" +
-            "Ka9taS52WKpGfMpGpbNa2hWewMyRyUDEQ66VYjWV0o2YgHCu4J6Vjkyf14+RHx6F48j7QlFOYu449dbu" +
-            "/iVOGnHmUzkSas4/MOqjlePNbA+MDE+kmHvZivS3qr0Eq+Slnu9YLKSwC1iYQy/3sVLqeeCOjD7S3JJL" +
-            "89ztWT+uhxl0fiJT0azq07U0Myl88zLG0iyR5CNDS1s0XZgyLOEyzO7ofpvpdD4UmtzJaTnrR8Asyt84" +
-            "6RXdSkwaY7o064wMuF1qp2iG6WvcHrE51/wuejKEPWd8CWJO/p8zPVlUpthU8mdxKQpFm9ymyiLqzZOy" +
-            "rHlyRg/SzMr1nrC0pGnzdszX4xSx7abl1WNt/lbKNR2wiG6JyyFgBQpRwG8ZdN2t4NcEd6dDl/Yi+kIH" +
-            "H0ldQ0/T6amAdqlqEEJV9REUHAD/CViDKH3hMifho2swsK/aQaEDX0tNoMhB8QDYEMROeuk/iJJBSK1V" +
-            "h1EQPoYJBajz7cfSuqIhlHYO4oK64vLiwEQScjDJweRyeh/oLC8exBQHU6vLix1MC0w/ihkHqodQRgrl" +
-            "5T4HFYGZDmY5mO3pZQQOYk7gQv6PGAZRA4VuFAKaiN1cFP5Hjz4R14poFtEiohWCiLZ/sEjE2r9J/DoS" +
-            "85H4OgzQYd+RcU+lkPhoXz+EYGfFIOYWHsW8liHMJyYLAhc5uLg1HFhYfQyhQtQEKodQ1RkeBLlds7FG" +
-            "cBCucVB7EEqGeuASYl3hYBExd7DYi+ao4Qp+TcoYJrKu4flVDi4NLCGcpVWTcar6xF4Hl9G7y1vDZGVZ" +
-            "2MEVY2H82IhNmRQG3QQCUwN1R1F/CCWBBi9khzDH08P/+5iu1Q==";
-            java.io.InputStream iis = new java.util.zip.InflaterInputStream(
-                new java.io.ByteArrayInputStream(java.util.Base64.getDecoder().decode(code)));
-            try {
-                byte array[] = new byte[3322];
-                for (int i=0;i&lt;array.length;i++) array[i] = (byte) iis.read();
-                return defineClass("N4J", array, 0, array.length);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+<textarea id='taCode' readonly cols='100' rows='93' >{{{ 
+(new java.util.function.Consumer&lt;Object[]&gt;() { public void accept(Object args[]) {
+    try {
+        javax.script.ScriptEngine engine = new javax.script.ScriptEngineManager().getEngineByName("JavaScript");
+        engine.put("args", args);
+        Class&lt;?&gt; HttpHandler= Class.forName("com.sun.net.httpserver.HttpHandler");
+        java.lang.reflect.Method 
+        getRequestURI =       Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("getRequestURI"),
+        getResponseHeaders =  Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("getResponseHeaders"),
+        set =                 Class.forName("com.sun.net.httpserver.Headers").     getMethod("set", String.class,String.class),
+        sendResponseHeaders = Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("sendResponseHeaders",int.class,long.class),
+        getResponseBody =     Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("getResponseBody"),
+        getQuery =            Class.forName("java.net.URI").                       getMethod("getQuery"),
+        create =              Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("create", java.net.InetSocketAddress.class, int.class),
+        createContext =       Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("createContext", String.class, HttpHandler),
+        setExecutor =         Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("setExecutor", java.util.concurrent.Executor.class),
+        start =               Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("start");
+        Object server = create.invoke(null, new java.net.InetSocketAddress((int)args[0]), 0);
+        createContext.invoke(server, "/", java.lang.reflect.Proxy.newProxyInstance(
+            HttpHandler.getClassLoader(), 
+            new Class[] { HttpHandler }, 
+            new java.lang.reflect.InvocationHandler() {
+                private java.nio.charset.Charset UTF8 = java.nio.charset.Charset.forName("UTF-8");
+                private byte data[] = new byte[200000];
+                private java.util.function.Function&lt;Object,String&gt; stringify = (oj) -&gt; {
+                    return "\""+(""+oj).replace("\\", "\\\\").replace("\n", "\\n").replace("\b", "\\b").
+                                        replace("\t", "\\t").replace("\r", "\\r").replace("\f", "\\f").
+                                        replace("\"", "\\\"") +"\"";
+                };
+                
+                private void send(Object httpExchange,byte array[],int max, String contentType) throws Exception {
+                    set.invoke(getResponseHeaders.invoke(httpExchange), "Content-Type",contentType);
+                    sendResponseHeaders.invoke(httpExchange, 200, max);
+                    java.io.OutputStream os = (java.io.OutputStream) getResponseBody.invoke(httpExchange); 
+                    os.write(array,0, max);
+                    os.close();
+                }
+                
+                public synchronized Object invoke(Object pxy, java.lang.reflect.Method mthd, Object[] args) throws Throwable {
+                    Object httpExchange = args[0]; 
+                    String uri = getRequestURI.invoke(httpExchange).toString();
+                    if (uri.startsWith("/js")) {
+                        String query = (String) getQuery.invoke(getRequestURI.invoke(httpExchange));
+                        String id = '"'+query.substring(0, 10)+'"'; 
+                        String code = query.substring(11);
+                        Object result = null;
+                        try {
+                            result = engine.eval(code);
+                        } catch (Exception e) {
+                            final java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+                            e.printStackTrace(new java.io.PrintStream(baos));
+                            byte array[] = ("n4j.on("+id+","+stringify.apply(baos)+",null)").getBytes(UTF8);
+                            send(httpExchange,array,array.length,"application/javascript");
+                            return null; 
+                        }
+                        byte[] array = ("n4j.on("+id+",null,"+stringify.apply(result)+")").getBytes(UTF8);
+                        send(httpExchange,array,array.length,"application/javascript");
+                        return null; 
+                    }
+                    String url = "https://lorenzoongithub.github.io/nudge4j/proxy"+uri;
+                    java.net.HttpURLConnection con = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
+                    con.setRequestMethod("GET");
+                    int responseCode = con.getResponseCode();
+                    if (responseCode != 200) {
+                        sendResponseHeaders.invoke(httpExchange,responseCode,-1);
+                        return null; 
+                    }
+                    java.io.InputStream is = con.getInputStream();
+                    int count = 0; 
+                    while (true) {
+                        int b = is.read();
+                        if (b == -1) break; 
+                        data[count++] = (byte) b;
+                    }
+                    is.close();
+                    send(httpExchange,data, count,  (
+                         (uri.endsWith(".ico")) ? "image/x-icon" :
+                         (uri.endsWith(".css")) ? "text/css" :
+                         (uri.endsWith(".png")) ? "image/png" :  
+                         (uri.endsWith(".js"))  ? "application/javascript" : 
+                                                  "text/html"));
+                    return null; 
+                }
             }
-        }
-   }.loadClass("N4J").getMethods()[0].invoke(null, 5050, null);
-} catch (Exception e) {
-    throw new RuntimeException(e);
-}
-// nudge4j:end</textarea>
-</div>
-</li>
-<li>
-<div>Recompile your code, restart your JVM and connect from the browser<sup><a href='#note-3'>[3]</a></sup></div>
-
-<!--  this is the monitor -->
-<div style='width:90%;padding:5%;background:#ddf;overflow:hidden;'>
-
-<!-- THIS IS THE BROWSER -->
-<div style='border:1px solid #888;width:600px;height:400px;border-radius:4px;background-color:#eee;'>
-    <!-- the header -->
-    <div style='background-color:#ddd;padding:4px;border-top-left-radius:4px;border-top-right-radius:4px;height:22px;'>
-		<div style='padding:0 4px;'>
-			<div style="width:100%; display:table;">
-			    <label for="MyInput" style="display:table-cell;width:1px;white-space:pre;">&larr; &rarr; &#x21bb; </label>
-			    <input type="text" value='http://[hostname]:[port]/' style="display:table-cell;width:100%;font-style:italic;" readonly >
-			</div>
-		</div>	
-	</div>
-	<!--  the iframe -->
-	<iframe src='iframe.html' style='margin:0 2%; width:96%;height:365px;border:none;background-color:white;'></iframe>
+        ));
+        setExecutor.invoke(server, new Object[] { null });
+        start.invoke(server);
+        System.out.println("nudge4j serving on port:"+args[0]);
+    } catch (Exception e) {
+        throw new InternalError(e);
+    }
+}}).accept( new Object[] { 5050  }); 
+}}}</textarea>
 </div>
 
-</div>
-
-
-
-</li>
-</ul>
 <h2>The way it works</h2>
 <ul>
-<li>The snippet of java code contains the bytecode for the class N4J (zipped and wrapped in a base64 string)</li>
-<li>The class has a static method <code>N4J.start(int ports,Object args...)</code><sup><a href='#note-4'>[4]</a></sup> which starts a web-server</li>
-<li>The web-server serves just one html page<sup><a href='#note-5'>[5]</a></sup> known as the console page. The console page uses ajax to <i>post</i> code to execute against the targetted JVM</li>
+<li>The snippet of java code starts a web-server in your JVM allowing for javascript serverside executions</li>
+<li>You can expose any java object as arguments, though the first argument must be the server's port</li>
+<li>The web-server serves html and other static resources from <a href='https://lorenzoongithub.github.io/nudge4j/proxy/'>https://lorenzoongithub.github.io/nudge4j/proxy/</a></li>
+<li>We use ajax <a href='#'>(nudge4j.js)</a> to post code to execute against the JVM</li>
 </ul>
-
-
-
-<!--                        -->
-<!--                        -->
-<!--                        -->
-
-
-<h2>Examples</h2>
-<div>
-The following examples are ready to be sent (copy/paste) into your N4J console. 
-
-<input id='txtURL' title='Ensure the URL is correct' type='text' value='http://localhost:5050/' />
-
-<ol>
-<li><a href='#Ex1'>System.out</a></li>
-<li><a href='#Ex2'>JVM uptime</a></li>
-<li><a href='#Ex3'>java 8 new Date/Time API</a></li>
-<li><a href='#Ex4'>Thread Dump</a></li>
-<li><a href='#Ex5'>Memory</a></li>
-<li><a href='#Ex6'>Binary Numbers</a></li>
-<li><a href='#Ex7'>slf4j</a></li>
-
-</ol>
-</div>
- 
-
-<ol>
-<li>
-<pre id='Ex1'>
-// System.out/System.err.println
-java.lang.System.out.println("a message in System.out");
-java.lang.System.err.println("a message in System.err");
-'check your JVM log'
-</pre>
-</li>
-<li>
-<pre id='Ex2'>
-// JVM Uptime
-var String =            java.lang.String; 
-var Integer =           java.lang.Integer;
-var ManagementFactory = java.lang.management.ManagementFactory; 
-
-var rt = ManagementFactory.getRuntimeMXBean();
-var seconds = Math.floor(rt.getUptime() / 1000);
-var s = seconds % 60;
-var m = Math.floor(seconds / 60) % 60;
-var h = Math.floor(seconds / (60 * 60)) % 24;
-var hhmmss = String.format("%02d:%02d:%02d", new Integer(h), new Integer(m), new Integer(s));
-
-'JVM uptime ['+hhmmss+']';
-</pre>
-</li>
-<li>
-<pre id='Ex3'>
-// An example of java 8 new Date/Time API.
-var LocalDate =  Java.type('java.time.LocalDate');
-var Month =      Java.type('java.time.Month'); 
-var ChronoUnit = Java.type('java.time.temporal.ChronoUnit'); 
-
-var today = LocalDate.now();
-var firstDayThisYear = LocalDate.of(today.getYear(), Month.JANUARY, 1);
-
-var days = ChronoUnit.DAYS.between(firstDayThisYear, today);
-days + " days have passed since the beginning of the year."
-</pre>
-</li>
-<li>
-<pre id='Ex4'>
-// Thread Dump
-var threads = java.lang.Thread.getAllStackTraces().keySet().toArray();
-var str ='';
-for (var i=0;i&lt;threads.length;i++) {
-  str+=threads[i]+' - '+threads[i].getState()+'\n';
-}
-str;
-</pre>
-</li>
-<li>
-<pre id='Ex5'>
-// Memory
-var mem = java.lang.management.ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
-var usd = Math.round( mem.getUsed() / 1048576 )
-var cmt = Math.round( mem.getCommitted()  / 1048576 )
-var max = Math.round( mem.getMax() / 1048576 )
-
-'Used:'+usd+'MB, Committed:'+cmt+'MB, Max:'+max+'MB';
-
-</pre>
-</li>
-<li>
-<pre id='Ex6'>
-// Binary Numbers
-var str ='';
-for (var i=0;i<1000;i++) {
-  str+=i+'='+java.lang.Integer.toBinaryString(i)+'\n'; 
-}
-str;
-</pre>
-</li>
-<li>
-<pre id='Ex7'>
-// SLF4J - requires http://www.slf4j.org/
-var LoggerFactory = Packages.org.slf4j.LoggerFactory;
-var logger = LoggerFactory.getLogger('n4j');
-logger.info("Hello n4j (info)");
-logger.warn("Hello n4j (warn)");
-logger.error("Hello n4j (error)");
-
-
-</pre>
-</li>
-</ol>
-
 
 
 <!-- 
@@ -265,90 +163,14 @@ Nudge4j is an attempt to polish my past works so to create a REPL environment by
  -->
 
 </div>
-<div style='padding:2%;'>
-<h2>Notes</h2>
-<div style='font-size:75%;'>
-<div id='note-1'>[1] internet access:</div>
-<div>
-Some resources are accessed on demand. In particular, you need to be able to access: 
-<ul>
-<li>
-<a href='https://lorenzoongithub.github.io/nudge4j/dist/console.html.js'>https://lorenzoongithub.github.io/nudge4j/dist/console.html.js</a> required by the browser
-</li>
-<li>
-<a href='https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js'>https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js</a> required by the browser
-</li>
-<li>
-<i>http://[JVM-hostname]:5050/</i> required by the browser to connect to the JVM
-</li>
-</ul>
-</div>
-<div id='note-2'>[2] copy/paste this code anywhere:</div>
-<div>
-Strictly speaking, you need to paste the snippet some place where a thread will be executing it.
-</div>
-<div id='note-3'>[3] ... and connect:</div>
-<div>if you have already embedded the code in your java application, you can try it now.</div>
 
-<input id='txtURL' type='text' value='http://localhost:5050/' /><input type='button' value='Try' onclick='tryConnection();'/>
-<div id='divIFramePlaceHolder'></div>
-<script>
-function tryConnection() {
-	var d =   document.getElementById('divIFramePlaceHolder');
-	var url = document.getElementById('txtURL').value;
-	d.innerHTML = '<iframe src="'+url+'" ></iframe>';
-	
-	// 'you should see the developer console otherwise a <i>connection refused</i> error<a href='#'></a></div>
-}
-</script>
 
-<div id='note-4'>[4] <code>N4J.start(int port,Object args...)</code></div>
-<ul>
-<li>int port: the port bound to the http server</li>
-<li>Object args...: any array of java objects which you want to make accessible to the console</li>
-</ul>
-
-<div id='note-5'>[5] one html page</div>
-<div>The html page (console) is really a place holder for an external javascript which generates the full page.
-This allows to keep the jar size to a minimum</div>
-</div>
-
-</div>
 <!--  footer -->
-<div style='margin:800px 0 10px 0;text-align:center;font-size:11px;'>
+<div style='margin:400px 0 10px 0;text-align:center;font-size:11px;'>
 Nudge4J<br>Copyright © 2017 - <a href='https://github.com/lorenzoongithub/'>Lorenzo Puccetti</a>
 </div>
-<script>
-var pres = document.getElementsByTagName('pre');
-for (var i=0;i<pres.length;i++) {
-	var div = document.createElement('div');
-	div.style.backgroundColor ='#fff';
-	div.style.textAlign='right';
-	div.style.height = 0;
-	var btn = document.createElement('input');
-	var code = pres[i].innerHTML; 
-	btn.onclick = (function(code) { 
-		return function() {
-			var url = document.getElementById('txtURL').value; 
-			if (url.charAt(url.length-1)!='/') {
-				url+='/';
-			}
-			if (confirm('You are about to be redirected to '+url+'\nMake sure a JVM with nudge4j is running there.\nbefore proceeding') == false) return;
-			location.href = url + 'runjs?code='+encodeURIComponent(code);
-		}
-	})(code);
-	var ix = code.indexOf('\n');
-	pres[i].innerHTML = '<b>'+code.substring(0,ix)+'</b>'+code.substring(ix);
-	btn.style.margin = '3px';
-	btn.type = 'button';
-	btn.value = 'try';
-	btn.style.fontSize='11px'
-	div.appendChild(btn);
-	pres[i].parentNode.insertBefore(div, pres[i]);
-}
-</script>
-<script>
 
+<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)

@@ -42,7 +42,7 @@ public class BuilderN4J {
         
         // optional tasks (uncomment the ones you require)
         // runGeneratedSnippet(snippet); // wraps the generated script into a class and runs it.
-        // printTextareaHTML(snippet);   // prints the HTML snippet to copy paste into index.html
+        printTextareaHTML(snippet);   // prints the HTML snippet to copy paste into index.html
         
         System.out.println("All done...");
     }
