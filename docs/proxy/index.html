@@ -8,7 +8,8 @@
 	<style>
 	 	#editor      { position:absolute;margin-top:40px;top:0;left:1%;right:1%;bottom:50%;border:1px solid #888; }
 		#btnEval     { position:absolute;font-family:monospace;left:1%; top:50%;margin-top:5px;height:26px;cursor:pointer; }
-		#divResponse { position:absolute;top:50%;left:1%;right:1%;margin-top:40px; font-size:13px; }  
+		#divResponse { position:absolute;top:50%;left:1%;right:1%;margin-top:40px;font-size:13px; }  
+		#divError    { position:absolute;top:60%;left:1%;right:1%;font-size:18px;padding:12px;background-color:#D33;color:white;border-radius:20px;display:none;}
 	</style>
 	<title>n4j</title>
 </head>
@@ -20,6 +21,14 @@
 <pre id='editor'></pre>
 <input id='btnEval' type='button' value='Execute on JVM' />
 <pre id='divResponse'><i style='opacity:0.5'>JVM output will be printed here</i></pre>
+<div id='divError'>
+Hi there !<br>
+If you are seeing this message it's because this page is not being served by your JVM.<br>
+Instead, you must be accessing it from https://lorenzoongithub.github.io/<br>
+If you have started your JVM with the nudge4j snippet then it will be accessible via a URL like http://[hostname]:[port]/<br><br>
+<div style='font-size:11px;font-weight:bold;'>Example: <a href='http://localhost:5050/'>http://localhost:5050/</a></div>
+</div>
+
 <script>
 var url = 'http://'+location.hostname+':'+location.port;
 if (location.protocol=='file:') { url = 'http://localhost:5050'; } // <-- temporary hack to make this page work on file url.
@@ -43,6 +52,10 @@ btnEval.onclick= function() {
 								        .replace(/"/g, '&quot;')
 								        .replace(/'/g, '&#039;');
 	});
+}
+if (location.href.indexOf('lorenzoongithub.github.io')!==-1) {
+	document.getElementById('divError').style.display ='block';
+	btnEval.disabled='true'
 }
 </script>
 <script src='load.examples.js'></script>
