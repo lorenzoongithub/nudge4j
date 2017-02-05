@@ -12,6 +12,6 @@ You can write, run, and examine the results of code from a browser.
 To use nudge4j, there is nothing to download.
 All you have to do is to add a tiny bit of java code in your program (e.g.: at the end of your main method) and get it executed.
 
+<a href='https://lorenzoongithub.github.io/nudge4j/'>official site</a>
 
-
-Twitter: <a href='https://twitter.com/nudge4jofficial'>nudge4j</a>
+<a href='https://twitter.com/nudge4jofficial'>twitter</a>
