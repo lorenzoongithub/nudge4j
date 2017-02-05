@@ -26,6 +26,15 @@ java.lang.Thread.activeCount();
 ###############################
 
 //
+// Reporting the 'args' passed to nudge4j
+// 
+"Nudge4J was initialized with "+args.length+" argument/s." +
+"\nThose are: "+java.util.Arrays.toString(args) +
+"\nNote: the first argument '"+args[0]+"' is always required. It is the web server's port";
+
+###############################
+
+//
 // JVM Uptime
 //
 var String =            java.lang.String; 
@@ -166,4 +175,5 @@ if (src == '?example5') editor.setValue(arr[5].trim());
 if (src == '?example6') editor.setValue(arr[6].trim());
 if (src == '?example7') editor.setValue(arr[7].trim());
 if (src == '?example8') editor.setValue(arr[8].trim());
+if (src == '?example9') editor.setValue(arr[9].trim());
 editor.clearSelection();
