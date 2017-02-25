@@ -62,6 +62,19 @@ java.lang.System.err.println("a message in System.err");
 ###############################
 
 //
+// An example of how to access a private field of a Java object
+//
+list = new java.util.ArrayList();
+list.add("A");
+list.add("B");
+field = list.getClass().getDeclaredField("elementData");
+field.setAccessible(true);
+elementData = field.get(list);
+java.util.Arrays.toString(elementData);
+
+###############################
+
+//
 // An example of java 8 new Date/Time API.
 //
 var LocalDate =  Java.type('java.time.LocalDate');
@@ -166,14 +179,15 @@ var m = /\/\*!?(?:\@preserve)?[ \t]*(?:\r\n|\n)([\s\S]*?)(?:\r\n|\n)[ \t]*\*\//;
 var arr = m.exec(code.toString())[1].split('###############################');
 var src = location.search;
 console.log(src);
-if (src == '')          editor.setValue(arr[0].trim());
-if (src == '?example1') editor.setValue(arr[1].trim());
-if (src == '?example2') editor.setValue(arr[2].trim());
-if (src == '?example3') editor.setValue(arr[3].trim());
-if (src == '?example4') editor.setValue(arr[4].trim());
-if (src == '?example5') editor.setValue(arr[5].trim());
-if (src == '?example6') editor.setValue(arr[6].trim());
-if (src == '?example7') editor.setValue(arr[7].trim());
-if (src == '?example8') editor.setValue(arr[8].trim());
-if (src == '?example9') editor.setValue(arr[9].trim());
+if (src == '')           editor.setValue(arr[0].trim());
+if (src == '?example1')  editor.setValue(arr[1].trim());
+if (src == '?example2')  editor.setValue(arr[2].trim());
+if (src == '?example3')  editor.setValue(arr[3].trim());
+if (src == '?example4')  editor.setValue(arr[4].trim());
+if (src == '?example5')  editor.setValue(arr[5].trim());
+if (src == '?example6')  editor.setValue(arr[6].trim());
+if (src == '?example7')  editor.setValue(arr[7].trim());
+if (src == '?example8')  editor.setValue(arr[8].trim());
+if (src == '?example9')  editor.setValue(arr[9].trim());
+if (src == '?example10') editor.setValue(arr[10].trim());
 editor.clearSelection();
