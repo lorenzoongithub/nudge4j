@@ -1,9 +1,16 @@
+//
+// nudge4j.js defines a global object named n4j
+//
+// n4j is used to communicate (AJAX) with the webserver started by nudge4j java snippet.
+//
+// n4j.execCode(url, code, callback) --> send the code at the webserver's URL (e.g. http://localhost:5050)
+// n4j.on(id,err,response) --> this function is invoked automatically by the script returned by nudge4j to full fill the request it received.
+//
+// 
 (function() { 
 	
 	n4j = {};
-	
 	var idCounter = 0; 
-	
 	var generateId = function() {
 		// Produces a 8-char-string like this "iwdekc40" (related to the current time);
 		var s = (new Date().getTime()).toString(36);
@@ -20,7 +27,7 @@
 	}
 	
 	
-	/*var*/ id2callback = {};
+	var id2callback = {};
 	
 	n4j.execCode = function(url, code, callback) {
 		var id = generateId();
@@ -64,5 +71,4 @@
 		setTimeout(loopy, 5000);
 	};
 	loopy(); 
-	
 })();

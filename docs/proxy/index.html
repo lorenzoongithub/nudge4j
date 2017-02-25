@@ -31,10 +31,11 @@ If you have started your JVM with the nudge4j snippet (see: <a href='https://gis
 
 <script>
 var url = 'http://'+location.hostname+':'+location.port;
-if (location.protocol=='file:') { url = 'http://localhost:5050'; } // <-- temporary hack to make this page work on file url.
+if (location.protocol=='file:') { url = 'http://localhost:5050'; } // <-- harmless hack to make this page work on file url (during testing)
 var editor = ace.edit('editor');
 editor.setTheme('ace/theme/eclipse');
 editor.getSession().setMode('ace/mode/javascript');
+editor.$blockScrolling=Infinity
 var btnEval =     document.getElementById('btnEval');
 var divResponse = document.getElementById('divResponse'); 
 btnEval.onclick= function() {
