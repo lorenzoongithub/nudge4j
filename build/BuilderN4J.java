@@ -27,7 +27,7 @@ public class BuilderN4J {
         System.out.println("==========");
         System.out.println();
         Path fileIn =  Paths.get("src/nudge4j/N4J.java");
-        Path fileOut = Paths.get("docs/dist/n4j.snippet.java");
+        Path fileOut = Paths.get("dist/n4j.snippet.java");
         System.out.println("Compiling " + fileIn.toAbsolutePath());
         
         String code = new String(Files.readAllBytes(fileIn),"UTF-8");
@@ -94,9 +94,4 @@ public class BuilderN4J {
         
         System.out.println("done");
     }
-
-
-    
- 
-
 }    
