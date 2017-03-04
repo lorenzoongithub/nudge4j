@@ -5,14 +5,20 @@ nudge4j
 [![GitPitch](https://gitpitch.com/assets/badge.svg)](https://gitpitch.com/lorenzoongithub/nudge4j/master?grs=github&t=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-nudge4j lets you control your Java application from the browser, as if the browser was a smarter remote control.
-It lets you send code from the browser to run on the JVM, hence providing you with an environment for experimenting with code. 
-You can write, run, and examine the results of code from a browser.
+
+nudge4j helps great developers understand code better, debug less, have more fun.
+
+With nudge4j you can: 
+- control your Java application from the browser, as if the browser was a smarter remote control.
+- send code from the browser to run on the JVM, 
+- experiment with live code. 
+
 
 To use nudge4j, there is nothing to download.
-All you have to do is to add a tiny bit of Java code in your program (e.g.: at the end of your main method) and get it executed.
 
-See the <a href='https://lorenzoongithub.github.io/nudge4j/'>website</a> to get started.
+All you have to do is to add a tiny bit of Java code *(less than 100 lines)* in your program *(i.e.: at the end of your main method)* and get it executed.
+
+Start <a href='https://lorenzoongithub.github.io/nudge4j/'>here</a>
 
 
 nudge4j in action
