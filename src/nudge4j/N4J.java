@@ -1,10 +1,10 @@
 package nudge4j;
 
 /**
- * N4J is a class which wraps a snippet of code ready to be added into any java 8 program.
- * In order to allow a truly seamless copy/paste-ability:
+ * N4J is a class which wraps a snippet of code to copy/paste into any java 8 program.
+ * Since it makes no assumptions on the destination's code:
  *  
- * - Classes are fully qualified, so that no import operation is required.
+ * - Classes are fully qualified, no "import " is implied.
  * - Classes from the package 'com.sun.net.httpserver' are accessed via introspection to prevent  
  *   access restrictions from some IDEs (e.g.: Eclipse)
  * - The snippet is wrapped inside a Consumer function to avoid variable scope conflicts.    
@@ -47,44 +47,47 @@ public class N4J { static {
     try {
         javax.script.ScriptEngine engine = new javax.script.ScriptEngineManager().getEngineByName("JavaScript");
         engine.put("args", args);
-        Class<?> HttpHandler= Class.forName("com.sun.net.httpserver.HttpHandler");
+        String p = "com.sun.net.httpserver.";
+        Class<?> 
+        HH = Class.forName(p+"HttpHandler"),
+        HE = Class.forName(p+"HttpExchange"),
+        HD = Class.forName(p+"Headers"), 
+        HS = Class.forName(p+"HttpServer");
         java.lang.reflect.Method 
-        getRequestURI =       Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("getRequestURI"),
-        getResponseHeaders =  Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("getResponseHeaders"),
-        set =                 Class.forName("com.sun.net.httpserver.Headers").     getMethod("set", String.class,String.class),
-        sendResponseHeaders = Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("sendResponseHeaders",int.class,long.class),
-        getResponseBody =     Class.forName("com.sun.net.httpserver.HttpExchange").getMethod("getResponseBody"),
-        getQuery =            Class.forName("java.net.URI").                       getMethod("getQuery"),
-        create =              Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("create", java.net.InetSocketAddress.class, int.class),
-        createContext =       Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("createContext", String.class, HttpHandler),
-        setExecutor =         Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("setExecutor", java.util.concurrent.Executor.class),
-        start =               Class.forName("com.sun.net.httpserver.HttpServer").  getMethod("start");
-        Object server = create.invoke(null, new java.net.InetSocketAddress((int)args[0]), 0);
-        createContext.invoke(server, "/", java.lang.reflect.Proxy.newProxyInstance(
-            HttpHandler.getClassLoader(), 
-            new Class[] { HttpHandler }, 
-            new java.lang.reflect.InvocationHandler() {
-                private java.nio.charset.Charset UTF8 = java.nio.charset.Charset.forName("UTF-8");
-                private byte data[] = new byte[200000];
-                private java.util.function.Function<Object,String> stringify = (oj) -> {
+        m0 = HE.getMethod("getRequestURI"),
+        m1 = HE.getMethod("getResponseHeaders"),
+        m2 = HE.getMethod("sendResponseHeaders",int.class,long.class),
+        m3 = HE.getMethod("getResponseBody"),
+        m4 = HS.getMethod("create", java.net.InetSocketAddress.class, int.class),
+        m5 = HS.getMethod("createContext", String.class, HH),
+        m6 = HS.getMethod("setExecutor", java.util.concurrent.Executor.class),
+        m7 = HS.getMethod("start"),
+        m8 = HD.getMethod("set", String.class,String.class),
+        m9 = java.net.URI.class.getMethod("getQuery");
+        Object server = m4.invoke(null, new java.net.InetSocketAddress((int)args[0]), 0);
+        m5.invoke(server, "/", java.lang.reflect.Proxy.newProxyInstance(
+            HH.getClassLoader(), 
+            new Class[] { HH }, 
+            new java.lang.reflect.InvocationHandler() {          
+                java.nio.charset.Charset UTF8 = java.nio.charset.StandardCharsets.UTF_8;
+                byte data[] = new byte[200000];
+                java.util.function.Function<Object,String> stringify = (oj) -> {
                     return "\""+(""+oj).replace("\\", "\\\\").replace("\n", "\\n").replace("\b", "\\b").
                                         replace("\t", "\\t").replace("\r", "\\r").replace("\f", "\\f").
                                         replace("\"", "\\\"") +"\"";
                 };
-                
-                private void send(Object httpExchange,byte array[],int max, String contentType) throws Exception {
-                    set.invoke(getResponseHeaders.invoke(httpExchange), "Content-Type",contentType);
-                    sendResponseHeaders.invoke(httpExchange, 200, max);
-                    java.io.OutputStream os = (java.io.OutputStream) getResponseBody.invoke(httpExchange); 
+                void send(Object httpExchange,byte array[],int max, String contentType) throws Exception {
+                    m8.invoke(m1.invoke(httpExchange), "Content-Type",contentType);
+                    m2.invoke(httpExchange, 200, max);
+                    java.io.OutputStream os = (java.io.OutputStream) m3.invoke(httpExchange); 
                     os.write(array,0, max);
                     os.close();
                 }
-                
-                public synchronized Object invoke(Object pxy, java.lang.reflect.Method mthd, Object[] args) throws Throwable {
+                public synchronized Object invoke(Object pxy, java.lang.reflect.Method m, Object[] args) throws Exception {
                     Object httpExchange = args[0]; 
-                    String uri = getRequestURI.invoke(httpExchange).toString();
+                    String uri = m0.invoke(httpExchange).toString();
                     if (uri.startsWith("/js")) {
-                        String query = (String) getQuery.invoke(getRequestURI.invoke(httpExchange));
+                        String query = (String) m9.invoke(m0.invoke(httpExchange));
                         String id = '"'+query.substring(0, 10)+'"'; 
                         String code = query.substring(11);
                         Object result = null;
@@ -102,14 +105,14 @@ public class N4J { static {
                         return null; 
                     }
                     String url = "https://lorenzoongithub.github.io/nudge4j/proxy"+uri;
-                    java.net.HttpURLConnection con = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
-                    con.setRequestMethod("GET");
-                    int responseCode = con.getResponseCode();
+                    java.net.HttpURLConnection c = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
+                    c.setRequestMethod("GET");
+                    int responseCode = c.getResponseCode();
                     if (responseCode != 200) {
-                        sendResponseHeaders.invoke(httpExchange,responseCode,-1);
+                        m2.invoke(httpExchange,responseCode,-1);
                         return null; 
                     }
-                    java.io.InputStream is = con.getInputStream();
+                    java.io.InputStream is = c.getInputStream();
                     int count = 0; 
                     while (true) {
                         int b = is.read();
@@ -127,8 +130,8 @@ public class N4J { static {
                 }
             }
         ));
-        setExecutor.invoke(server, new Object[] { null });
-        start.invoke(server);
+        m6.invoke(server, new Object[] { null });
+        m7.invoke(server);
         System.out.println("nudge4j serving on port:"+args[0]);
     } catch (Exception e) {
         throw new InternalError(e);
