@@ -11,7 +11,7 @@ With nudge4j you can:
 
 To use nudge4j, there is nothing to download.
 
-All you have to do is to add a tiny bit of Java code *(less than 100 lines)* in your program and restart it.
+All you have to do is to add a tiny bit of Java code *(less than 100 lines)* in your program.
 
 <img src='n4j.in.action.gif' alt='nudge4j in action]' />
 
