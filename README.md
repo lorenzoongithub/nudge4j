@@ -15,4 +15,4 @@ All you have to do is to add a tiny bit of Java code *(less than 100 lines)* in 
 
 <img src='n4j.in.action.gif' alt='nudge4j in action]' />
 
-A <a href='http://nudge4j.appspot.com/demo/index.html'>nudge4j's demo</a> is running on nudge4j.appspot.com
+A [nudge4j's demo](http://nudge4j.appspot.com/demo/index.html) is running on nudge4j.appspot.com
