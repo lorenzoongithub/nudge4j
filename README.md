@@ -22,7 +22,7 @@ A [nudge4j's demo](http://nudge4j.appspot.com/demo/index.html) is running on nud
 
 ## Issues
 
-The recommended medium to report and track issues is by opening one on Github.
+Report any issue using GitHub and use notifications to track progress on them.
 
 ## Contributing
 
