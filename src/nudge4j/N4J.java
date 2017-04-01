@@ -63,7 +63,8 @@ public class N4J { static {
         m6 = HS.getMethod("setExecutor", java.util.concurrent.Executor.class),
         m7 = HS.getMethod("start"),
         m8 = HD.getMethod("set", String.class, String.class);
-        Object server = m4.invoke(null, new java.net.InetSocketAddress((int)args[0]), 0);
+        Object server = m4.invoke(null, new java.net.InetSocketAddress(
+                java.net.InetAddress.getLoopbackAddress(), (int) args[0]), 0);
         m5.invoke(server, "/", java.lang.reflect.Proxy.newProxyInstance(
             HH.getClassLoader(), 
             new Class[] { HH }, 
