@@ -1,6 +1,6 @@
 # [nudge4j](https://lorenzoongithub.github.io/nudge4j/) &middot; [![Build Status](https://travis-ci.org/lorenzoongithub/nudge4j.svg?branch=master)](https://travis-ci.org/lorenzoongithub/nudge4j) [![GitPitch](https://gitpitch.com/assets/badge.svg)](https://gitpitch.com/lorenzoongithub/nudge4j/master?grs=github&t=white) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-nudge4j helps great developers understand code better, debug less, have more fun.
+nudge4j is a tiny piece of code to help great developers understand code better, debug less, have more fun.
 
 
 ## Overview
@@ -14,7 +14,7 @@ With nudge4j you can:
 
 To use nudge4j, there is nothing to download.
 
-All you have to do is to add a tiny bit of Java code *(less than 100 lines)* in your program.
+All you have to do is to add *less than 100 lines of code* in your program.
 
 <img src='n4j.in.action.gif' alt='nudge4j in action]' />
 
