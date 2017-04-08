@@ -19,7 +19,6 @@ textarea { white-space:pre;width:100%;overflow-x:hidden;resize:none;background-c
 </style>
 </head>
 <body>
-
 <div style='padding:12%;background-color:#000;color:white;'>
 <div style='font-size:257%;font-weight:bold;color:white'>nudge4j: GET INSIDE YOUR JVM</div>
 <div>
@@ -148,9 +147,9 @@ copy/paste this code anywhere and restart your JVM <a href='https://gist.github.
 <ul>
 <li>The snippet of Java code starts a web server in your JVM allowing for JavaScript server side execution</li>
 <li>You can expose Java objects as arguments. The first argument is the server's port</li>
-<li>AJAX is used to post code to execute against the JVM (see <a href='https://github.com/lorenzoongithub/nudge4j/blob/master/docs/proxy/nudge4j.js'>nudge4j.js</a>)</li>
-<li>Security. The snippet uses only the machine's loopback address (127.0.0.1/localhost) limiting network accessibility, 
-imposes same-origin-policy, and has built-in XSRF protection</li>
+<li>AJAX is used to post code to execute against the JVM (<a href='https://github.com/lorenzoongithub/nudge4j/blob/master/docs/localhost.port/nudge4j.js'>nudge4j.js</a>)</li>
+<li>Security. The snippet uses only the machine's loopback address (127.0.0.1/localhost) limiting network accessibility. It also imposes same-origin-policy, 
+and has built-in XSRF protection</li>
 </ul>
 
 <div style='margin:40px 0;padding:20px;background-color:#000;'>
