@@ -4,40 +4,24 @@ package nudge4j;
  * N4J is a class which wraps a snippet of code to copy/paste into any java 8 program.
  * Since it makes no assumptions on the destination's code:
  *  
- * - Classes are fully qualified, no "import " is implied.
+ * - Classes are fully qualified. 
  * - Classes from the package 'com.sun.net.httpserver' are accessed via introspection to prevent  
  *   access restrictions from some IDEs (e.g.: Eclipse)
  * - The snippet is wrapped inside a Consumer function to avoid variable scope conflicts.    
- * 
+ * - Security Concerns (eg. XSRF, XSS, CORS) are addressed.
  * 
  * N4J is a class which starts a minimal HttpServer.
  * 
- * The HttpServer is capable of returning client-side javascript 
- * when queried like this: /js?[id]:[code]
- * 
- * Examples:
- * 
- * /js?1001300552:5-2          ==> n4j.on('1001300552',null,'3');
- * /js?1001300554:Math.sqrt(4) ==> n4j.on('1001300554',null,'2');
- * 
- * The [id] is a 10 character long string to uniquely identify the call.
- * The [code] is nashorn/javascript which is executed inside the JVM.
- * 
- * The output produced by the execution of nashorn/javascript is returned 
- * as content-type text/javascript.
- *   
- * n4j.on('[id]',null, ''+output);
- *  
- * If the execution of javascript causes an Exception, the stacktrace is 
- * stringified and returned as a second parameter of the on call
- * n4j.on('[id]',''+exception,null);
+ * The HttpServer is capable of executing server-side JavaScript (Nashorn) when posted on /js
+ * The output produced by the execution is returned as 'text/plain'
+ * Any exception is returned prefixed by the string 'err::' 
  *    
  * Any other call is handled by acting as a proxy for 
- * https://lorenzoongithub.github.io/nudge4j/proxy/
+ * https://lorenzoongithub.github.io/nudge4j/localhost.port/
  * 
  * For example:
  * http://localhost:5050/index.html is equivalent (in content) of
- * https://lorenzoongithub.github.com/nudge4j/proxy/index.html
+ * https://lorenzoongithub.github.com/nudge4j/localhost.port/index.html
  * 
 **/
 public class N4J { static {
@@ -62,7 +46,9 @@ public class N4J { static {
         m5 = HS.getMethod("createContext", String.class, HH),
         m6 = HS.getMethod("setExecutor", java.util.concurrent.Executor.class),
         m7 = HS.getMethod("start"),
-        m8 = HD.getMethod("set", String.class, String.class);
+        m8 = HD.getMethod("set", String.class, String.class),
+        m9 = HE.getMethod("getRequestBody"),
+        mA = HE.getMethod("getRequestHeaders");
         Object server = m4.invoke(null, new java.net.InetSocketAddress(
                 java.net.InetAddress.getLoopbackAddress(), (int) args[0]), 0);
         m5.invoke(server, "/", java.lang.reflect.Proxy.newProxyInstance(
@@ -71,14 +57,6 @@ public class N4J { static {
             new java.lang.reflect.InvocationHandler() {          
                 java.nio.charset.Charset UTF8 = java.nio.charset.StandardCharsets.UTF_8;
                 byte data[] = new byte[10000];
-                java.util.function.Function<Object,String> stringify = (oj) -> 
-                    '"'+(""+oj).replace("\\", "\\\\").
-                                replace("\"", "\\\"").
-                                replace("\n", "\\n").
-                                replace("\b", "\\b").
-                                replace("\t", "\\t").
-                                replace("\r", "\\r").
-                                replace("\f", "\\f") + '"';
                 void send(Object httpExchange,byte array[],int max, String contentType) throws Exception {
                     m8.invoke(m1.invoke(httpExchange), "Content-Type",contentType);
                     m2.invoke(httpExchange, 200, max);
@@ -86,27 +64,79 @@ public class N4J { static {
                         os.write(array,0, max); 
                     }
                 }
-                public synchronized Object invoke(Object pxy, java.lang.reflect.Method m, Object[] args) throws Exception {
-                    Object httpExchange = args[0]; 
+                @SuppressWarnings("rawtypes")
+                public synchronized Object invoke(Object pxy, java.lang.reflect.Method m, Object[] params) throws Exception {
+                    Object httpExchange = params[0];
+                    {//DEBUG
+                        System.out.println("URI: "+m0.invoke(httpExchange).toString());
+                        java.util.Map requestHeaders = (java.util.Map)mA.invoke(httpExchange);
+                        for (Object k : requestHeaders.keySet()) {
+                            System.out.println(k+":::"+requestHeaders.get(k));
+                        }
+                        System.out.println();
+                        System.out.println();
+                    }//END-DEBUG
                     String uri = m0.invoke(httpExchange).toString();
                     if (uri.startsWith("/js")) {
-                        String query = ((java.net.URI) m0.invoke(httpExchange)).getQuery();
-                        String id = '"'+query.substring(0, 10)+'"'; 
-                        String code = query.substring(11);
-                        Object result = null;
+                        java.util.Map requestHeaders = (java.util.Map)mA.invoke(httpExchange);
+                        if (requestHeaders.containsKey("Origin")) {
+                            String origin = ""+((java.util.List)requestHeaders.get("Origin")).get(0);
+                            if (origin.equals("http://localhost:"+args[0]) == false &&  
+                                origin.equals("http://127.0.0.1:"+args[0]) == false) return null; 
+                        } else if (requestHeaders.containsKey("Referer")) {
+                            String referer = ""+((java.util.List)requestHeaders.get("Referer")).get(0);
+                            if (referer.startsWith("http://localhost:"+args[0]) == false &&  
+                                referer.startsWith("http://127.0.0.1:"+args[0]) == false) return null;
+                        } else return null; 
+                        
+//                        if (((java.util.function.BooleanSupplier) () -> {
+//                            if (requestHeaders.containsKey("Origin")) {
+//                                String origin = ""+((java.util.List)requestHeaders.get("Origin")).get(0);
+//                                return (origin.equals("http://localhost:"+args[0]) ||  
+//                                        origin.equals("http://127.0.0.1:"+args[0])); 
+//                            }   
+//                            if (requestHeaders.containsKey("Referer")) {
+//                                String referer = ""+((java.util.List)requestHeaders.get("Referer")).get(0);
+//                                return (referer.startsWith("http://localhost:"+args[0]) ||  
+//                                        referer.startsWith("http://127.0.0.1:"+args[0])); 
+//                            }
+//                            return false; 
+//                        }).getAsBoolean() == false) {
+//                            return null; //java.lang.System.err.println("Stopping XRSF ?"); 
+//                        }
                         byte array[]; 
-                        try {
-                            result = engine.eval(code);
-                            array = ("n4j.on("+id+",null,"+stringify.apply(result)+")").getBytes(UTF8);
+                        try (java.io.Reader r = new java.io.InputStreamReader( (java.io.InputStream) m9 .invoke(httpExchange), UTF8 )) {
+                            array = (""+engine.eval(r)).getBytes(UTF8); 
                         } catch (Exception e) {
-                            e.printStackTrace(new java.io.PrintStream(
-                                (java.io.OutputStream)(result = new java.io.ByteArrayOutputStream())));
-                            array = ("n4j.on("+id+","+stringify.apply(result)+",null)").getBytes(UTF8);
+                            java.io.OutputStream os = new java.io.ByteArrayOutputStream();
+                            e.printStackTrace(new java.io.PrintStream(os));
+                            array = ("err::"+os).getBytes(UTF8); 
                         }
-                        send(httpExchange,array,array.length,"application/javascript");
+                        send(httpExchange,array,array.length,"text/plain");
                         return null; 
                     }
-                    String url = "https://lorenzoongithub.github.io/nudge4j/proxy"+uri;
+                    
+                    /** HACK **/
+                    System.out.println("here: "+uri);
+                    if ("/".equals(uri)) uri ="/index.html";
+                    String strURI = ""+uri;
+                    if (strURI.contains("?")) {
+                        strURI = strURI.substring(0,strURI.indexOf("?"));
+                    }
+                    int mycount =0;
+                    try (java.io.InputStream is = new java.io.FileInputStream("C:\\Users\\Admin\\Documents\\GitHub\\nudge4j\\docs\\localhost.port\\"+strURI)) {
+                        for (int b=is.read();b!=-1;b=is.read()) data[mycount++] = (byte) b;
+                    }
+                    send(httpExchange,data, mycount, (
+                         (uri.endsWith(".ico")) ? "image/x-icon" :
+                         (uri.endsWith(".css")) ? "text/css" :
+                         (uri.endsWith(".png")) ? "image/png" :  
+                         (uri.endsWith(".js"))  ? "application/javascript" : 
+                                                  "text/html"));
+                    if (mycount>=0) return null; 
+                    /** END OF HACK **/
+                    if ("/".equals(uri)) uri ="/index.html";
+                    String url = "https://lorenzoongithub.github.io/nudge4j/localhost.port"+uri;
                     java.net.HttpURLConnection c = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
                     c.setRequestMethod("GET");
                     int responseCode = c.getResponseCode();
@@ -134,7 +164,7 @@ public class N4J { static {
     } catch (Exception e) {
         throw new InternalError(e);
     }
-}}).accept( new Object[] { 5050  }); 
+}}).accept( new Object[] { 5050 }); 
 // nudge4j:end
 }
 
