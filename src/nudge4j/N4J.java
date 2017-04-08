@@ -67,15 +67,6 @@ public class N4J { static {
                 @SuppressWarnings("rawtypes")
                 public synchronized Object invoke(Object pxy, java.lang.reflect.Method m, Object[] params) throws Exception {
                     Object httpExchange = params[0];
-                    {//DEBUG
-                        System.out.println("URI: "+m0.invoke(httpExchange).toString());
-                        java.util.Map requestHeaders = (java.util.Map)mA.invoke(httpExchange);
-                        for (Object k : requestHeaders.keySet()) {
-                            System.out.println(k+":::"+requestHeaders.get(k));
-                        }
-                        System.out.println();
-                        System.out.println();
-                    }//END-DEBUG
                     String uri = m0.invoke(httpExchange).toString();
                     if (uri.startsWith("/js")) {
                         java.util.Map requestHeaders = (java.util.Map)mA.invoke(httpExchange);
