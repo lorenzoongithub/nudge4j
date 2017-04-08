@@ -88,22 +88,7 @@ public class N4J { static {
                             if (referer.startsWith("http://localhost:"+args[0]) == false &&  
                                 referer.startsWith("http://127.0.0.1:"+args[0]) == false) return null;
                         } else return null; 
-                        
-//                        if (((java.util.function.BooleanSupplier) () -> {
-//                            if (requestHeaders.containsKey("Origin")) {
-//                                String origin = ""+((java.util.List)requestHeaders.get("Origin")).get(0);
-//                                return (origin.equals("http://localhost:"+args[0]) ||  
-//                                        origin.equals("http://127.0.0.1:"+args[0])); 
-//                            }   
-//                            if (requestHeaders.containsKey("Referer")) {
-//                                String referer = ""+((java.util.List)requestHeaders.get("Referer")).get(0);
-//                                return (referer.startsWith("http://localhost:"+args[0]) ||  
-//                                        referer.startsWith("http://127.0.0.1:"+args[0])); 
-//                            }
-//                            return false; 
-//                        }).getAsBoolean() == false) {
-//                            return null; //java.lang.System.err.println("Stopping XRSF ?"); 
-//                        }
+
                         byte array[]; 
                         try (java.io.Reader r = new java.io.InputStreamReader( (java.io.InputStream) m9 .invoke(httpExchange), UTF8 )) {
                             array = (""+engine.eval(r)).getBytes(UTF8); 
@@ -115,26 +100,6 @@ public class N4J { static {
                         send(httpExchange,array,array.length,"text/plain");
                         return null; 
                     }
-                    
-                    /** HACK **/
-                    System.out.println("here: "+uri);
-                    if ("/".equals(uri)) uri ="/index.html";
-                    String strURI = ""+uri;
-                    if (strURI.contains("?")) {
-                        strURI = strURI.substring(0,strURI.indexOf("?"));
-                    }
-                    int mycount =0;
-                    try (java.io.InputStream is = new java.io.FileInputStream("C:\\Users\\Admin\\Documents\\GitHub\\nudge4j\\docs\\localhost.port\\"+strURI)) {
-                        for (int b=is.read();b!=-1;b=is.read()) data[mycount++] = (byte) b;
-                    }
-                    send(httpExchange,data, mycount, (
-                         (uri.endsWith(".ico")) ? "image/x-icon" :
-                         (uri.endsWith(".css")) ? "text/css" :
-                         (uri.endsWith(".png")) ? "image/png" :  
-                         (uri.endsWith(".js"))  ? "application/javascript" : 
-                                                  "text/html"));
-                    if (mycount>=0) return null; 
-                    /** END OF HACK **/
                     if ("/".equals(uri)) uri ="/index.html";
                     String url = "https://lorenzoongithub.github.io/nudge4j/localhost.port"+uri;
                     java.net.HttpURLConnection c = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
