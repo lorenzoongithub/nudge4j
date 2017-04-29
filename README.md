@@ -12,9 +12,7 @@ With nudge4j you can:
 - experiment with live code. 
 
 
-To use nudge4j, there is nothing to download.
-
-All you have to do is to add *less than 100 lines of code* in your program.
+To use nudge4j, just add [less than 100 lines of code](https://lorenzoongithub.github.io/nudge4j/index.html#Integration) in your program.
 
 <img src='n4j.in.action.gif' alt='nudge4j in action]' />
 
