@@ -24,6 +24,8 @@ textarea { white-space:pre;width:100%;overflow-x:hidden;resize:none;background-c
 <div>
 nudge4j is a tiny piece of Java code to make your Java application accessible to the browser.
 It's meant for use during development to provide an environment for experimenting with code against a running application.
+<p>
+<i style='font-size:60%'>check <a href='#nudge4j-UI'>nudge4j-UI</a> to  make your Java application launch a tiny window to control it</i>
 </div>
 </div>
 
@@ -148,7 +150,7 @@ copy/paste this code anywhere and restart your JVM <a href='https://gist.github.
 <li>The snippet of Java code starts a web server in your JVM allowing for JavaScript server side execution</li>
 <li>You can expose Java objects as arguments. The first argument is the server's port</li>
 <li>AJAX is used to post code to execute against the JVM (<a href='https://github.com/lorenzoongithub/nudge4j/blob/master/docs/localhost.port/nudge4j.js'>nudge4j.js</a>)</li>
-<li>Security. The snippet uses only the machine's loopback address (127.0.0.1/localhost) limiting network accessibility. It also imposes same-origin-policy, 
+<li>It's <span style='font-weight:bold'>Secure</span>. The snippet uses only the machine's loopback address (127.0.0.1/localhost) limiting network accessibility. It also imposes same-origin-policy, 
 and has built-in XSRF protection</li>
 </ul>
 
@@ -158,8 +160,67 @@ and has built-in XSRF protection</li>
 
 <h2>Demo</h2>
 
-A simple demo is available <a href='http://nudge4j.appspot.com/demo/index.html'>here</a>
+A simple demo of nudge4j is available <a href='http://nudge4j.appspot.com/demo/index.html'>here</a>
 
+<h2 id='nudge4j-UI'>nudge4j-UI</h2>
+<div style='margin:4%;font-size:80%;'>
+<i>
+nudge4j-UI is nudge4j's little sister. It's an even shorter piece of code (~50 lines of Java code). 
+Copy/Paste into your Java Program to launch a window to control your JVM.
+</i>
+<textarea id='taCode2' readonly cols='100' rows='20' >// nudge4j-UI:begin    
+(new java.util.function.Consumer&lt;Object[]&gt;() { public void accept(Object args[]) {
+    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+        if ("Nimbus".equals(info.getName())) {
+            try { javax.swing.UIManager.setLookAndFeel(info.getClassName());
+            } catch (Exception e) { ; }
+            break;
+        }
+    }
+    javax.script.ScriptEngine engine = new javax.script.ScriptEngineManager().getEngineByName("JavaScript");
+    engine.put("args", args);
+    javax.swing.JTextArea ta = new javax.swing.JTextArea( String.join("\n",
+        "//",
+        "// Write code to execute by the JVM here.",
+        "// Here are some examples: http://.../",
+        "//",
+        "java.lang.Thread.activeCount();"));
+    ta.setFont(new java.awt.Font("monospaced", 0, 12));
+    javax.swing.JTextArea taOut = new javax.swing.JTextArea();
+    taOut.setBackground(java.awt.Color.LIGHT_GRAY);
+    taOut.setFont(ta.getFont());
+    javax.swing.JButton btn = new javax.swing.JButton("Execute Snippet");
+    btn.setCursor(new java.awt.Cursor(12));
+    btn.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent ae) {
+            String response; 
+            taOut.setForeground(java.awt.Color.BLACK);
+            try {
+                response = "" + engine.eval(ta.getText());
+            } catch (Exception e) {
+                taOut.setForeground(java.awt.Color.RED);
+                java.io.OutputStream os = new java.io.ByteArrayOutputStream();
+                e.printStackTrace(new java.io.PrintStream(os));
+                response = ""+os;
+            } 
+            taOut.setText(response);
+        }
+    }); 
+    javax.swing.JPanel p = new javax.swing.JPanel(new java.awt.BorderLayout());
+    p.add(new javax.swing.JScrollPane(ta));
+    p.add(btn, java.awt.BorderLayout.SOUTH);
+    javax.swing.JSplitPane split = new javax.swing.JSplitPane(0,
+        p, new javax.swing.JScrollPane(taOut));
+    split.setResizeWeight(.5d);
+    javax.swing.JFrame f = new javax.swing.JFrame("nudge4j UI");
+    f.setDefaultCloseOperation(2);
+    f.add(split); 
+    f.setSize(720, 500);
+    f.setLocationRelativeTo(null);
+    f.setVisible(true);
+}}).accept( new Object[] { /* any arguments here */ });
+// nudge4j-UI:end</textarea>
+</div>
 <!-- 
 <h2>Credits</h2>
 Nudge4j was written by me, Lorenzo Puccetti. 

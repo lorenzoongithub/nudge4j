@@ -26,24 +26,41 @@ public class BuilderN4J {
         System.out.println("BuilderN4J");
         System.out.println("==========");
         System.out.println();
-        Path fileIn =  Paths.get("src/nudge4j/N4J.java");
-        Path fileOut = Paths.get("dist/n4j.snippet.java");
-        System.out.println("Compiling " + fileIn.toAbsolutePath());
         
-        String code = new String(Files.readAllBytes(fileIn),"UTF-8");
-        int start = code.indexOf("// nudge4j:begin");
-        int end =   code.indexOf("// nudge4j:end") + "// nudge4j:end".length();
+        String snippetN4J;
+        String snippetN4Jui;
         
-        String snippet = code.substring(start,end);
+        // N4J
+        {
+            Path fileIn =  Paths.get("src/nudge4j/N4J.java");
+            Path fileOut = Paths.get("dist/n4j.snippet.java");
+            System.out.println("Compiling " + fileIn.toAbsolutePath());
+            String code = new String(Files.readAllBytes(fileIn),"UTF-8");
+            int start = code.indexOf("// nudge4j:begin");
+            int end =   code.indexOf("// nudge4j:end") + "// nudge4j:end".length();
+            snippetN4J = code.substring(start,end);
+            System.out.println("Writing "+fileOut.toAbsolutePath());
+            Files.write(fileOut,snippetN4J.getBytes(Charset.forName("UTF-8")));
+        }
         
-        System.out.println("Writing "+fileOut.toAbsolutePath());
-        Files.write(fileOut ,snippet.getBytes(Charset.forName("UTF-8")));
-        
+        // N4J UI
+        {
+            Path fileIn =  Paths.get("src/nudge4j/N4Jui.java");
+            Path fileOut = Paths.get("dist/n4jui.snippet.java");
+            System.out.println("Compiling " + fileIn.toAbsolutePath());
+            String code = new String(Files.readAllBytes(fileIn),"UTF-8");
+            int start = code.indexOf("// nudge4j-UI:begin");
+            int end =   code.indexOf("// nudge4j-UI:end") + "// nudge4j-UI:end".length();
+            snippetN4Jui = code.substring(start,end);
+            System.out.println("Writing "+fileOut.toAbsolutePath());
+            Files.write(fileOut,snippetN4Jui.getBytes(Charset.forName("UTF-8")));
+        }
         
         // optional tasks (uncomment the ones you require)
-        // runGeneratedSnippet(snippet); // wraps the generated script into a class and runs it.
-        printTextareaHTML(snippet);   // prints the HTML snippet to copy paste into index.html
-        
+        // runGeneratedSnippet(snippetN4J); // wraps the generated script into a class and runs it.
+        // printTextareaHTML(snippetN4J);   // prints the HTML snippet to copy paste into index.html
+        //runGeneratedSnippet(snippetN4Jui); // wraps the generated script into a class and runs it.
+        printTextareaHTML(snippetN4Jui);   // prints the HTML snippet to copy paste into index.html
         System.out.println("All done...");
     }
     
