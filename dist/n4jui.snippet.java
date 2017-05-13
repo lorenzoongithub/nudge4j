@@ -12,7 +12,7 @@
     javax.swing.JTextArea ta = new javax.swing.JTextArea( String.join("\n",
         "//",
         "// Write code to execute by the JVM here.",
-        "// Here are some examples: http://.../",
+        "// Here are some examples: https://lorenzoongithub.github.io/nudge4j/examples.html",
         "//",
         "java.lang.Thread.activeCount();"));
     ta.setFont(new java.awt.Font("monospaced", 0, 12));
