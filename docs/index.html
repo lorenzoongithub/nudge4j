@@ -162,6 +162,7 @@ and has built-in XSRF protection</li>
 
 A simple demo of nudge4j is available <a href='http://nudge4j.appspot.com/demo/index.html'>here</a>
 
+<div style='border-top:2px solid #000;margin:4% 0;'>
 <h2 id='nudge4j-UI'>nudge4j-UI</h2>
 <div style='margin:4%;font-size:80%;'>
 <i>
@@ -182,7 +183,7 @@ Copy/Paste into your Java Program to launch a window to control your JVM.
     javax.swing.JTextArea ta = new javax.swing.JTextArea( String.join("\n",
         "//",
         "// Write code to execute by the JVM here.",
-        "// Here are some examples: http://.../",
+        "// Here are some examples: https://lorenzoongithub.github.io/nudge4j/examples.html",
         "//",
         "java.lang.Thread.activeCount();"));
     ta.setFont(new java.awt.Font("monospaced", 0, 12));
@@ -220,15 +221,12 @@ Copy/Paste into your Java Program to launch a window to control your JVM.
     f.setVisible(true);
 }}).accept( new Object[] { /* any arguments here */ });
 // nudge4j-UI:end</textarea>
-</div>
-<!-- 
-<h2>Credits</h2>
-Nudge4j was written by me, Lorenzo Puccetti. 
-I like JavaScript and I like seeing JavaScript running inside JVM.
-It's incredibly powerful. So much so that many times I had integrated it I had to worry more about how to constrain it than anything else.
-Nudge4j is an attempt to polish my past works so to create a REPL environment by combining JavaScript and a web server. 
- -->
 
+<div style='margin:40px 0;padding:20px;background-color:#000;'>
+    <img src="nudge4j.ui.png"  style='width:597px;height:389px;' alt='nudge4j ui in action' width="597" height="389"/>
+</div>
+
+</div>
 </div>
 
 
