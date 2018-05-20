@@ -29,7 +29,8 @@
 	
 	var staticURL = System.getProperty("nudge4j.staticURL");
 	if (staticURL === null) {
-		staticURL = "https://lorenzoongithub.github.io/nudge4j/localhost.port"; 
+		staticURL = "https://lorenzoongithub.github.io/nudge4j/localhost.port";
+		System.setProperty("nudge4j.staticURL", staticURL);
 	}
 	
 	var server = com.sun.net.httpserver.HttpServer.create(new java.net.InetSocketAddress(port), 0);
@@ -112,6 +113,8 @@
 	    	
 	        if ("/".equals(uri)) uri ="/index.html";
 	        var url = staticURL + uri;
+	        
+	        java.lang.System.out.println("URL: "+url);
        
 	        var c = new java.net.URL(url).openConnection();
 	        c.setRequestMethod("GET");
