@@ -114,14 +114,15 @@
 	        if ("/".equals(uri)) uri ="/index.html";
 	        var url = staticURL + uri;
 	        
-	        java.lang.System.out.println("URL: "+url);
-       
-	        var c = new java.net.URL(url).openConnection();
-	        c.setRequestMethod("GET");
-	        var responseCode = c.getResponseCode();
-	        if (responseCode != 200) {
-	        	httpExchange.sendResponseHeaders(responseCode,-1);
-	            return; 
+	        var jnURL = new java.net.URL(url);
+	        var c = jnURL.openConnection();
+		    if (jnURL.getProtocol() == "http") { 
+		        c.setRequestMethod("GET");
+		        var responseCode = c.getResponseCode();
+		        if (responseCode != 200) {
+		        	httpExchange.sendResponseHeaders(responseCode,-1);
+		            return; 
+		        }
 	        }
 	        var count = 0;
 	        var is = c.getInputStream();
