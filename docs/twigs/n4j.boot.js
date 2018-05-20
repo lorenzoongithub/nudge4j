@@ -123,13 +123,13 @@
 	        	httpExchange.sendResponseHeaders(responseCode,-1);
 	            return; 
 	        }
-	        
+	        var count = 0;
+	        var is = c.getInputStream();
 	        while (true) {
 	        	var b = is.read();
 	        	if (b == -1) break;
 	        	data[count++] = b;
 	        }
-	        
 	        if      (uri.endsWith(".ico")) send(httpExchange, data, count, "image/x-icon");
 	        else if (uri.endsWith(".css")) send(httpExchange, data, count, "text/css");
 	        else if (uri.endsWith(".png")) send(httpExchange, data, count, "image/png");
