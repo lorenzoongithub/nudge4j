@@ -27,6 +27,11 @@
 		port = +System.getProperty("nudge4j.port");
 	}
 	
+	var staticURL = System.getProperty("nudge4j.staticURL");
+	if (staticURL === null) {
+		staticURL = "https://lorenzoongithub.github.io/nudge4j/localhost.port"; 
+	}
+	
 	var server = com.sun.net.httpserver.HttpServer.create(new java.net.InetSocketAddress(port), 0);
 	var engine = new javax.script.ScriptEngineManager().getEngineByName("JavaScript");
 	var data =   java.lang.reflect.Array.newInstance( java.lang.Byte.TYPE , 10000);
@@ -67,7 +72,6 @@
 	}
 	engine.put("loadScript",loadScript);
 	
-	   
 	server.createContext("/", new com.sun.net.httpserver.HttpHandler() {
 		handle : function(httpExchange)  {
 	    	var uri = httpExchange.getRequestURI().toString();
@@ -107,30 +111,8 @@
 			}
 	    	
 	        if ("/".equals(uri)) uri ="/index.html";
-	        var url = "https://lorenzoongithub.github.io/nudge4j/localhost.port"+uri;
-	        
-	        // cheating.
-	        if (true) {
-	        	var file = "C:/lorenzo/eclipse-2016/WebConsole4J-replacementOfNudge4J/docs/localhost.port"+uri;
-	        	if (file.indexOf("?")!=-1) {
-	        		file = file.substring(0,file.indexOf("?"));
-	        	}
-	        	var fis = new java.io.FileInputStream(file); 
-	        	count = 0;
-	        	while (true) {
-	            	var b = fis.read();
-	            	if (b == -1) break;
-	            	data[count++] = b;
-	            }
-	            send(httpExchange, data, count, (
-	                 (uri.endsWith(".ico")) ? "image/x-icon" :
-	                 (uri.endsWith(".css")) ? "text/css" :
-	                 (uri.endsWith(".png")) ? "image/png" :  
-	                 (uri.endsWith(".js"))  ? "application/javascript" : 
-	                                          "text/html"));
-	            return; 
-	        }
-	        
+	        var url = staticURL + uri;
+       
 	        var c = new java.net.URL(url).openConnection();
 	        c.setRequestMethod("GET");
 	        var responseCode = c.getResponseCode();
@@ -153,4 +135,5 @@
 	    }
 	});
 	server.start();
+	System.out.println("nudge4j started on port:"+port);
 })();
