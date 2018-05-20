@@ -1,0 +1,184 @@
+<!docType HTML>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>remote console - nj</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="nudge4j.css">
+  <style>
+    #divWrpCode  { position:absolute;margin:110px 0 16px 0;top:0;left:16px;right:16px;height:42px;border:1px solid #888; }
+    #txtCode     { padding: 14px 4px; width:100%;border:0; }
+	#btnEval     { position:absolute;top:168px;left:16px;height:28px; }
+	#divResponse { position:absolute;top:196px;left:16px;right:16px;margin:16px 0; }
+	
+	
+    .Indent { margin:0 24px; }
+    .PlusMinus {
+        cursor : pointer;
+	    color : #A33; 
+     	font-weight:bold;
+	}
+
+	.togglePM {
+    	cursor : pointer;
+    	font-family:monospace;
+    	font-size:11px;
+  	    width : 21px;
+   	    height: 16px;
+        padding:0;
+        margin: 0 1px;
+        xborder:1px solid #333;
+        xbackground-color:#aaa;
+	}
+  </style>
+</head>
+<body>
+<script src='nudge4j.js'></script>
+<div id='n4jHeader'><a href='index.html' style='display:block;width:32px;margin:16px;height:32px;'><img src='nudge4j.32x32.png' /></a></div>
+<div id='divTitle'>Laser Beam</div>
+<div id='divWrpCode'><input id='txtCode' type='text' /></div>
+<input id='btnEval' type='button' value='See Inside' />
+<pre id='divResponse'><i style='opacity:0.5'>JVM output will be printed here</i></pre>
+<script>
+
+
+function togglePM(src) {
+	var x = src.nextElementSibling; 
+	if (src.innerHTML == '+') { 
+		src.innerHTML = '-'; 
+		x.style.display = 'block';
+	}
+	else {
+		src.innerHTML = '+';
+		x.style.display = 'none'; 
+		return; 
+	}  
+}
+
+function modifiersToString(mod) {
+	var str = '';
+	if (mod &  1) str='public ';
+	if (mod &  2) str='private ';
+	if (mod &  4) str='protected ';
+	if (mod &  8) str+='static ';
+	if (mod & 16) str+='final ';
+	if (mod &128) str+='transient ';
+	if (mod & 64) str+='volatile '; 
+	return str; 
+}
+
+function render(oj) {
+	if (oj.lines == null) {
+		// it's a leaf.
+		return ''+oj
+	}
+	var str ='';
+	str+= 'class '+oj.name+'@'+oj.hash + '{';
+	str+='<div class="Indent">';
+	for (var i=0;i<oj.lines.length;i++) {
+		var ln = oj.lines[i];
+		if (ln.val || ln.arr) {
+			str+='<span class="PlusMinus" onclick="togglePM(this)">+</span>';
+		} else {
+			str+=' ';
+		}
+		
+		
+		if (ln.type == 'String') {
+			str+=modifiersToString(ln.modifiers)+ln.type+' '+ln.name+' = '+JSON.stringify(ln.str)+';';
+		} else {
+			str+=modifiersToString(ln.modifiers)+ln.type+' '+ln.name+' = '+ln.str+';';	
+		}
+		
+		str+='\n';
+		if (ln.val) {
+			str+='<div class="Indent" style="display:none">';
+			str+= render(ln.val);
+			str+='</div>'
+		} else if (ln.arr) {
+			str+='<div class="Indent" style="display:none">{\n';
+			for (var j=0;j<ln.arr.length;j++) {
+				
+				// In an array we want to have the expand option for any non-leaf.
+				// for example {1,2, "hello", +class HashMap$3483 }   <<< the hashmap is a non-leaf.
+				if (ln.arr[j].lines == null) {
+					str+= render(ln.arr[j]);
+				} else {
+					str+='<span class="PlusMinus" onclick="togglePM(this)">+</span>'+ln.arr[j].name+'@'+ln.arr[j].hash;
+					str+='<div class="Indent" style="display:none">';
+					str+= render(ln.arr[j]);	
+					str+='</div>'
+				}
+				
+				str+=',\n';
+			}
+			str+='};</div>'
+		}
+	}
+	str+='</div>'
+	str+='}';
+	return str;
+}
+
+
+
+
+
+function expandAll() {
+	var arrayOfTogglePMs =  [].slice.call(document.getElementsByClassName('PlusMinus'));
+	for (var i=0;i<arrayOfTogglePMs.length;i++) {
+		if (arrayOfTogglePMs[i].innerHTML == '+') { togglePM(arrayOfTogglePMs[i]); }
+	}
+}
+
+function collapseAll() {
+	var arrayOfTogglePMs =  [].slice.call(document.getElementsByClassName('PlusMinus'));
+	for (var i=0;i<arrayOfTogglePMs.length;i++) {
+		if (arrayOfTogglePMs[i].innerHTML == '-') { togglePM(arrayOfTogglePMs[i]); }
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var txtCode =        document.getElementById('txtCode');
+var btnEval =        document.getElementById('btnEval');
+var divResponse =    document.getElementById('divResponse');
+
+txtCode.onkeypress = function(e) { if (e.keyCode == 13) process2(); }
+btnEval.onclick = process2;
+
+function process2() {
+	btnEval.disabled = true; 
+	divResponse.innerHTML = '<img src="http://i.imgur.com/C6y2Fmf.gif"/>';
+	
+	var code = [
+       'load("file:///C:/lorenzo/eclipse-2016/WebConsole4J-replacementOfNudge4J/docs/twigs/laserBeam.js")',         
+       txtCode.value,
+       'laserBeam($0)' ];
+	
+	n4j.execCode(code, function(err,response) {
+		btnEval.disabled = false;
+		if (err) {
+			divResponse.innerHTML = '<pre style="color:#A44">'+err+'</pre>';
+			return;
+		}	
+		var oj = JSON.parse(response);
+		var html = render(oj);
+		divResponse.innerHTML = html;
+	});
+}
+</script>
+</body>
+</html>

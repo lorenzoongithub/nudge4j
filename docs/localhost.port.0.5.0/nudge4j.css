@@ -1,0 +1,37 @@
+body {
+	font-family:monospace;
+	font-size:12px;
+	margin:0;
+	padding:0;
+}
+
+input {
+	font-family:monospace;
+	font-size:12px;
+	cursor:pointer;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+#n4jHeader {
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	height:63px;
+	border-bottom:1px solid #888;
+	background-color:#428bca;	
+}
+
+#divTitle {
+	position: absolute;
+	top: 80px;
+	left: 16px;
+	right: 16px;
+	height: 14px;
+	overflow:hidden;
+}
+
+a               {color:#428bca;text-decoration:none}
+a:hover,a:focus {color:#2a6496;text-decoration:underline}

@@ -1,0 +1,55 @@
+<!docType HTML>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="nudge4j.css">
+  <style>
+  i { display:block;border:1px solid #888; margin:10px; padding: 10px; background-color:#eee; }
+  </style>
+</head>
+<body>
+<script src='nudge4j.js'></script>
+<div id='n4jHeader'><a href='index.html' style='display:block;width:32px;margin:16px;height:32px;'><img src='nudge4j.32x32.png' /></a></div>
+<div id='divTitle'>nudge4j</div>
+<div style='position:absolute;margin:110px 16px 16px 16px;'>
+nudge4j was initiated at <i id='spanLoc'>...</i><br>
+It is running on your JVM <i id='spanJVM'>...</i><br>
+<br>
+<a href='remote.console.html'>Remote Console</a><br>
+<a href='laser.beam.html'>Laser Beam</a>
+<br>
+<br>
+Some Statistics in JSON format:
+<br>
+<a href='/js?code=load(%27https://lorenzoongithub.github.io/nudge4j/twigs/get.JVM.info.js%27);'>Get JVM Info</a><br>
+<a href='/js?code=load(%27https://lorenzoongithub.github.io/nudge4j/twigs/get.thread.x.cpu.js%27);'>Get Thread x CPU usage</a>
+
+<br>
+<br>
+<a href='https://lorenzoongithub.github.io/nudge4j/'>nudge4j - official website</a>
+</div>
+<script>
+function serverside_getInfo() {
+	return JSON.stringify({
+		jvm : java.lang.management.ManagementFactory.getRuntimeMXBean().getName(), 
+		loc : java.lang.System.getProperty('nudge4j.hook.location')
+	});
+}
+
+n4j.execFunc(serverside_getInfo, null, function(err,response) {
+	if (err) {
+		// this might happen if the JVM was just stopped.
+		alert('Failed to execute serverside operation:'+err);
+		return;
+	}	
+	var oj = JSON.parse(response);
+	document.getElementById('spanJVM').innerHTML = oj.jvm;
+	document.getElementById('spanLoc').innerHTML = oj.loc;
+});
+</script>
+</body>
+</html>

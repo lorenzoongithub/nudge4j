@@ -1,0 +1,49 @@
+<!docType HTML>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>remote console - nj</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="nudge4j.css">
+  <style>
+    #editor      { position:absolute;margin:110px 0 16px 0;top:0;left:16px;right:16px;bottom:50%;border:1px solid #888; }
+	#btnEval     { position:absolute;left:16px;top:50%;height:28px; }
+	#divResponse { position:absolute;top:50%;left:16px;right:16px;margin:44px 0 16px 0; }
+  </style>
+</head>
+<body>
+<div id='n4jHeader'><a href='index.html' style='display:block;width:32px;margin:16px;height:32px;'><img src='nudge4j.32x32.png' /></a></div>
+<div id='divTitle'>Remote Console</div>
+<pre id='editor'></pre>
+<input id='btnEval' type='button' value='Execute on JVM' />
+<pre id='divResponse'><i style='opacity:0.5'>JVM output will be printed here</i></pre>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js'></script>
+<script src='nudge4j.js'></script>
+<script>
+var editor = ace.edit('editor');
+editor.setTheme('ace/theme/eclipse');
+editor.getSession().setMode('ace/mode/javascript');
+editor.$blockScrolling=Infinity
+var btnEval =     document.getElementById('btnEval');
+var divResponse = document.getElementById('divResponse'); 
+btnEval.onclick= function() {
+	btnEval.disabled = true; 
+	divResponse.innerHTML = '<img src="http://i.imgur.com/C6y2Fmf.gif"/>';
+	n4j.execCode(editor.getValue(), function(err,response) {
+		btnEval.disabled = false;
+		if (err) {
+			divResponse.innerHTML = '<pre style="color:#A44">'+err+'</pre>';
+			return;
+			
+		}	
+		divResponse.innerHTML = response.replace(/&/g, '&amp;')
+								        .replace(/</g, '&lt;')
+								        .replace(/>/g, '&gt;')
+								        .replace(/"/g, '&quot;')
+								        .replace(/'/g, '&#039;');
+	});
+}
+</script>
+</body>
+</html>

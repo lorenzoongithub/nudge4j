@@ -29,7 +29,7 @@
 	
 	var staticURL = System.getProperty("nudge4j.staticURL");
 	if (staticURL === null) {
-		staticURL = "https://lorenzoongithub.github.io/nudge4j/localhost.port";
+		staticURL = "https://lorenzoongithub.github.io/nudge4j/localhost.port.0.5.0";
 		System.setProperty("nudge4j.staticURL", staticURL);
 	}
 	
