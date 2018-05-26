@@ -1,0 +1,46 @@
+/**
+ * The CSS on top of 'milligram' 
+ *
+**/ 
+#njHeader {
+	background-color:#fff;
+	border-bottom:1px solid #888;
+	padding:2.0rem;
+}
+
+#njCore {
+	padding:2.0rem;
+}
+
+.njContainer {
+	border:1px solid #888;
+	background-color:white;
+	padding:1.0rem; 
+	overflow:hidden;
+}
+
+.njSeparator {
+	height:2.0rem;
+}
+
+/**
+ HERE WE OVERRIDE milligram 
+**/ 
+
+body {
+	background-color:#f5f7fb;
+}
+
+
+/** do we want this text-decoration ? **/
+a               {text-decoration:none}
+a:hover,a:focus {text-decoration:underline}
+
+pre {
+	border: 0;
+	background-color: #fff;
+}
+
+td {
+    vertical-align: top; 	
+}

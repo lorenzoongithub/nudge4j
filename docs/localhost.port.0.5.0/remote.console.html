@@ -1,48 +1,108 @@
-<!docType HTML>
-<html lang=en>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>remote console - nj</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="nudge4j.css">
-  <style>
-    #editor      { position:absolute;margin:110px 0 16px 0;top:0;left:16px;right:16px;bottom:50%;border:1px solid #888; }
-	#btnEval     { position:absolute;left:16px;top:50%;height:28px; }
-	#divResponse { position:absolute;top:50%;left:16px;right:16px;margin:44px 0 16px 0; }
-  </style>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href='milligram.css' >
+<link rel="stylesheet" href='main.css' >
+<link rel="stylesheet" href="remote.console.css" >
+<link rel='shortcut icon' href='favicon.ico' />
+<title>nudge4j - remote console</title>
 </head>
 <body>
-<div id='n4jHeader'><a href='index.html' style='display:block;width:32px;margin:16px;height:32px;'><img src='nudge4j.32x32.png' /></a></div>
-<div id='divTitle'>Remote Console</div>
-<pre id='editor'></pre>
-<input id='btnEval' type='button' value='Execute on JVM' />
-<pre id='divResponse'><i style='opacity:0.5'>JVM output will be printed here</i></pre>
+<div id='njHeader'><div><strong><a href='index.html'>nudge4j</a></strong></div></div>
+<div id='njCore'>
+    <div class='njContainer'>
+    <h2>Editor</h2>
+    <!-- 
+    <div><small>Type a snippet of code to send to the JVM for execution. The <em>toString</em> of the result is then displayed. You can enable a laser beam</small></div>
+     -->
+    <pre id='editor'>// Type any code here to execute on your JVM
+// Here is a classic example to check the memory
+java.lang.management.ManagementFactory.getMemoryMXBean().getHeapMemoryUsage()</pre>
+    <button id='btnEval'>Execute</button>
+    <button id='btnEvalWithLB' class="button button-clear">Execute (with laserbeam.js)</button>
+    <pre id='divResponse'><i>The output of the JVM goes here</i></pre>
+	</div>
+</div>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js'></script>
 <script src='nudge4j.js'></script>
+<script src='remote.console.js'></script>
+<script src='executionHistory.js'></script>
 <script>
+function getURLParams(search) {
+    var kp = search.split('&');
+	var oj = {};
+	for (var i=0;i<kp.length;i++) {
+	    var twoArray = kp[i].split('=');
+	    if (twoArray.length === 2) {
+	        oj[twoArray[0]]=decodeURIComponent(twoArray[1]);       
+	    }
+	}
+	return oj; 
+}
+
+var code = getURLParams(location.search.substring(1))['code'];
+
+
 var editor = ace.edit('editor');
 editor.setTheme('ace/theme/eclipse');
 editor.getSession().setMode('ace/mode/javascript');
 editor.$blockScrolling=Infinity
-var btnEval =     document.getElementById('btnEval');
-var divResponse = document.getElementById('divResponse'); 
+
+if (code != null){
+	editor.setValue(code);
+}
+
+
+var btnEval =       document.getElementById('btnEval');
+var btnEvalWithLB = document.getElementById('btnEvalWithLB');
+var divResponse =   document.getElementById('divResponse');
+var radLaserBeam =  document.getElementById('radLaserBeam');
+
 btnEval.onclick= function() {
 	btnEval.disabled = true; 
+	btnEvalWithLB.disabled = true;
 	divResponse.innerHTML = '<img src="http://i.imgur.com/C6y2Fmf.gif"/>';
 	n4j.execCode(editor.getValue(), function(err,response) {
 		btnEval.disabled = false;
+		btnEvalWithLB.disabled = false;
 		if (err) {
 			divResponse.innerHTML = '<pre style="color:#A44">'+err+'</pre>';
 			return;
-			
-		}	
+		}
 		divResponse.innerHTML = response.replace(/&/g, '&amp;')
 								        .replace(/</g, '&lt;')
 								        .replace(/>/g, '&gt;')
 								        .replace(/"/g, '&quot;')
 								        .replace(/'/g, '&#039;');
 	});
+	executionHistory.push(editor.getValue());
+}
+
+btnEvalWithLB.onclick= function() {
+	btnEval.disabled = true; 
+	btnEvalWithLB.disabled = true;
+	divResponse.innerHTML = '<img src="http://i.imgur.com/C6y2Fmf.gif"/>';
+	var code = [
+	         'load("https://lorenzoongithub.github.io/nudge4j/twigs/laserBeam.js")',         
+	         editor.getValue(),
+	         'laserBeam($0)' ];
+	n4j.execCode(code, function(err,response) {
+		btnEval.disabled = false;
+		btnEvalWithLB.disabled = false;
+		if (err) {
+			divResponse.innerHTML = '<pre style="color:#A44">'+err+'</pre>';
+			return;
+		}	
+		var oj = JSON.parse(response);
+		var html = render(oj);
+		divResponse.innerHTML = html;
+	});
+	executionHistory.push(editor.getValue());
 }
 </script>
 </body>

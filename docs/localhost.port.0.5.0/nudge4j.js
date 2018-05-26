@@ -26,7 +26,6 @@ n4j.execCode = function(code, callback) {
 	try {
 		x.open('POST', 'js', true);
 		x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		
 		if (Object.prototype.toString.call(code) === '[object Array]') {
 			for (var i=0;i<code.length;i++) {
 				code[i] = encodeURIComponent(code[i]); 

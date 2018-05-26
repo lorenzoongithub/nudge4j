@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href='milligram.css' >
+<link rel="stylesheet" href='main.css' >
+<link rel='shortcut icon' href='favicon.ico' />	
+<title>nudge4j - execution history</title>
+</head>
+<body>
+<div id='njHeader'><div><strong><a href='index.html'>nudge4j</a></strong></div></div>
+<div id='njCore'>
+  <div class='njContainer'>
+    <h2>Execution History</h2>
+    <table>
+      <thead>
+	    <tr>
+	      <th>Time</th>
+	      <th>Script</th>
+	      <th></th>
+	    </tr>
+	  </thead>
+	  <tbody id='tbodyEH'>
+	    <tr>
+	    <td>15:09</td>
+	      <td><pre style='font-size:8px;max-height:200px;text-overflow: ellipsis;'>// logging.js - Sending a message on the server-side to test logging.</pre></td>
+	      <td><button>Edit</button><button class="button button-clear">Delete</button></td>
+	    </tr>
+	    <tr>
+	      <td>15:08</td>
+	      <td><pre style='font-size:8px;'>var props = java.lang.System.getProperties(); </pre></td>
+	      <td><button>Edit</button><button class="button button-clear">Delete</button></td>
+	    </tr>
+	  </tbody>
+	</table> 
+  </div>
+</div>
+<script src='executionHistory.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js'></script>
+<script>
+function syncPage() {
+	var str = '';
+	var day = null;
+	for (var i=executionHistory.count()-1;i>=0;i--) {
+		var oj = executionHistory.get(i);
+		var t = moment(oj.time).format('dddd - DD MMM YYYY');
+		if (t != day) {
+			day = t;
+			str+='<h4>'+t+'</h4>';
+		}
+		str+='<tr>';
+		str+='<td>'+ moment(oj.time).format('HH:mm:ss')+'</td>';
+		str+='<td><pre style="font-size:7px">'+ oj.code+'</pre></td>';
+		str+='<td><button onclick="useItem('+i+')">Use</button><button class="button button-clear" onclick="deleteItem('+i+')">Delete</button></td>';
+		str+='</tr>'
+	}
+	document.getElementById('tbodyEH').innerHTML = str;
+} 
+
+syncPage();
+
+function useItem(index) {
+	location.href = "remote.console.html?code="+encodeURIComponent(executionHistory.get(index).code);
+}
+
+function deleteItem(index) {
+	executionHistory.remove(index);
+	syncPage();
+}
+
+
+
+</script>    
+</body>
+</html>

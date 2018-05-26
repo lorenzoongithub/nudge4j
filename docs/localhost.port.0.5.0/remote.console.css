@@ -1,0 +1,32 @@
+#editor {
+    width: 100%;
+    height: 200px;
+    border:1px solid #888;
+}
+
+#divResponse {
+	font-size: 1.4rem;
+	color: #000;
+}
+
+
+/** 
+CSS classes for rendering the laserbeam's result 
+**/
+
+.Indent { margin:0 24px; }
+.PlusMinus {
+    cursor : pointer;
+ 	color : #428bca; 
+ 	font-weight:bold;
+}
+
+.PlusMinus:hover {
+	color: #2a6496;
+}
+
+.togglePM {
+   	cursor : pointer;
+   	font-family:monospace;
+   	font-size:1.2rem;
+}

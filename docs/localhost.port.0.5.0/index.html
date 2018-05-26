@@ -1,45 +1,75 @@
-<!docType HTML>
-<html lang=en>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="icon" href="favicon.ico">
-  <link rel="stylesheet" href="nudge4j.css">
-  <style>
-  i { display:block;border:1px solid #888; margin:10px; padding: 10px; background-color:#eee; }
-  </style>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href='milligram.css' >
+<link rel="stylesheet" href='main.css' >
+<link rel='shortcut icon' href='favicon.ico' />	
+<title>nudge4j - home</title>
 </head>
 <body>
-<script src='nudge4j.js'></script>
-<div id='n4jHeader'><a href='index.html' style='display:block;width:32px;margin:16px;height:32px;'><img src='nudge4j.32x32.png' /></a></div>
-<div id='divTitle'>nudge4j</div>
-<div style='position:absolute;margin:110px 16px 16px 16px;'>
-nudge4j was initiated at <i id='spanLoc'>...</i><br>
-It is running on your JVM <i id='spanJVM'>...</i><br>
-<br>
-<a href='remote.console.html'>Remote Console</a><br>
-<a href='laser.beam.html'>Laser Beam</a>
-<br>
-<br>
-Some Statistics in JSON format:
-<br>
-<a href='/js?code=load(%27https://lorenzoongithub.github.io/nudge4j/twigs/get.JVM.info.js%27);'>Get JVM Info</a><br>
-<a href='/js?code=load(%27https://lorenzoongithub.github.io/nudge4j/twigs/get.thread.x.cpu.js%27);'>Get Thread x CPU usage</a>
-
-<br>
-<br>
-<a href='https://lorenzoongithub.github.io/nudge4j/'>nudge4j - official website</a>
+<div id='njHeader'><div><strong><a href='index.html'>nudge4j</a></strong></div></div>
+<div id='njCore'>
+    <div class='njContainer'>
+    	<h2>Dashboard</h2>
+    	<table>
+		  <tbody>
+		    <tr>
+		      <td>JVM</td>
+		      <td id='tdJVM'>...</td>
+		    </tr>
+		    <tr>
+		      <td>Uptime</td>
+		      <td id='tdUptime'>...</td>
+		    </tr>
+		    <tr>
+		      <td>Hook</td>
+		      <td id='tdHook'>...</td>
+		    </tr>
+		    <tr>
+		      <td>Static URL</td>
+		      <td id='tdStaticURL'>...</td>
+		    </tr>
+		  </tbody>
+		</table>
+    </div>
+    <div class='njSeparator'></div>
+    <div class='njContainer'>
+        <h2>Recently Executed Scripts</h2> 
+        <a class="button" href='execution.history.html'>More...</a>
+    </div>
+    <div class='njSeparator'></div>
+    <div class='njContainer'>
+    	<h2>Remote Console</h2>
+    	<small>The remote console allows you to interact with your JVM</small>
+    	<div><a href='remote.console.html'>Remote Console</a></div>
+    </div>
+    <div class='njSeparator'></div>
+    <div class='njContainer'>
+    	<h2>HTTP API</h2>
+    	<div><a href="js?code=java.lang.System.getProperty('java.class.path')">get the class path</a></div>
+    	<div><a href="js?code=JSON.stringify(java.lang.System.getProperty('java.class.path').split(java.lang.System.getProperty('path.separator')))">get the class path (JSON)</a></div>
+    	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.class.path.js')">get the class path (JSON - full external function)</a></div>
+    	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.thread.x.cpu.js')">get CPU usage per Thread</a></div>
+    	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.thread.dump.js')">get Thread dump</a></div>
+    </div>
 </div>
+<script src='nudge4j.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js'></script>
 <script>
 function serverside_getInfo() {
+	var rt = java.lang.management.ManagementFactory.getRuntimeMXBean();
 	return JSON.stringify({
-		jvm : java.lang.management.ManagementFactory.getRuntimeMXBean().getName(), 
-		loc : java.lang.System.getProperty('nudge4j.hook.location')
+		jvm  :      rt.getName(), 
+		hook :      java.lang.System.getProperty('nudge4j.hook.location'),
+		uptime :    rt.getUptime(),
+		staticURL : java.lang.System.getProperty('nudge4j.staticURL')
 	});
 }
-
 n4j.execFunc(serverside_getInfo, null, function(err,response) {
 	if (err) {
 		// this might happen if the JVM was just stopped.
@@ -47,8 +77,10 @@ n4j.execFunc(serverside_getInfo, null, function(err,response) {
 		return;
 	}	
 	var oj = JSON.parse(response);
-	document.getElementById('spanJVM').innerHTML = oj.jvm;
-	document.getElementById('spanLoc').innerHTML = oj.loc;
+	document.getElementById('tdJVM').innerHTML =        oj.jvm;
+	document.getElementById('tdHook').innerHTML =       oj.hook;
+	document.getElementById('tdUptime').innerHTML =     moment.duration({ milliseconds: oj.uptime}).humanize();
+	document.getElementById('tdStaticURL').innerHTML =  oj.staticURL
 });
 </script>
 </body>
