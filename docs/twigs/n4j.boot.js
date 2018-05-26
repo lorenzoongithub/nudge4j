@@ -35,7 +35,7 @@
 	
 	var server = com.sun.net.httpserver.HttpServer.create(new java.net.InetSocketAddress(port), 0);
 	var engine = new javax.script.ScriptEngineManager().getEngineByName("JavaScript");
-	var data =   java.lang.reflect.Array.newInstance( java.lang.Byte.TYPE , 10000);
+	var data = java.lang.reflect.Array.newInstance( java.lang.Byte.TYPE , 12000);
 	var UTF8 = java.nio.charset.StandardCharsets.UTF_8;
 	
 	function send(httpExchange,array,max, contentType) {
@@ -62,16 +62,16 @@
 	}
 	
 	var cache4scripts = {}; 
-	function loadScript(strURL) {
+	function load(strURL) {
 		var code = cache4scripts[strURL];
 		if (code === undefined) {
-			var inputStream = new java.net.URL(strURL).openConnection();
+			var inputStream = new java.net.URL(strURL).openStream();
 			code = inputStreamToString(inputStream);
 			cache4scripts[strURL] = code;
 		}
 		return engine.eval(code); 
 	}
-	engine.put("loadScript",loadScript);
+	engine.put("load",load);
 	
 	server.createContext("/", new com.sun.net.httpserver.HttpHandler() {
 		handle : function(httpExchange)  {
@@ -114,9 +114,13 @@
 	        if ("/".equals(uri)) uri ="/index.html";
 	        var url = staticURL + uri;
 	        
+	        if (url.indexOf('?')!=-1) {
+	        	url = url.substring(0,url.indexOf('?'))
+	        }
+	        
 	        var jnURL = new java.net.URL(url);
 	        var c = jnURL.openConnection();
-		    if (jnURL.getProtocol() == "http") { 
+	        if (jnURL.getProtocol() == "http") { 
 		        c.setRequestMethod("GET");
 		        var responseCode = c.getResponseCode();
 		        if (responseCode != 200) {
@@ -139,5 +143,5 @@
 	    }
 	});
 	server.start();
-	System.out.println("nudge4j started on port:"+port);
+	System.out.println("nudge4j started - http://localhost:"+port+"/");
 })();
