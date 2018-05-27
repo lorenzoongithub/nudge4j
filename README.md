@@ -16,8 +16,6 @@ To use nudge4j, just add [less than 10 lines of code](https://lorenzoongithub.gi
 
 <img src='n4j.in.action.gif' alt='nudge4j in action]' />
 
-A [nudge4j's demo](http://nudge4j.appspot.com/demo/index.html) is running on nudge4j.appspot.com
-
 ## Issues
 
 Report any issue using GitHub and use notifications to track progress on them.
