@@ -16,27 +16,7 @@
 <div id='njCore'>
   <div class='njContainer'>
     <h2>Execution History</h2>
-    <table>
-      <thead>
-	    <tr>
-	      <th>Time</th>
-	      <th>Script</th>
-	      <th></th>
-	    </tr>
-	  </thead>
-	  <tbody id='tbodyEH'>
-	    <tr>
-	    <td>15:09</td>
-	      <td><pre style='font-size:8px;max-height:200px;text-overflow: ellipsis;'>// logging.js - Sending a message on the server-side to test logging.</pre></td>
-	      <td><button>Edit</button><button class="button button-clear">Delete</button></td>
-	    </tr>
-	    <tr>
-	      <td>15:08</td>
-	      <td><pre style='font-size:8px;'>var props = java.lang.System.getProperties(); </pre></td>
-	      <td><button>Edit</button><button class="button button-clear">Delete</button></td>
-	    </tr>
-	  </tbody>
-	</table> 
+    <table><tbody id='tbodyEH'></tbody></table> 
   </div>
 </div>
 <script src='executionHistory.js'></script>
@@ -50,7 +30,7 @@ function syncPage() {
 		var t = moment(oj.time).format('dddd - DD MMM YYYY');
 		if (t != day) {
 			day = t;
-			str+='<h4>'+t+'</h4>';
+			str+='<tr><td><strong>'+t+'</strong></td><td></td><td></td></tr>';
 		}
 		str+='<tr>';
 		str+='<td>'+ moment(oj.time).format('HH:mm:ss')+'</td>';

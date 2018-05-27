@@ -12,7 +12,7 @@
 <title>nudge4j - home</title>
 </head>
 <body>
-<div id='njHeader'><div><strong><a href='index.html'>nudge4j</a></strong></div></div>
+<div id='njHeader'><div><strong><a href='index.html'>nudge4j</a></strong><small style='padding:0 1rem;float:right'>version 0.5.0</small></div></div>
 <div id='njCore'>
     <div class='njContainer'>
     	<h2>Dashboard</h2>
@@ -39,23 +39,52 @@
     </div>
     <div class='njSeparator'></div>
     <div class='njContainer'>
-        <h2>Recently Executed Scripts</h2> 
-        <a class="button" href='execution.history.html'>More...</a>
+    	<h2>Remote Console</h2>
+    	<xsmall>The remote console lets you send code to execute on your JVM. For your convenience any code which you execute is also stored on your browser's local storage, 
+    	so that it's going to be hard to lose it.</xsmall>
+    	<p>
+    	<div>
+    	<a class='button' href='remote.console.html' >Go to the Remote Console</a>
+    	<a class="button" href='execution.history.html'>Go to the Execution History</a>
+    	</div>
     </div>
     <div class='njSeparator'></div>
-    <div class='njContainer'>
-    	<h2>Remote Console</h2>
-    	<small>The remote console allows you to interact with your JVM</small>
-    	<div><a href='remote.console.html'>Remote Console</a></div>
+    <div class='njContainer' style='background-color:#dae5f5;'>
+    	Are you new to nudge4j ? <a href='examples.html'>try our examples</a>
     </div>
     <div class='njSeparator'></div>
     <div class='njContainer'>
     	<h2>HTTP API</h2>
+    	<div>
+    	At its core, nudge4j is just a tiny web server.  
+    	All API access is over HTTP, and accessed from <em>http://localhost:[port]/js?code=[code]</em><p>
+    	All data is sent with <em>Content-Type: text/plain; charset=utf-8</em>
+    	<div>
+    	<pre style='font-size:1rem;background-color:#333;color:green;border:1px solid #888;padding:2px;'>
+<span style='color:white;'>curl -i "http://localhost:5050/js?code=1000-1"</span>
+HTTP/1.1 200 OK
+Date: Sat, 26 May 2018 23:15:30 GMT
+Content-type: text/plain
+Content-length: 3
+Cache-control: no-cache
+999
+</pre>    	
+    	</div>
+    	</div>
+    	<p>
+    	<ul>
+    	<li><a href="js?code=java.lang.System.getProperty('java.class.path')">get the class path</a></li>
+    	<li><a href="js?code=JSON.stringify(java.lang.System.getProperty('java.class.path').split(java.lang.System.getProperty('path.separator')))">get the class path (JSON)</a></li>
+    	</ul>
     	<div><a href="js?code=java.lang.System.getProperty('java.class.path')">get the class path</a></div>
     	<div><a href="js?code=JSON.stringify(java.lang.System.getProperty('java.class.path').split(java.lang.System.getProperty('path.separator')))">get the class path (JSON)</a></div>
     	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.class.path.js')">get the class path (JSON - full external function)</a></div>
     	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.thread.x.cpu.js')">get CPU usage per Thread</a></div>
     	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.thread.dump.js')">get Thread dump</a></div>
+    </div>
+    <div class='njSeparator'></div>
+    <div class='footer' style='text-align:right;'>
+    powered by nudge4j
     </div>
 </div>
 <script src='nudge4j.js'></script>

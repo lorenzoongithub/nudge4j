@@ -3,251 +3,71 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<link rel='shortcut icon' href='https://lorenzoongithub.github.io/nudge4j/favicon.ico' /><title>nudge4j</title>
-<style>
-body{font-family:sans-serif;font-size:18px;line-height:1.5;overflow-y:scroll;margin:0;padding:0;border:0}
-h2 { font-weight:normal; }
-a {color:#428bca;text-decoration:none;cursor:pointer}
-a:hover,
-a:focus{color:#2a6496;text-decoration:underline}
-h2 {margin:60px 0 10px 0; font-weight:normal}
-sup {font-size:75%}
-pre {margin:0 0 32px 0;padding:4px;overflow:hidden;font-size:13px;border:1px solid #aaa; }
-input[type=button] {cursor:pointer;}
-b { font-size:120%; color:purple; margin:3px 0; display:inline-block;}
-textarea { white-space:pre;width:100%;overflow-x:hidden;resize:none;background-color:#000;color:white;font-size:10px;}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href='localhost.port.0.5.0/milligram.css' >
+<link rel='shortcut icon' href='favicon.ico' />	
+<title>nudge4j - home</title>
 </head>
-<body>
-<div style='padding:12%;background-color:#000;color:white;'>
-<div style='font-size:257%;font-weight:bold;color:white'>nudge4j: GET INSIDE YOUR JVM</div>
-<div>
-nudge4j is a tiny piece of Java code to make your Java application accessible to the browser.
+<body style='margin:14% 16%;'>
+<div style='margin:0 auto;max-width:900px;'>
+<h1>nudge4j - Get Inside Your JVM</h1>
+<div>nudge4j gives you few lines of Java code to <strong>make your Java application accessible to the browser</strong>. 
 It's meant for use during development to provide an environment for experimenting with code against a running application.
+</div>
+
+<div style='height:4rem'></div><!-- SEP -->
+
+<div style='height:400px;margin:0 auto;background-color:#000;padding:24px;border-radius:50%;border:1px solid black;overflow:hidden'>
+<img style='width:1014px;min-width:800px;' src='n4j.png' />
+</div>
+
+<div style='height:4rem'></div><!-- SEP -->
+
+<h2>Use nudge4j</h2>
+<div>
+Add the following code to your Java Application and start using nudge4j. If possible, you should add the code as the first line of your <strong>public static void main</strong> method.
+</div>
+
+
+<script src="https://gist.github.com/lorenzoongithub/7d3a8106847f37e089f7d48de67fa620.js"></script>
+
+<div>
+It really is that simple: no <strong>jar</strong> to download, no <strong>classpath</strong> to modify and no <strong>pom</strong> to alter. 
+Once you are done with it, either remove the code or comment it out. 
+</div>
+
+<div style='height:4rem'></div><!-- SEP -->
+<h2>First Steps</h2>
+<div>
+Once the snippet has been integrated into your program, try this:
+<a href='http://localhost:5050/'>http://localhost:5050/</a>
 <p>
-<i style='font-size:60%'>check <a href='#nudge4j-UI'>nudge4j-UI</a> to  make your Java application launch a tiny window to control it</i>
-</div>
+Alternatively, you can read more a little bit more <a href='https://hackernoon.com/four-reasons-to-use-nudge4j-ac5757320660'>here</a> and <a href='https://medium.com/@yolpogists/nudge4j-read-the-label-ca10f12d1587'>here</a>.
+ 
 </div>
 
-<div style='padding:2%;'>
 
-<h2 id='Requirements'>Requirements</h2>
+<div style='height:4rem'></div><!-- SEP -->
+<!-- 
+<h2>How it works:</h2>
+<ul>
+<li>The Java snippet starts a Nashorn Script Engine to evaluate an external script <a href='https://lorenzoongithub.github.io/nudge4j/twigs/n4j.boot.js'>n4j.boot.js</a> hosted on GitHub</li>
+<li>n4j.boot.js starts a web server in your JVM on port 5050</li>
+<li>A Simple API is defined to allow communication with any Http Client (browser)
+<li>For security, the web server uses only the machine's loopback address (127.0.0.1/localhost) limiting network accessibility. It also imposes same-origin-policy, and has built-in XSRF protection</li>
+</ul>
+<div style='height:4rem'></div>
+-->
+
+<h2>Requirements</h2>
 <ul>
 <li>Java 8</li>
-<li>Internet access</li>
-<li>A modern browser (Chrome, Firefox, IE12)</li>
+<li>Internet access <small>many resources are hosted on GitHub and various other CDNs</small></li>
+<li>A modern browser (Chrome, Firefox, IE11+)</li>
 </ul>
-
-
- 
-<h2 id='Integration'>Integration</h2>
-<div>
-copy/paste this code anywhere and restart your JVM <a href='https://gist.github.com/lorenzoongithub/da0e3b39cc4559dc78786e3838253f27'>(complete example)</a>
-</div>
-
-
-<div>
-<button style='font-size:9px; font-weight:bold; cursor:pointer;' class="xbtn" data-clipboard-action="copy" data-clipboard-target="#taCode">BUTTON: COPY TO CLIPBOARD</button>
-<textarea id='taCode' readonly cols='100' rows='20' >// nudge4j:begin
-(new java.util.function.Consumer&lt;Object[]&gt;() { public void accept(Object args[]) {
-    try {
-        javax.script.ScriptEngine engine = new javax.script.ScriptEngineManager().getEngineByName("JavaScript");
-        engine.put("args", args);
-        String p = "com.sun.net.httpserver.";
-        Class&lt;?&gt; 
-        HH = Class.forName(p+"HttpHandler"),
-        HE = Class.forName(p+"HttpExchange"),
-        HD = Class.forName(p+"Headers"), 
-        HS = Class.forName(p+"HttpServer");
-        java.lang.reflect.Method 
-        m0 = HE.getMethod("getRequestURI"),
-        m1 = HE.getMethod("getResponseHeaders"),
-        m2 = HE.getMethod("sendResponseHeaders", int.class, long.class),
-        m3 = HE.getMethod("getResponseBody"),
-        m4 = HS.getMethod("create", java.net.InetSocketAddress.class, int.class),
-        m5 = HS.getMethod("createContext", String.class, HH),
-        m6 = HS.getMethod("setExecutor", java.util.concurrent.Executor.class),
-        m7 = HS.getMethod("start"),
-        m8 = HD.getMethod("set", String.class, String.class),
-        m9 = HE.getMethod("getRequestBody"),
-        mA = HE.getMethod("getRequestHeaders");
-        Object server = m4.invoke(null, new java.net.InetSocketAddress(
-                java.net.InetAddress.getLoopbackAddress(), (int) args[0]), 0);
-        m5.invoke(server, "/", java.lang.reflect.Proxy.newProxyInstance(
-            HH.getClassLoader(), 
-            new Class[] { HH }, 
-            new java.lang.reflect.InvocationHandler() {          
-                java.nio.charset.Charset UTF8 = java.nio.charset.StandardCharsets.UTF_8;
-                byte data[] = new byte[10000];
-                void send(Object httpExchange,byte array[],int max, String contentType) throws Exception {
-                    m8.invoke(m1.invoke(httpExchange), "Content-Type",contentType);
-                    m2.invoke(httpExchange, 200, max);
-                    try (java.io.OutputStream os = (java.io.OutputStream) m3.invoke(httpExchange)) { 
-                        os.write(array,0, max); 
-                    }
-                }
-                @SuppressWarnings("rawtypes")
-                public synchronized Object invoke(Object pxy, java.lang.reflect.Method m, Object[] params) throws Exception {
-                    Object httpExchange = params[0];
-                    String uri = m0.invoke(httpExchange).toString();
-                    if (uri.startsWith("/js")) {
-                        java.util.Map requestHeaders = (java.util.Map)mA.invoke(httpExchange);
-                        if (requestHeaders.containsKey("Origin")) {
-                            String origin = ""+((java.util.List)requestHeaders.get("Origin")).get(0);
-                            if (origin.equals("http://localhost:"+args[0]) == false &&  
-                                origin.equals("http://127.0.0.1:"+args[0]) == false) return null; 
-                        } else if (requestHeaders.containsKey("Referer")) {
-                            String referer = ""+((java.util.List)requestHeaders.get("Referer")).get(0);
-                            if (referer.startsWith("http://localhost:"+args[0]) == false &&  
-                                referer.startsWith("http://127.0.0.1:"+args[0]) == false) return null;
-                        } else return null; 
-
-                        byte array[]; 
-                        try (java.io.Reader r = new java.io.InputStreamReader( (java.io.InputStream) m9 .invoke(httpExchange), UTF8 )) {
-                            array = (""+engine.eval(r)).getBytes(UTF8); 
-                        } catch (Exception e) {
-                            java.io.OutputStream os = new java.io.ByteArrayOutputStream();
-                            e.printStackTrace(new java.io.PrintStream(os));
-                            array = ("err::"+os).getBytes(UTF8); 
-                        }
-                        send(httpExchange,array,array.length,"text/plain");
-                        return null; 
-                    }
-                    if ("/".equals(uri)) uri ="/index.html";
-                    String url = "https://lorenzoongithub.github.io/nudge4j/localhost.port"+uri;
-                    java.net.HttpURLConnection c = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
-                    c.setRequestMethod("GET");
-                    int responseCode = c.getResponseCode();
-                    if (responseCode != 200) {
-                        m2.invoke(httpExchange,responseCode,-1);
-                        return null; 
-                    }
-                    int count =0;
-                    try (java.io.InputStream is = c.getInputStream()) {
-                        for (int b=is.read();b!=-1;b=is.read()) data[count++] = (byte) b;
-                    }
-                    send(httpExchange,data, count, (
-                         (uri.endsWith(".ico")) ? "image/x-icon" :
-                         (uri.endsWith(".css")) ? "text/css" :
-                         (uri.endsWith(".png")) ? "image/png" :  
-                         (uri.endsWith(".js"))  ? "application/javascript" : 
-                                                  "text/html"));
-                    return null; 
-                }
-            }
-        ));
-        m6.invoke(server, new Object[] { null });
-        m7.invoke(server);
-        System.out.println("nudge4j serving on port:"+args[0]);
-    } catch (Exception e) {
-        throw new InternalError(e);
-    }
-}}).accept( new Object[] { 5050 }); 
-// nudge4j:end</textarea>
-</div>
-<h2>The way it works</h2>
-<ul>
-<li>The snippet of Java code starts a web server in your JVM allowing for JavaScript server side execution</li>
-<li>You can expose Java objects as arguments. The first argument is the server's port</li>
-<li>AJAX is used to post code to execute against the JVM (<a href='https://github.com/lorenzoongithub/nudge4j/blob/master/docs/localhost.port/nudge4j.js'>nudge4j.js</a>)</li>
-<li>It's <span style='font-weight:bold'>Secure</span>. The snippet uses only the machine's loopback address (127.0.0.1/localhost) limiting network accessibility. It also imposes same-origin-policy, 
-and has built-in XSRF protection</li>
-</ul>
-
-<div style='margin:40px 0;padding:20px;background-color:#000;'>
-    <img src="n4j.in.action.gif"  style='width:504px;height:350px;opacity:0.9;' alt='nudge4j in action' width="504" height="350"/>
-</div>
-
-<h2>Demo</h2>
-
-A simple demo of nudge4j is available <a href='http://nudge4j.appspot.com/demo/index.html'>here</a>
-
-<div style='border-top:2px solid #000;margin:4% 0;'>
-<h2 id='nudge4j-UI'>nudge4j-UI</h2>
-<div style='margin:4%;font-size:80%;'>
-<i>
-nudge4j-UI is nudge4j's little sister. It's an even shorter piece of code (~50 lines of Java code). 
-Copy/Paste into your Java Program to launch a window to control your JVM.
-</i>
-<textarea id='taCode2' readonly cols='100' rows='20' >// nudge4j-UI:begin    
-(new java.util.function.Consumer&lt;Object[]&gt;() { public void accept(Object args[]) {
-    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-            try { javax.swing.UIManager.setLookAndFeel(info.getClassName());
-            } catch (Exception e) { ; }
-            break;
-        }
-    }
-    javax.script.ScriptEngine engine = new javax.script.ScriptEngineManager().getEngineByName("JavaScript");
-    engine.put("args", args);
-    javax.swing.JTextArea ta = new javax.swing.JTextArea( String.join("\n",
-        "//",
-        "// Write code to execute by the JVM here.",
-        "// Here are some examples: https://lorenzoongithub.github.io/nudge4j/examples.html",
-        "//",
-        "java.lang.Thread.activeCount();"));
-    ta.setFont(new java.awt.Font("monospaced", 0, 12));
-    javax.swing.JTextArea taOut = new javax.swing.JTextArea();
-    taOut.setBackground(java.awt.Color.LIGHT_GRAY);
-    taOut.setFont(ta.getFont());
-    javax.swing.JButton btn = new javax.swing.JButton("Execute Snippet");
-    btn.setCursor(new java.awt.Cursor(12));
-    btn.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent ae) {
-            String response; 
-            taOut.setForeground(java.awt.Color.BLACK);
-            try {
-                response = "" + engine.eval(ta.getText());
-            } catch (Exception e) {
-                taOut.setForeground(java.awt.Color.RED);
-                java.io.OutputStream os = new java.io.ByteArrayOutputStream();
-                e.printStackTrace(new java.io.PrintStream(os));
-                response = ""+os;
-            } 
-            taOut.setText(response);
-        }
-    }); 
-    javax.swing.JPanel p = new javax.swing.JPanel(new java.awt.BorderLayout());
-    p.add(new javax.swing.JScrollPane(ta));
-    p.add(btn, java.awt.BorderLayout.SOUTH);
-    javax.swing.JSplitPane split = new javax.swing.JSplitPane(0,
-        p, new javax.swing.JScrollPane(taOut));
-    split.setResizeWeight(.5d);
-    javax.swing.JFrame f = new javax.swing.JFrame("nudge4j UI");
-    f.setDefaultCloseOperation(2);
-    f.add(split); 
-    f.setSize(720, 500);
-    f.setLocationRelativeTo(null);
-    f.setVisible(true);
-}}).accept( new Object[] { /* any arguments here */ });
-// nudge4j-UI:end</textarea>
-
-<div style='margin:40px 0;padding:20px;background-color:#000;'>
-    <img src="nudge4j.ui.png"  style='width:597px;height:389px;' alt='nudge4j ui in action' width="597" height="389"/>
-</div>
-
-</div>
-</div>
-
-
-<!--  footer -->
-<div style='margin:400px 0 10px 0;text-align:center;font-size:11px;'>
-nudge4j<br>MIT License - Copyright © 2017 - <a href='https://github.com/lorenzoongithub/'>Lorenzo Puccetti</a>
-</div>
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-87683649-1', 'auto');
-  ga('send', 'pageview');
- 
-</script>
 <a href="https://github.com/lorenzoongithub/nudge4j"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
-<script>
-var clipboard = new Clipboard('.xbtn');
-</script>
+</div>
 </body>
 </html>

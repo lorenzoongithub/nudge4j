@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href='milligram.css' >
+<link rel="stylesheet" href='main.css' >
+<link rel='shortcut icon' href='favicon.ico' />	
+<title>nudge4j - examples</title>
+</head>
+<body>
+<div id='njHeader'><div><strong><a href='index.html'>nudge4j</a></strong></div></div>
+<div id='njCore'>
+    <div class='njContainer'>
+    	<h2>Examples</h2>
+    	The best snippets are probably going to be the ones you are going to write.
+    	Because they can be specific to your application and access packages and classes that only you know of.
+    	<p>
+    	Yet, here is some sample code that shows how we get inside the JVM, to get you started.
+    	<p>
+    	<ul>
+			<li><a id='aNow' href="#">Now</a>     
+			- Showing how to invoke any static method</li>
+			<li><a id='aSys' href="#">System.out/err</a> 
+			- hello world     
+			<li><a id='aList' href="#">List</a> 
+			- Showing how to build any JDK object</li>
+			<li><a id='aBin'  href="#">Binary</a>
+			- Looping is testing 
+		</ul>	    	
+    </div>
+</div>
+
+<!-- here is the "invisible" code -->
+<div style='display:none'>
+<pre id='preNow'>//
+// You can call any static method.
+// java.time.LocalDate is the fully qualified class 
+// and now() is the static method.
+//
+java.time.LocalDate.now();</pre>
+
+<pre id='preSys'>//
+// writing on the logs.
+// 
+java.lang.System.out.println('Hello world');
+java.lang.System.err.println('and Hello world (again)');
+'check your JVM logs'</pre>
+
+<pre id='preList'>//
+// Building a Java Object is easy 
+//
+var list = new java.util.ArrayList();
+list.add('apple');
+list.add('banana');
+list.add('cherry');
+list;</pre>
+
+<pre id='preBin'>// did you know that Integer had a static 'toBinaryString' method ?
+var str='';
+for (var i=0;i&lt;16;i++) {
+    str+=i+' '+java.lang.Integer.toBinaryString(i)+'\n'
+}
+str;</pre>
+</div>
+<script>
+var $ = function(id) { return document.getElementById(id); }
+$('aNow').href="remote.console.html?code="+encodeURIComponent($('preNow').textContent);
+$('aSys').href="remote.console.html?code="+encodeURIComponent($('preSys').textContent);
+$('aList').href="remote.console.html?code="+encodeURIComponent($('preList').textContent);
+$('aBin').href="remote.console.html?code="+encodeURIComponent($('preBin').textContent);
+</script>
+</body>
+</html>
