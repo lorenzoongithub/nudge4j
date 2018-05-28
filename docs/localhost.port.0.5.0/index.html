@@ -40,8 +40,8 @@
     <div class='njSeparator'></div>
     <div class='njContainer'>
     	<h2>Remote Console</h2>
-    	<xsmall>The remote console lets you send code to execute on your JVM. For your convenience any code which you execute is also stored on your browser's local storage, 
-    	so that it's going to be hard to lose it.</xsmall>
+    	The remote console lets you send code to execute on your JVM. For your convenience any code which you execute is also stored on your browser's local storage, 
+    	so that it's going to be hard to lose it.
     	<p>
     	<div>
     	<a class='button' href='remote.console.html' >Go to the Remote Console</a>
@@ -71,11 +71,6 @@ Cache-control: no-cache
 </pre>    	
     	</div>
     	</div>
-    	<p>
-    	<ul>
-    	<li><a href="js?code=java.lang.System.getProperty('java.class.path')">get the class path</a></li>
-    	<li><a href="js?code=JSON.stringify(java.lang.System.getProperty('java.class.path').split(java.lang.System.getProperty('path.separator')))">get the class path (JSON)</a></li>
-    	</ul>
     	<div><a href="js?code=java.lang.System.getProperty('java.class.path')">get the class path</a></div>
     	<div><a href="js?code=JSON.stringify(java.lang.System.getProperty('java.class.path').split(java.lang.System.getProperty('path.separator')))">get the class path (JSON)</a></div>
     	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.class.path.js')">get the class path (JSON - full external function)</a></div>
@@ -84,7 +79,7 @@ Cache-control: no-cache
     </div>
     <div class='njSeparator'></div>
     <div class='footer' style='text-align:right;'>
-    powered by nudge4j
+    powered by <a href='https://lorenzoongithub.github.io/nudge4j/'>nudge4j</a>
     </div>
 </div>
 <script src='nudge4j.js'></script>
