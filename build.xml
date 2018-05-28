@@ -1,4 +1,4 @@
-<!-- smoke-test for travis-ci --> 
+<!-- smoke-test for travis-ci (compiles the Java Code to use to add nudge4j to your project) --> 
 <project name="nudge4j" basedir=".">
   <target name="test" description="Compilation and Clean up" >
   	<echo>smoke test: java compilation</echo>
