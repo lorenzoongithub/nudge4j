@@ -73,9 +73,11 @@ Cache-control: no-cache
     	</div>
     	<div><a href="js?code=java.lang.System.getProperty('java.class.path')">get the class path</a></div>
     	<div><a href="js?code=JSON.stringify(java.lang.System.getProperty('java.class.path').split(java.lang.System.getProperty('path.separator')))">get the class path (JSON)</a></div>
-    	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.class.path.js')">get the class path (JSON - full external function)</a></div>
-    	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.thread.x.cpu.js')">get CPU usage per Thread</a></div>
-    	<div><a href="js?code=load('https://lorenzoongithub.github.io/nudge4j/twigs/get.thread.dump.js')">get Thread dump</a></div>
+    	<div><a href="js?code=load('https%3A%2F%2Florenzoongithub.github.io%2Fnudge4j%2Ftwigs%2Fget.class.path.js')">get the class path (JSON - full external function)</a></div>
+    	<div><a href="js?code=load('https%3A%2F%2Florenzoongithub.github.io%2Fnudge4j%2Ftwigs%2Fget.thread.x.cpu.js')">get CPU usage per Thread</a></div>
+    	<div><a href="js?code=load('https%3A%2F%2Florenzoongithub.github.io%2Fnudge4j%2Ftwigs%2Fget.thread.dump.js')">get Thread dump</a></div>
+    	<div><a href="js?code=load('https%3A%2F%2Florenzoongithub.github.io%2Fnudge4j%2Ftwigs%2Fget.all.classes.js')%3BgetAllClasses(%7BskipJDK%3Afalse%7D)">get all classes</a></div>
+    	<div><a href="js?code=load('https%3A%2F%2Florenzoongithub.github.io%2Fnudge4j%2Ftwigs%2Fget.all.classes.js')%3BgetAllClasses(%7BskipJDK%3Atrue%7D)">get all classes (exclude JDKs)</a></div>
     </div>
     <div class='njSeparator'></div>
     <div class='footer' style='text-align:right;'>
